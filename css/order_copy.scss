@@ -1,0 +1,51 @@
+//ギャラリー
+.gallery {
+    width: 100%;
+    max-width: 600px;
+    margin: 40px auto;
+    
+    //メイン
+    &-slider {
+        width: 100%;
+        height: auto;
+        margin: 0 0 10px 0;
+
+        .swiper-slide {
+            width: auto;
+            height: 400px;
+            
+            img {
+                display: block;
+                width: auto;
+                height: 100%;
+                margin: 0 auto;
+            }
+        }
+    }
+    
+    //サムネイル
+    &-thumbs {
+        width: 100%;
+        padding: 0;
+        overflow: hidden;
+
+        .swiper-slide {
+            width: 100px;
+            height: 100px;
+            text-align: center;
+            overflow: hidden;
+            color: rgb(2, 2, 2);
+            // opacity: .1;
+            
+            &-active {
+                color: rgb(252, 4, 4);
+                // opacity: 1;
+            }
+            
+            img {
+                width: auto;
+                height: 100%;
+            }
+        }
+    }
+}

@@ -1,0 +1,123 @@
+    body {
+        font: 12px/20px 'Lucida Grande', Verdana, sans-serif;
+        color: #404040;
+        background: rgb(255, 255, 255);
+    }
+
+    .information{
+        display: inline-block;
+        text-align: left;
+        vertical-align: center;
+        position: relative;
+        margin: 60px auto;
+        width: 100%;
+        height: 80px;
+    }
+
+    .info_1{
+        height: 120px;
+        margin-left: 40px;
+        padding: 10px 40px 0px 0px;
+        display:inline-block;
+        line-height: 50px;
+        font-size: 25px;
+        border-right: solid 2px #a7a7a7;
+    }
+
+    .info_2{
+        height: 120px;
+        margin-left: 40px;
+        padding: 10px 40px 0px 0px;
+        display:inline-block;
+        line-height: 60px;
+        font-size: 25px;
+        border-right: solid 2px #a7a7a7;
+    }
+
+    .cart{
+        height: 100px;
+        width: 240px;
+        color: #ffffff;
+        font-size: 30px;
+        background-color: #c01b05;
+        border-radius: 5%;
+    }
+
+    .menu{
+        height: 100%;
+        width: 100%;
+    }
+
+    .menu-img{
+        /* background-color: #c01b05; */
+        margin: 0px 5px 20px 5px;
+        padding: 0 0 70px 0;
+        height: 300px;
+        width: 400px;
+        /* border: solid 1px rgb(160, 157, 157); */
+        border-radius: 2%;
+        display: inline-block;
+    }
+
+    header {
+        position: fixed;
+        background: linear-gradient(180deg, #411900 0%, #411900 15%, rgb(223, 219, 219) 15%, rgb(223, 219, 219) 100%);
+        top: 0;
+        right: 0;
+        left: 0;
+        z-index: 100;
+        height: 300px;
+        width: 100%;
+        }
+    
+    footer {
+        position: fixed;
+        background: #411900;
+        bottom: 0;
+        right: 0;
+        left: 0;
+        z-index: 1000;
+        height: 50px;
+        width: 100%;
+        }
+
+        .swiper--wrapper {
+            /* wrapperのサイズを調整 */
+            width: 100%;
+            height: 100%;
+        }
+
+        .swiper-slide {
+            /* スライドのサイズを調整、中身のテキスト配置調整、背景色 */
+            color: #000000;
+            width: 100%;
+            height: 100%;
+            font-size: 35px;
+            text-align: center;
+        }
+        
+        .mySwiper2 {
+            margin-top: 330px;
+            height: 100%;
+            width: 100%;
+            line-height:100px;
+        }
+        
+        .mySwiper {
+            height: 100px;
+            box-sizing: border-box;
+            padding: 10px 0 0 0;
+            line-height: 100px;
+        }
+        
+        .mySwiper .swiper-slide {
+            width: 100%;
+            height: 300px;
+            color: #424040;
+            background-color: #ffffff;
+        }
+
+        .mySwiper .swiper-slide-active {
+            border-bottom: 2px solid #c01b05;
+            color: #c01b05;
+        }

@@ -43,6 +43,7 @@
 </script>
 <body>
     <header style="text-align:center;line-height: 1.5;">
+        
         <p class="title">来店客状況</p> 
     </header>
     <div class="widget">

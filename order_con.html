@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html>
+
+    <head>
+        <meta charset="UTF-8">
+        <title>来店客状況</title>
+        <link rel="stylesheet" href="css/order_con.css">
+    </head>
+
+    <script>
+        /* ピッチインピッチアウトによる拡大縮小を禁止 */
+        document.documentElement.addEventListener('touchstart', function (e) {
+        if (e.touches.length >= 2) {e.preventDefault();}
+        }, {passive: false});
+        /* ダブルタップによる拡大を禁止 */
+        var t = 0;
+        document.documentElement.addEventListener('touchend', function (e) {
+        var now = new Date().getTime();
+        if ((now - t) < 350){
+            e.preventDefault();
+        }
+        t = now;
+        }, false);
+    </script>
+
+    <body>
+        <header style="text-align:center;line-height: 1.5;">
+            <p class="title">来店客状況</p> 
+        </header>
+        <div class="widget">
+            <ol class="widget-list" id="teikyozumi">
+                <li>
+                    <div class="midashi-all">
+                        <div class="midashi">席番</div>
+                        <div class="midashi">人数</div>
+                    </div>
+                    <div class="list">
+                        <a class="widget-list-link1">
+                            Ｄ１－３
+                        </a>
+                        <a class="widget-list-link1">
+                            ３名
+                        </a>
+                        <a class="widget-list-link1">
+                            変更
+                        </a>
+                        <a class="widget-list-link1">
+                            追加
+                        </a>
+                    </div>
+                    <div class="list">
+                        <a class="widget-list-link1">
+                            Ｄ１－３
+                        </a>
+                        <a class="widget-list-link1">
+                            ３名
+                        </a>
+                        <a class="widget-list-link1">
+                            変更
+                        </a>
+                        <a class="widget-list-link1">
+                            追加
+                        </a>
+                    </div>
+                </li> 
+            </ol>
+
+            <ol class="widget-list" id="tyumonzumi">
+                <li>
+                    <div class="midashi-all">
+                        <div class="midashi">席番</div>
+                        <div class="midashi">人数</div>
+                    </div>
+                    <div class="list">
+                        <a class="widget-list-link1">
+                            Ｄ１－３
+                        </a>
+                        <a class="widget-list-link1">
+                            ３名
+                        </a>
+                        <a class="widget-list-link2">
+                            席変更
+                        </a>
+                        <a class="widget-list-link2">
+                            注変更
+                        </a>
+                        <a class="widget-list-link2">
+                            追加
+                        </a>
+                    </div>
+                    <div class="list">
+                        <a class="widget-list-link1">
+                            Ａ
+                        </a>
+                        <a class="widget-list-link1">
+                            6名
+                        </a>
+                        <a class="widget-list-link2">
+                            席変更
+                        </a>
+                        <a class="widget-list-link2">
+                            注変更
+                        </a>
+                        <a class="widget-list-link2">
+                            追加
+                        </a>
+                    </div>
+                    <div class="list">
+                        <a class="widget-list-link1">
+                            Ａ
+                        </a>
+                        <a class="widget-list-link1">
+                            6名
+                        </a>
+                        <a class="widget-list-link2">
+                            席変更
+                        </a>
+                        <a class="widget-list-link2">
+                            注変更
+                        </a>
+                        <a class="widget-list-link2">
+                            追加
+                        </a>
+                    </div>
+                </li>
+            </ol>
+
+            <ol class="widget-list" id="tyumonmati">
+                <li>
+                    <div class="midashi-all">
+                        <div class="midashi">席番</div>
+                        <div class="midashi">人数</div>
+                    </div>
+                    <div class="list">
+                        <a class="widget-list-link1">
+                            Ｄ１－３
+                        </a>
+                        <a class="widget-list-link1">
+                            ３名
+                        </a>
+                        <a  href="order.html" class="widget-list-link2">
+                            注文
+                        </a>
+                        <a class="widget-list-link2">
+                            席変更
+                        </a>
+                        <a class="widget-list-link2">
+                            削除
+                        </a>
+                    </div>
+                    <div class="list">
+                        <a class="widget-list-link1">
+                            Ａ
+                        </a>
+                        <a class="widget-list-link1">
+                            6名
+                        </a>
+                        <a href="order.html" class="widget-list-link2">
+                        注文
+                        </a>
+                        <a class="widget-list-link2">
+                            席変更
+                        </a>
+                        <a class="widget-list-link2">
+                            削除
+                        </a>
+                    </div>
+                    <div class="list">
+                        <a class="widget-list-link1">
+                            Ａ
+                        </a>
+                        <a class="widget-list-link1">
+                            6名
+                        </a>
+                        <a href="order.html" class="widget-list-link2">
+                        注文
+                        </a>
+                        <a class="widget-list-link2">
+                            席変更
+                        </a>
+                        <a class="widget-list-link2">
+                            削除
+                        </a>
+                    </div>
+                </li>
+            </ol>
+
+            <ul class="widget-tabs">
+                <li class="widget-tab">
+                    <a href="#teikyozumi" class="widget-tab-link">提供済み</a>
+                <li class="widget-tab">
+                    <a href="#tyumonzumi" class="widget-tab-link">注文済み</a>
+                <li class="widget-tab">
+                    <a href="#tyumonmati" class="widget-tab-link">注文待ち</a>
+            </ul>
+        </div>
+        <footer style="text-align:center; font-size:20px;line-height: 15.5;" >
+            <a href="index.html" class="button" style="position: absolute; left: 30%; top: 15%">トップページへ</a>
+            <p style="color: rgb(255, 255, 255);">Copyright © DNPK.JP All Rights Reserved.</p> 
+        </footer>
+    </body>
+
+</html>

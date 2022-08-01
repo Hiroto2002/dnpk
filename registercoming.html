@@ -1,9 +1,5 @@
-<?php
-    error_reporting(E_ALL & ~E_NOTICE);
-?>
 <!DOCTYPE html>
-<!DOCTYPE html>
-<html lang="ja">
+<html>
     <head>
         <meta charset="UTF-8">
         <meta name="apple-mobile-web-app-capable" content="yes">
@@ -24,7 +20,9 @@
             });
         });
         </script>
+        
     </head>
+
     <script>
         /* ピッチインピッチアウトによる拡大縮小を禁止 */
         document.documentElement.addEventListener('touchstart', function (e) {
@@ -40,26 +38,13 @@
         t = now;
         }, false);
     </script>
+
     <body>
         <header style="text-align:center;line-height: 1.5;">
-            <p class="back"><a href="./index.html">＜戻る</a></p>
             <p class="title">入店登録</p> 
         </header>
         <div class="widget">
-        <?php
-        if(isset($_GET['p'])) {
-            $p = $_GET['p'];
-            $odh_No= $_GET['odh_No'];
-            $odh_Ninzu= $_GET['odh_Ninzu'];
-            $odh_situation= $_GET['odh_situation'];
-        }
-        // p=2　は、変更の場合
-        if($p==2){
-            print("<form name='mySheet' action='rejicom__db.php?p=".$p."&odh_No=".$odh_No."&odh_situation=".$odh_situation."' method='POST'>\n");
-        }else{
-            print("<form name='mySheet' action='rejicom__db.php?p=".$p."' method='POST'>\n");
-        }
-        ?>
+            <form name="mySheet" action="test_post_copy.php" method="POST" >
                 <button type="button" value="A" onClick="addTF(this.value)">A</button>
                 <button type="button" value="B" onClick="addTF(this.value)">B</button>
                 <button type="button" value="C" onClick="addTF(this.value)">C</button>
@@ -78,10 +63,11 @@
                 <button type="button" value="," onClick="addTF(this.value)">,</button><br>
                 <input type="reset" class="reset"><br>
                 <input type="text" placeholder="座席をボタンで入力して下さい" name="tableno" class="output" required readonly><br>
+
                 <div>
-                
-                    <input type="text" pattern="[0-9]*" class="quantity" name="visitors" id="visitors" placeholder="人数を入力して下さい" required <?php if($p==2) echo 'value='.$odh_Ninzu ?>>
+                    <input type="text" pattern="[0-9]*" class="quantity" name="visitors" id="visitors" placeholder="人数を入力して下さい" required>
                 </div>
+
                 <input type="submit" value="登録" class="register">
             </form> 
         </div>
