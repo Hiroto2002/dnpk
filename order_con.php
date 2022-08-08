@@ -1,5 +1,8 @@
+<?php
+$_SESSION = array();
+?>
 <!DOCTYPE html>
-<html>
+<html lang="ja">
 
 <head>
     <meta charset="UTF-8">
@@ -43,7 +46,7 @@
 </script>
 <body>
     <header style="text-align:center;line-height: 1.5;">
-        
+        <p class="back"><a href="./index.html">＜戻る</a></p>
         <p class="title">来店客状況</p> 
     </header>
     <div class="widget">

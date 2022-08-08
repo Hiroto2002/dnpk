@@ -1,12 +1,23 @@
 <?php
 session_start();
 session_regenerate_id();
+require_once "DbManager.php";
+
+
+//オプション変更 
+if(isset($_POST["mode"])){
+    $cart_id = $_POST["mode"];
+    $mn_id = $_SESSION["orders"][$cart_id];
+    $mn_Name_sub = ChangeName($mn_id);
+}
 
 if(isset($_SESSION['odh_No'])){
     if(isset($_POST['mn_id'])) {
+        // めにゅーのid
         $mn_id = $_POST['mn_id'];
     }
     if(isset($_POST['mn_Name_sub'])) {
+        // タップされたメニューの名前
         $mn_Name_sub = $_POST['mn_Name_sub'];
     }
     if(isset($_POST['my_i'])) {
@@ -22,7 +33,7 @@ if(isset($_SESSION['odh_No'])){
     $odh_Ninzu = $_SESSION['odh_Ninzu'];
 
     // $_SESSION['cart']['mn_id']=$suryo;
-    // $_SESSION['mn_Name_sub']=$mn_Name_sub;
+    // $_SESSION['mn_Name_sub']=$mn_Name_sub;a
 }
 
 ?>
@@ -61,7 +72,7 @@ if(isset($_SESSION['odh_No'])){
             </div>
         </header>
 
-        <form method="post" action="cart_in.php">
+        <form method="post" action="./cart_in.php">
             <div class="menu"><?php echo $mn_Name_sub ?></div>
             <!-- ２列の場合 -->
             <!-- <div class="topping">
@@ -116,13 +127,29 @@ if(isset($_SESSION['odh_No'])){
             </div>
             <footer style="text-align:center; font-size:20px;line-height: 0.5;" >
                 <div class="button">
+                    <!-- カートに入れる -->
                     <input type="hidden" name="mn_id" value="<?php echo $mn_id; ?>">
+                    <!-- 変更 -->
+                    <?php if(isset($_POST["mode"])):?>
+                        <input type="hidden" name="change" value="<?php echo $cart_id; ?>">
+                    <?php endif?>
                     <input type="button" onclick="history.back()" value="戻る" class="return">
                     <input type="submit" value="カートに追加" class="cart" >                
                 </div>
                 <p style="color: rgb(255, 255, 255);">Copyright © DNPK.JP All Rights Reserved.</p> 
             </footer>
         </form>
+        <script
+    src="https://code.jquery.com/jquery-3.6.0.min.js"
+    integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4="
+    crossorigin="anonymous">
+    </script>
+        <script>
+
+            // $(".toggle_input").on("click",function(){
+            //     alert("a");
+            // })
+        </script>
     </body>
 
 </html>

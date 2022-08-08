@@ -73,7 +73,7 @@ body {
 } */
 
 .tool{
-    display: inline-block;
+    display: flex;
     position: absolute;
     top: 19%;
     right: 1%;
@@ -83,7 +83,6 @@ body {
 }
 
 .change{    
-    display       : inline-block;
     height        : 120px;
     width         : 200px;
     border-radius : 5%;          /* 角丸       */

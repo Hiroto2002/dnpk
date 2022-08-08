@@ -36,3 +36,16 @@ function execute_query($db, $sql, $params = array()){
   }
   return false;
 }
+
+
+    function ChangeName($menu_id){
+        $pdo = getDb();
+
+        $sql = $pdo->prepare('SELECT mn_id,mn_Name_sub FROM t_m_menu where mn_id=? ORDER BY mn_Sort ASC');
+        $sql->execute(array($menu_id));
+        $product = $sql->fetch(PDO::FETCH_ASSOC);
+        $mn_name = $product["mn_Name_sub"];
+
+        return $mn_name;
+    }
+?>

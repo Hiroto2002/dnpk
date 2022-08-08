@@ -1,4 +1,7 @@
 <?php
+ // ブラウザでエラー確認が出来るようにします
+ ini_set('display_errors', 0);
+ error_reporting(E_ALL & ~E_NOTICE);
 session_start();
 session_regenerate_id();
 
@@ -14,15 +17,11 @@ if(isset($_GET['odh_Ninzu'])) {
 if(isset($_GET['odh_situation'])) {
     $odh_situation = $_GET['odh_situation'];
 }
-//もし、sessionにodh_Noがあったら、既に
-if(isset($_SESSION['odh_No'])){
-
-} else {
-
+//もし、sessionにodh_Noがなかったら
+if(!isset($_SESSION['odh_No'])){
     $_SESSION['odh_No']=$odh_No;
     $_SESSION['odh_Tbl_No']=$odh_Tbl_No;
     $_SESSION['odh_Ninzu']=$odh_Ninzu;
-
 }
 ?>
 <!DOCTYPE html>
@@ -59,9 +58,10 @@ if(isset($_SESSION['odh_No'])){
     <body>
         <header style="text-align:center;line-height: 1.5;">
             <div class="information">
-              <div class="info_1">席番号<br><span style="font-size:2em;"><?php print $odh_Tbl_No; ?></span></div>
-              <div class="info_1">人数<br><span style="font-size:2em;"><?php print $odh_Ninzu; ?>名</span></div>
-              <div class="info_2">オーダーNo<br><?php print $odh_No; ?></div>
+              <p class="back"><a href="./order_con.php">＜戻る</a></p>
+              <div class="info_1">席番号<br><span style="font-size:2em;"><?php print $_SESSION['odh_Tbl_No']; ?></span></div>
+              <div class="info_1">人数<br><span style="font-size:2em;"><?php print $_SESSION['odh_Ninzu']; ?>名</span></div>
+              <div class="info_2">オーダーNo<br><?php print $_SESSION['odh_No']; ?></div>
               <form method="post" action="cart.php">
                 <input type="submit" value="カート確認" class="cart" style="position: absolute; left: 70%; top: 20%">
               </form>
@@ -84,9 +84,6 @@ if(isset($_SESSION['odh_No'])){
   <div class="swiper mySwiper2">
     <div class="swiper-wrapper">
   <?php
-    // ブラウザでエラー確認が出来るようにします
-    ini_set('display_errors', 1);
-    error_reporting(E_ALL);
     // データベース呼び出し
     require_once 'DbManager.php';
     $pdo = getDb();

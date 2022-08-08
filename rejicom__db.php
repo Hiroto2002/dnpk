@@ -3,7 +3,7 @@
 ini_set('display_errors', 1);
 error_reporting(E_ALL);
 require_once 'DbManager.php';
-// p は１：新規入店　２：席変更　のフラグ
+// p は１：新規入店　２：席変更　のフラグa
 $pdo = getDb();
 if(isset($_GET['p'])) {
     $p=$_GET['p'];

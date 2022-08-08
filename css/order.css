@@ -4,6 +4,12 @@
         background: rgb(255, 255, 255);
     }
 
+    .back{
+        position: absolute;
+        font-size: 40px;
+        right: 300px;
+        z-index: 2;
+    }
     .information{
         display: inline-block;
         text-align: left;

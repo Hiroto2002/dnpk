@@ -53,7 +53,7 @@
             $odh_Ninzu= $_GET['odh_Ninzu'];
             $odh_situation= $_GET['odh_situation'];
         }
-        // p=2　は、変更の場合
+        // p=2　は、変更の場合a
         if($p==2){
             print("<form name='mySheet' action='rejicom__db.php?p=".$p."&odh_No=".$odh_No."&odh_situation=".$odh_situation."' method='POST'>\n");
         }else{

@@ -1,6 +1,4 @@
 <?php
-session_start();
-session_regenerate_id();
 
 if(isset($_POST['mn_id'])) {
     $mn_id = $_POST['mn_id'];
@@ -13,15 +11,37 @@ if(isset($_POST['option'])) {
 }
 
 if($odh_No!=''&&$mn_id!=''){
-    $_SESSION['orders'][$odh_No]=[
-        'mn_id' => $mn_id
-    ];
-}
+    if(!isset($_POST["change"])){
+        $count = count($_SESSION['orders']);
+        $_SESSION['orders'][$count] = $mn_id;
+    }    
+    // $_SESSION['orders'][$odh_No]=[
+    //     'mn_id' => $mn_id
+    // ];
+    
 if(!empty($options)) {
-    $_SESSION['options']=$options;
+    // 変更の場合
+    if(isset($_POST["change"])){
+        $count = $_POST["change"];
+        $_SESSION['options'][$count] = $options;
+        print_r($_SESSION["options"][$count]);
+        $_SESSION["count"] = $count;
+        print("count".$_SESSION["count"]);
+
+    }else{
+        $_SESSION['options'][$count] = $options;
+        $_SESSION["count"] = $count;
+    }
 }
 
-var_dump($_SESSION['orders']);
-var_dump($_SESSION['options']);
-// header('Location: order.php');
+}
+
+
+// print_r($_SESSION['orders']);
+// print_r($_SESSION['options']);
+if(isset($_POST["change"])){
+    header('Location: cart.php');
+}else{
+    header('Location: order.php');
+}
 ?>
