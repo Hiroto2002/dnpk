@@ -39,7 +39,7 @@ if(isset($_SESSION['odh_No'])){
 ?>
 
 <!DOCTYPE html>
-<html>
+<html lang="ja">
 
     <head>
         <meta charset="UTF-8">
@@ -133,7 +133,8 @@ if(isset($_SESSION['odh_No'])){
                     <?php if(isset($_POST["mode"])):?>
                         <input type="hidden" name="change" value="<?php echo $cart_id; ?>">
                     <?php endif?>
-                    <input type="button" onclick="history.back()" value="戻る" class="return">
+                    <input type="hidden" value="<?php print $odh_No;?>" name ="odh_No">
+                    <input type="submit" value="戻る" formaction="order.php" class="return">
                     <input type="submit" value="カートに追加" class="cart" >                
                 </div>
                 <p style="color: rgb(255, 255, 255);">Copyright © DNPK.JP All Rights Reserved.</p> 

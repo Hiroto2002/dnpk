@@ -3,13 +3,34 @@ ini_set('display_errors', 0);
 error_reporting(E_ALL & ~E_NOTICE);
 session_start();
 require_once "DbManager.php";
+// 注文済みから注文変更
+if(isset($_GET["odh_No"])){
+    $pdo = getDb();
+    $stmt= $pdo->prepare("SELECT DISTINCT t_d_order_handy.odh_No,t_d_order_handy.odh_Tbl_No,t_d_order_handy.odh_Ninzu,
+                            t_d_morder_handy.odhm_No,t_d_morder_handy.mn_ID,t_d_morder_handy.odhm_Quant,
+                            t_d_morder_option.opm_ID FROM t_d_order_handy 
+                            INNER JOIN t_d_morder_handy on t_d_order_handy.odh_No = t_d_morder_handy.odh_No 
+                            INNER JOIN t_d_morder_option on t_d_order_handy.odh_No = t_d_morder_option.odh_No 
+                            WHERE t_d_order_handy.odh_No = ? ORDER BY t_d_morder_handy.odhm_No;");
+    $stmt->execute(array($_GET["odh_No"]));
+    $odh_Nos = $stmt->fetch();
+    print("<br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/>");
+    print_r($odh_Nos);
+    print("<br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/>");
+    print($odh_Nos["odh_No"]);
+    // $_SESSION["$odh_No"]["odh_No"] = $odh_Nos["odh_No"];
+    // $_SESSION["$odh_No"]["odh_Tbl_No"] = $odh_Nos["odh_Tbl_No"];
+    // $_SESSION["$odh_No"]["odh_Ninzu"] = $odh_Nos["odh_Ninzu"];
+    // $_SESSION["orders"] = $odh_Nos["odh_Ninzu"];
 
+}
 $odh_No = $_SESSION['odh_No'];
 $odh_Tbl_No = $_SESSION['odh_Tbl_No'];
 $odh_Ninzu = $_SESSION['odh_Ninzu'];
 
 $orders=array();
 $options=array();
+
 if(isset($_SESSION['orders'])){
     $orders=$_SESSION['orders'];
 }
@@ -64,14 +85,38 @@ if(isset($_SESSION['options'])){
             // $_SESSION["orders"] = array();
             // カートの中身に対してすべて表示
             $count = 0;
+            ?>
+            <script>
+                // 数量用の配列
+                const cart = [];
+            </script>
+            <?php 
+            if(!isset($_SESSION["orders"])){
+                print("<p class='none'>注文がありません</p>");
+            }
             foreach($orders as $value):
+
+            ?>
+            <!-- メニュー分枠を作る -->
+            <script>
+                cart.push(1)
+                console.log(cart);
+            </script>
+
+            <?php
                 // 中身があるとき
                 if($value):
                 
             ?>
-            <div class="list" id="<?php echo $count?>">
+            <div class="list">
                 <div class="menu">
                 <?php print(ChangeName($value)); ?>
+                <div class="amount">
+                    <button class="down" onclick=down(<?php echo $count;?>)>ー</button>
+                    <div class="number" id="<?php print $count ?>"></div>
+                    <button class="up" onclick=up(<?php echo $count;?>)>＋</button>
+                </div>
+                
                         
                     <?php if(!empty($options)) {?>
                         <div class="option">
@@ -141,23 +186,46 @@ if(isset($_SESSION['options'])){
         <footer style="text-align:center; font-size:20px;line-height: 0.5;" >
             <div class="button">
                 <form action="order.php" method="post">
-                    <input type="hidden" name="order_flg" value="2">
                     <input type="submit" value="続けて注文" class="add">
                 </form>
-                <form action="order_finish.php" method="post">
+
+                <form action="order_finish.php" method="post" id="post">
                     <input type="submit" value="注文を確定する" class="decision" >                
                 </form>
             </div>
             <p style="color: rgb(255, 255, 255);">Copyright © DNPK.JP All Rights Reserved.</p> 
         </footer>
-        <!-- <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.0/jquery.min.js"></script>
+         <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.0/jquery.min.js"></script>
         <script>
-            const Delete = ($count) =>{
-                console.log($count);
-                    $("#" + $count).css("display","none");
-                }
+            // 見かけの削除
+            // const Delete = ($count) =>{
+            //     console.log($count);
+            //         $("#" + $count).css("display","none");
+            //     }
+            // console.log($cart);
 
-                // console.log($cart);
-        </script> -->
-    </body>
+            $(".number").html(cart[0]);
+
+            const down = (value) =>{
+                if(cart[value]>1){
+                    cart[value]--;
+                }
+                $("#" + value).html(cart[value]);
+            };
+
+            const up = (value) =>{
+                cart[value]++;
+                $("#" + value).html(cart[value]);
+            };
+
+            // postで数量を送信
+            $('.decision').on("click",function() {
+                // POST先
+                const url = "./order_finish.php";
+                const a = 0;       
+                const inputs = '<input type="hidden" name="quant" value="' + cart + '" />';
+                $("#post").append(inputs);
+            });
+                    </script>
+                </body>
 </html>

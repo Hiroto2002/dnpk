@@ -179,5 +179,21 @@ header {
             line-height   : 70px;         /* 1行の高さ  */
             transition    : .3s;         /* なめらか変化 */
             border        : 2px solid #c01b05;    /* 枠の指定 */
+        }        
+        .none{
+            font-size: 100px;
+            margin: 600px 0 0 0;
+            text-align: center;
         }
-
+        .amount{    
+            position: absolute;
+            left: 270px;
+            top: 65px;
+            display: flex;
+        }
+        .amount button{
+            font-size: 2.6rem;
+        }
+        .number{
+            margin: 0 15px;
+        }

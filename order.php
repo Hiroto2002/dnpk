@@ -3,7 +3,8 @@
  ini_set('display_errors', 0);
  error_reporting(E_ALL & ~E_NOTICE);
 session_start();
-session_regenerate_id();
+// 新しいIDに置き換える
+// session_regenerate_id();
 
 if(isset($_GET['odh_No'])) {
     $odh_No = $_GET['odh_No'];
@@ -17,12 +18,20 @@ if(isset($_GET['odh_Ninzu'])) {
 if(isset($_GET['odh_situation'])) {
     $odh_situation = $_GET['odh_situation'];
 }
+
 //もし、sessionにodh_Noがなかったら
-if(!isset($_SESSION['odh_No'])){
-    $_SESSION['odh_No']=$odh_No;
-    $_SESSION['odh_Tbl_No']=$odh_Tbl_No;
-    $_SESSION['odh_Ninzu']=$odh_Ninzu;
+if(!isset($_SESSION['odh_No'][$odh_No])){
+  $_SESSION['odh_No']=$odh_No;
+  $_SESSION['odh_Tbl_No']=$odh_Tbl_No;
+  $_SESSION['odh_Ninzu']=$odh_Ninzu;
 }
+
+if(isset($_POST["odh_No"])){
+  $odh_No = $_POST["odh_No"];
+}
+
+              
+              
 ?>
 <!DOCTYPE html>
 <html>
@@ -61,8 +70,9 @@ if(!isset($_SESSION['odh_No'])){
               <p class="back"><a href="./order_con.php">＜戻る</a></p>
               <div class="info_1">席番号<br><span style="font-size:2em;"><?php print $_SESSION['odh_Tbl_No']; ?></span></div>
               <div class="info_1">人数<br><span style="font-size:2em;"><?php print $_SESSION['odh_Ninzu']; ?>名</span></div>
-              <div class="info_2">オーダーNo<br><?php print $_SESSION['odh_No']; ?></div>
+              <div class="info_2">オーダーNo<br><?php print($_SESSION['odh_No']); ?></div>
               <form method="post" action="cart.php">
+                <input type="hidden" value="<?php print $_SESSION["odh_No"];?>" name ="odh_No">
                 <input type="submit" value="カート確認" class="cart" style="position: absolute; left: 70%; top: 20%">
               </form>
             </div>
@@ -147,7 +157,7 @@ if($my_i % 2 == 0) {
 ?>
         </div>
       </div>
-<?php } ?>
+<?php }?>
     </div>
   </div>
 

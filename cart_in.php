@@ -1,8 +1,11 @@
 <?php
+// session_start();
 
 if(isset($_POST['mn_id'])) {
     $mn_id = $_POST['mn_id'];
 }
+$post_no  = $_POST["odh_No"];
+
 $odh_No = $_SESSION['odh_No'];
 
 //オプションデータを配列で受け取り

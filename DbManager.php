@@ -38,14 +38,33 @@ function execute_query($db, $sql, $params = array()){
 }
 
 
-    function ChangeName($menu_id){
-        $pdo = getDb();
+function ChangeName($menu_id){
+  $pdo = getDb();
+  $sql = $pdo->prepare('SELECT mn_id,mn_Name_sub FROM t_m_menu where mn_id=? ORDER BY mn_Sort ASC');
+  $sql->execute(array($menu_id));
+  $product = $sql->fetch(PDO::FETCH_ASSOC);
+  $mn_name = $product["mn_Name_sub"];
+  
+  return $mn_name;
+}
 
-        $sql = $pdo->prepare('SELECT mn_id,mn_Name_sub FROM t_m_menu where mn_id=? ORDER BY mn_Sort ASC');
-        $sql->execute(array($menu_id));
-        $product = $sql->fetch(PDO::FETCH_ASSOC);
-        $mn_name = $product["mn_Name_sub"];
+function ChangePrice($menu_id){
+  $pdo = getDb();
+  $sql = $pdo->prepare('SELECT mn_Price FROM `t_m_menu` WHERE mn_ID = ?; ');
+  $sql->execute(array($menu_id));
+  $product = $sql->fetch(PDO::FETCH_ASSOC);
+  $price = $product["mn_Price"];
 
-        return $mn_name;
-    }
+  return $price;
+}
+
+function ChangeOptionID($option_name){
+  $pdo = getDb();
+  $sql = $pdo->prepare('SELECT opm_ID FROM `t_m_option_menu` WHERE opm_Name = ?; ');
+  $sql->execute(array($option_name));
+  $product = $sql->fetch(PDO::FETCH_ASSOC);
+  $opm_ID = $product["opm_ID"];
+
+  return $opm_ID;
+}
 ?>
