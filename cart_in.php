@@ -1,5 +1,5 @@
 <?php
-// session_start();
+session_start();
 
 if(isset($_POST['mn_id'])) {
     $mn_id = $_POST['mn_id'];
@@ -14,8 +14,11 @@ if(isset($_POST['option'])) {
 }
 
 if($odh_No!=''&&$mn_id!=''){
+    $count = 0;
     if(!isset($_POST["change"])){
+        if(is_array($_SESSION['orders'])) {
         $count = count($_SESSION['orders']);
+        }
         $_SESSION['orders'][$count] = $mn_id;
     }    
     // $_SESSION['orders'][$odh_No]=[
@@ -44,7 +47,9 @@ if(!empty($options)) {
 // print_r($_SESSION['options']);
 if(isset($_POST["change"])){
     header('Location: cart.php');
+    exit();
 }else{
     header('Location: order.php');
+    exit();
 }
 ?>

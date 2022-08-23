@@ -4,6 +4,10 @@ function getDb() : PDO {
   $user = 'root';
   $password = '';
 
+  // $dsn = 'mysql:dbname=dnpk_dnpk_oes; host=mysql57.dnpk.sakura.ne.jp; charset=utf8';
+  // $user = 'dnpk';
+  // $password = '7ujmnhy6';
+
   try{
     // DB接続
     $db = new PDO($dsn, $user, $password);

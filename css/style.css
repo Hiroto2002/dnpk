@@ -74,3 +74,26 @@ body {
         text-decoration: none;
         color: #411900;
     }
+
+    .login{
+        text-align: center;
+        font-size: 3.5rem;
+        font-weight: bold;
+        margin: 600px 0 0 0;
+    }
+    .user{
+        text-align: center;
+    }
+    .user select{
+        width: 70%;
+        /* height: 50px; */
+        text-align: center;
+        /* position: relative; */
+        /* height: 200px; */
+        font-size: 4rem;
+    }
+    .user input{
+        padding: 0px 30px;
+        margin: 100px;
+        font-size: 4rem;
+    }

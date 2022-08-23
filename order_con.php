@@ -1,6 +1,8 @@
 <?php
-// $_SESSION = array();
+    session_start();
+    $_SESSION = array();
 ?>
+
 <!DOCTYPE html>
 <html lang="ja">
 
@@ -46,7 +48,7 @@
 </script>
 <body>
     <header style="text-align:center;line-height: 1.5;">
-        <p class="back"><a href="./index.html">＜戻る</a></p>
+        <p class="back"><a href="./index.php">＜戻る</a></p>
         <p class="title">来店客状況</p> 
     </header>
     <div class="widget">
@@ -79,7 +81,7 @@
                 <div class="midashi">人数</div>
             </li> 
             <?php
-            $sql = 'SELECT * FROM t_d_order_handy where odh_situation=2';
+            $sql = 'SELECT o.* FROM t_d_order_handy as o INNER JOIN t_d_morder_handy as m ON o.odh_No = m.odh_No WHERE o.odh_situation=2 ';
             $products = fetch_all_query($pdo, $sql);
             foreach ($products as $product) {
                 echo "<li>\n"; 
@@ -87,7 +89,7 @@
                 echo "<a class='widget-list-link1'>{$product['odh_Ninzu']}</a>\n"; 
                 echo "<a href='registercoming.php?p=2&odh_No={$product['odh_No']}&odh_Ninzu={$product['odh_Ninzu']}&odh_situation=2' class='widget-list-link2'>席変更</a>\n"; 
                 echo "<a href='cart.php?odh_No={$product['odh_No']}' class='widget-list-link2'>注変更</a>\n"; 
-                echo "<a href='order.php' class='widget-list-link2'>追加</a>\n"; 
+                echo "<a href='order.php?odh_No={$product['odh_No']}'' class='widget-list-link2'>追加</a>\n"; 
                 echo "</li>\n"; 
             }
             ?>

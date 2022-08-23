@@ -42,7 +42,7 @@
     </script>
     <body>
         <header style="text-align:center;line-height: 1.5;">
-            <p class="back"><a href="./index.html">＜戻る</a></p>
+            <p class="back"><a href="./index.php">＜戻る</a></p>
             <p class="title">入店登録</p> 
         </header>
         <div class="widget">

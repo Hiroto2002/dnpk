@@ -3,37 +3,133 @@ ini_set('display_errors', 0);
 error_reporting(E_ALL & ~E_NOTICE);
 session_start();
 require_once "DbManager.php";
+ // 削除
+if(isset($_POST["delete"])){
+    $delete_id=$_POST["delete"] ;
+    $_SESSION['orders'][$delete_id] = array();
+    // print_r($_SESSION['orders'][$count]);
+    // print("<br/>");
+    // print_r($_SESSION['options']);
+    // print("<br/>");
+    $_SESSION['options'][$delete_id] = array();
+    header("Location: cart.php");
+    exit();
+}
+// DBから削除
+if(isset($_POST["DB_delete"])){
+    $pdo = getDb();
+
+    $stmt = $pdo->prepare(" DELETE han,op 
+                            FROM t_d_morder_handy AS han 
+                            LEFT JOIN t_d_morder_option AS op 
+                            ON han.odhm_No = op.odhm_No 
+                            WHERE han.odhm_No=? AND op.odhm_No=?;");
+    $stmt->execute(array(
+        $_POST["DB_delete"],
+        $_POST["DB_delete"],
+    ));
+}
+
 // 注文済みから注文変更
 if(isset($_GET["odh_No"])){
     $pdo = getDb();
-    $stmt= $pdo->prepare("SELECT DISTINCT t_d_order_handy.odh_No,t_d_order_handy.odh_Tbl_No,t_d_order_handy.odh_Ninzu,
-                            t_d_morder_handy.odhm_No,t_d_morder_handy.mn_ID,t_d_morder_handy.odhm_Quant,
-                            t_d_morder_option.opm_ID FROM t_d_order_handy 
+    // $stmt= $pdo->prepare("SELECT DISTINCT t_d_order_handy.odh_No,t_d_order_handy.odh_Tbl_No,t_d_order_handy.odh_Ninzu,t_d_morder_handy.odhm_No, t_d_morder_handy.mn_ID,t_d_morder_handy.odhm_Quant 
+    //                     FROM t_d_order_handy 
+    //                     INNER JOIN t_d_morder_handy on t_d_order_handy.odh_No = t_d_morder_handy.odh_No 
+    //                     WHERE t_d_order_handy.odh_No = ? ORDER BY t_d_morder_handy.odhm_No;
+    //                     ");
+    // $stmt->execute(array($_GET["odh_No"]));
+    
+    $stmt= $pdo->prepare("SELECT DISTINCT t_d_order_handy.odh_No,t_d_order_handy.odh_Tbl_No,t_d_order_handy.odh_Ninzu,t_d_morder_handy.mn_ID 
+                        FROM t_d_order_handy 
                             INNER JOIN t_d_morder_handy on t_d_order_handy.odh_No = t_d_morder_handy.odh_No 
-                            INNER JOIN t_d_morder_option on t_d_order_handy.odh_No = t_d_morder_option.odh_No 
-                            WHERE t_d_order_handy.odh_No = ? ORDER BY t_d_morder_handy.odhm_No;");
+                        WHERE t_d_order_handy.odh_No = ? ORDER BY t_d_morder_handy.odhm_No;
+                        ");
     $stmt->execute(array($_GET["odh_No"]));
-    $odh_Nos = $stmt->fetch();
-    print("<br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/>");
-    print_r($odh_Nos);
-    print("<br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/>");
-    print($odh_Nos["odh_No"]);
-    // $_SESSION["$odh_No"]["odh_No"] = $odh_Nos["odh_No"];
-    // $_SESSION["$odh_No"]["odh_Tbl_No"] = $odh_Nos["odh_Tbl_No"];
-    // $_SESSION["$odh_No"]["odh_Ninzu"] = $odh_Nos["odh_Ninzu"];
-    // $_SESSION["orders"] = $odh_Nos["odh_Ninzu"];
+    $i = 0;
+    // $quant = array();
 
+    while($odh_Nos = $stmt->fetch(PDO::FETCH_ASSOC)){
+        // print("<br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/>");
+        // $_SESSION["odh_No"] = $odh_Nos["odh_No"];
+        // $_SESSION["odh_Tbl_No"] = $odh_Nos["odh_Tbl_No"];
+        // $_SESSION["odh_Ninzu"] = $odh_Nos["odh_Ninzu"];
+        // $_SESSION["orders"][$i] = $odh_Nos["mn_ID"];
+        // array_push($quant,$odh_Nos["odhm_Quant"]);
+
+        $_SESSION["odh_No"] = $odh_Nos["odh_No"];
+        $_SESSION["odh_Tbl_No"] = $odh_Nos["odh_Tbl_No"];
+        $_SESSION["odh_Ninzu"] = $odh_Nos["odh_Ninzu"];
+
+        $menu[0][$i] = $odh_Nos["mn_ID"];
+        // print_r($menu);
+        // array_push($quant,$odh_Nos["odhm_Quant"]);
+        $i++;
 }
+    //数量
+    // $quants = json_encode($quant);
+
+    $stmt = $pdo->prepare("SELECT d.opm_ID,d.odhm_No,m.opm_Name 
+                            FROM t_d_morder_option d ,t_m_option_menu m 
+                            WHERE d.opm_ID = m.opm_ID AND d.odh_No = ?;
+                        ");
+    $stmt->execute(array($_GET["odh_No"]));
+    // テーブルの中身がなくなるまで
+    $i =0;
+    $max_Odhm = 0;
+    $opt = array();
+    $odhm_No = array();
+
+    // オプション
+    while($odh_Nos = $stmt->fetch(PDO::FETCH_ASSOC)){             
+        // $_SESSION["update"] = true;
+        
+        if($max_Odhm < $odh_Nos["odhm_No"] ){
+            // print("新しいメニューに入った<br/>");
+            // print_r($odh_Nos["odhm_No"]);
+            // print_r("<br/>");
+            array_push($odhm_No,$odh_Nos["odhm_No"]);
+                if($max_Odhm!==0){
+                // print("2回目以降<br/>");
+                    // $_SESSION["options"][$i]=$opt;
+                    $option[0][$i]=$opt;
+                    $opt = array();               
+                    $i++;
+                }
+                array_push($opt,$odh_Nos["opm_Name"]);
+                $max_Odhm = $odh_Nos["odhm_No"];
+        }else{
+            // print("同じメニュー<br/>");
+            array_push($opt,$odh_Nos["opm_Name"]);
+        }
+    }
+
+    // print_r($odhm_No);
+    // print_r("<br/>");
+    // 残った状態で終わってしまった場合
+    if($opt!==array()){
+        // $_SESSION["options"][$i] = $opt;
+        $option[0][$i] = $opt;
+    }
+
+    
+    $orders=$menu[0];
+    $options=$option[0];
+    // print_r($option);
+}else{
+    if(!isset($_SESSION["orders"])){
+        print("<p class='none'>注文がありません</p>");
+    }
+}
+
 $odh_No = $_SESSION['odh_No'];
 $odh_Tbl_No = $_SESSION['odh_Tbl_No'];
 $odh_Ninzu = $_SESSION['odh_Ninzu'];
 
-$orders=array();
-$options=array();
-
 if(isset($_SESSION['orders'])){
     $orders=$_SESSION['orders'];
 }
+
 if(isset($_SESSION['options'])){
     $options=$_SESSION['options'];
 }
@@ -41,6 +137,7 @@ if(isset($_SESSION['options'])){
 
 
 // print_r($_SESSION['orders'] );
+
 ?>
 
 <!DOCTYPE html>
@@ -50,7 +147,7 @@ if(isset($_SESSION['options'])){
         <title>カート</title>
         <link rel="stylesheet" href="css/cart.css">
     </head>
-
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.0/jquery.min.js"></script>
     <script>
         /* ピッチインピッチアウトによる拡大縮小を禁止 */
         document.documentElement.addEventListener('touchstart', function (e) {
@@ -88,36 +185,55 @@ if(isset($_SESSION['options'])){
             ?>
             <script>
                 // 数量用の配列
-                const cart = [];
+                let cart = [];
+                let i = 0;
             </script>
             <?php 
-            if(!isset($_SESSION["orders"])){
-                print("<p class='none'>注文がありません</p>");
-            }
             foreach($orders as $value):
-
             ?>
-            <!-- メニュー分枠を作る -->
             <script>
+                    // 数量配列の初期化
                 cart.push(1)
-                console.log(cart);
             </script>
 
             <?php
                 // 中身があるとき
                 if($value):
-                
             ?>
             <div class="list">
                 <div class="menu">
                 <?php print(ChangeName($value)); ?>
+
+                <?php if(!isset($_GET["odh_No"])):?>
                 <div class="amount">
                     <button class="down" onclick=down(<?php echo $count;?>)>ー</button>
                     <div class="number" id="<?php print $count ?>"></div>
                     <button class="up" onclick=up(<?php echo $count;?>)>＋</button>
                 </div>
+                <?php endif;?>
                 
                         
+            <!-- DBから持ってくる場合 -->
+            <!-- <?php #if(isset($_GET["odh_No"])):?>
+                <script>
+                    cart = JSON.parse('<?php# echo $quants;?>');
+                        $("#" +  i).html(cart[i]);
+                        i++;
+                </script>
+            <?php #else:?>
+                <script>
+                        $("#" +  i).html(cart[i]);
+                        i++;
+                </script>
+            <?php #endif;?> -->
+
+            <!-- 数量の初期化 -->
+            <?php if(!isset($_GET["odh_No"])):?>
+                <script>
+                    $(".number").html(1);
+                </script>
+            <?php endif;?>
+
                     <?php if(!empty($options)) {?>
                         <div class="option">
                             <?php 
@@ -145,6 +261,7 @@ if(isset($_SESSION['options'])){
                 </div>
                 <!-- <div class="quantity"></div> -->
                 <div class="tool">
+                    <?php if(!isset($_GET["odh_No"])):?>
                     <form action="option.php" method="post">
                             <input type="hidden" name="mode" value="<?php print($count)?>">
                             <input type="submit" value="変更" class="change">
@@ -154,29 +271,21 @@ if(isset($_SESSION['options'])){
                             <input type="hidden" name="delete" value="<?php print($count)?>">
                             <input type="submit" value="削除" class="delete">
                     </form>
+                    <?php else:?>
+                        <form action="" method="post">
+                                <input type="hidden" name="DB_delete" value="<?php print($odhm_No[$count])?>">
+                                <input type="submit" value="削除" class="order_delete">
+                        </form>
+                        
+                    <?php endif;?>
                     
                     <!-- <button class="delete" onclick=Delete(<?php #echo $count?>)>
                         削除
                     </button> -->
                 </div>
             </div>
-            <?php endif;
-            // 削除
-            if(isset($_POST["delete"])){
-                $delete_id=$_POST["delete"] ;
-                print_r($_SESSION['orders']);
-                print("<br/>");
-                $_SESSION['orders'][$delete_id] = array();
-                // print_r($_SESSION['orders'][$count]);
-                // print("<br/>");
-                // print_r($_SESSION['options']);
-                // print("<br/>");
-                $_SESSION['options'][$delete_id] = array();
-                print_r($_SESSION['options']);
-                header("Location: cart.php");
-                // exit();
-
-            }
+            <?php 
+                endif;
                 $count++;
                 endforeach;
                 ?>
@@ -185,6 +294,8 @@ if(isset($_SESSION['options'])){
         </div>
         <footer style="text-align:center; font-size:20px;line-height: 0.5;" >
             <div class="button">
+
+                <?php if(!isset($_GET["odh_No"])):?>
                 <form action="order.php" method="post">
                     <input type="submit" value="続けて注文" class="add">
                 </form>
@@ -192,20 +303,19 @@ if(isset($_SESSION['options'])){
                 <form action="order_finish.php" method="post" id="post">
                     <input type="submit" value="注文を確定する" class="decision" >                
                 </form>
+
+                <?php else:?>
+                    <form action="order_con.php?#tyumonzumi" method="post">
+                        <input type="submit" value="戻る" class="add">
+                    </form>
+                    <form action="order_finish.php" method="post" id="post">
+                        <input type="submit" value="注文を追加する" class="decision" >                
+                    </form>
+                <?php endif;?>
             </div>
             <p style="color: rgb(255, 255, 255);">Copyright © DNPK.JP All Rights Reserved.</p> 
         </footer>
-         <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.0/jquery.min.js"></script>
         <script>
-            // 見かけの削除
-            // const Delete = ($count) =>{
-            //     console.log($count);
-            //         $("#" + $count).css("display","none");
-            //     }
-            // console.log($cart);
-
-            $(".number").html(cart[0]);
-
             const down = (value) =>{
                 if(cart[value]>1){
                     cart[value]--;
@@ -222,7 +332,6 @@ if(isset($_SESSION['options'])){
             $('.decision').on("click",function() {
                 // POST先
                 const url = "./order_finish.php";
-                const a = 0;       
                 const inputs = '<input type="hidden" name="quant" value="' + cart + '" />';
                 $("#post").append(inputs);
             });

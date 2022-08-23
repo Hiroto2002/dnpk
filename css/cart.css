@@ -114,6 +114,22 @@ body {
     transition    : .3s;         /* なめらか変化 */
     border        : 2px solid #8f8f8f;    /* 枠の指定 */
 }
+.order_delete{
+    display       : inline-block;
+    height        : 120px;
+    width         : 200px;
+    border-radius : 5%;          /* 角丸       */
+    font-size     : 30pt;        /* 文字サイズ */
+    text-align    : center;      /* 文字位置   */
+    cursor        : pointer;     /* カーソル   */
+    margin        : 0px 10px 0 140px;
+    padding       : 20px 10px;   /* 余白       */
+    background    : #ffffff;     /* 背景色     */
+    color         : #c01b05;     /* 文字色     */
+    line-height   : 70px;         /* 1行の高さ  */
+    transition    : .3s;         /* なめらか変化 */
+    border        : 2px solid #8f8f8f;    /* 枠の指定 */
+}
 
 header {
     position: fixed;
