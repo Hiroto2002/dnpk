@@ -3,6 +3,7 @@ ini_set('display_errors', 0);
 error_reporting(E_ALL & ~E_NOTICE);
 session_start();
 require_once "DbManager.php";
+
  // 削除
 if(isset($_POST["delete"])){
     $delete_id=$_POST["delete"] ;
@@ -19,6 +20,14 @@ if(isset($_POST["delete"])){
 if(isset($_POST["DB_delete"])){
     $pdo = getDb();
 
+    // オプションがない場合の削除
+    $statement = $pdo->prepare(" DELETE FROM t_d_morder_handy WHERE odhm_No=?");
+    $statement->execute(array(
+        $_POST["DB_delete"],
+    ));
+
+    $post_odhm  = $_POST["DB_delete"];
+    // 両方削除
     $stmt = $pdo->prepare(" DELETE han,op 
                             FROM t_d_morder_handy AS han 
                             LEFT JOIN t_d_morder_option AS op 
@@ -39,15 +48,33 @@ if(isset($_GET["odh_No"])){
     //                     WHERE t_d_order_handy.odh_No = ? ORDER BY t_d_morder_handy.odhm_No;
     //                     ");
     // $stmt->execute(array($_GET["odh_No"]));
+
     
-    $stmt= $pdo->prepare("SELECT DISTINCT t_d_order_handy.odh_No,t_d_order_handy.odh_Tbl_No,t_d_order_handy.odh_Ninzu,t_d_morder_handy.mn_ID 
+    // オプションがない場合のodhm_No
+    $opno_array  = array();
+    $stmt = $pdo->prepare("SELECT odhm_No FROM `t_d_morder_handy` ");
+    $stmt->execute(array());
+
+    while($odh_Nos = $stmt->fetch(PDO::FETCH_ASSOC)){
+        array_push($opno_array,$odh_Nos["odhm_No"]);
+    }
+
+    // すべて削除されたとき
+    if(!$odh_Nos = $stmt->fetch(PDO::FETCH_ASSOC)){
+        $delete = $pdo->prepare("UPDATE t_d_order_handy SET odh_situation=1 WHERE odh_No=?;");
+        $delete->execute(array(
+            $_GET["odh_No"]
+        ));
+    }
+    
+    $stmt= $pdo->prepare("SELECT DISTINCT t_d_order_handy.odh_No,t_d_order_handy.odh_Tbl_No,t_d_order_handy.odh_Ninzu,t_d_morder_handy.mn_ID,t_d_morder_handy.odhm_Quant
                         FROM t_d_order_handy 
-                            INNER JOIN t_d_morder_handy on t_d_order_handy.odh_No = t_d_morder_handy.odh_No 
+                        INNER JOIN t_d_morder_handy on t_d_order_handy.odh_No = t_d_morder_handy.odh_No 
                         WHERE t_d_order_handy.odh_No = ? ORDER BY t_d_morder_handy.odhm_No;
                         ");
     $stmt->execute(array($_GET["odh_No"]));
     $i = 0;
-    // $quant = array();
+    $quant = array();
 
     while($odh_Nos = $stmt->fetch(PDO::FETCH_ASSOC)){
         // print("<br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/>");
@@ -55,7 +82,6 @@ if(isset($_GET["odh_No"])){
         // $_SESSION["odh_Tbl_No"] = $odh_Nos["odh_Tbl_No"];
         // $_SESSION["odh_Ninzu"] = $odh_Nos["odh_Ninzu"];
         // $_SESSION["orders"][$i] = $odh_Nos["mn_ID"];
-        // array_push($quant,$odh_Nos["odhm_Quant"]);
 
         $_SESSION["odh_No"] = $odh_Nos["odh_No"];
         $_SESSION["odh_Tbl_No"] = $odh_Nos["odh_Tbl_No"];
@@ -63,9 +89,9 @@ if(isset($_GET["odh_No"])){
 
         $menu[0][$i] = $odh_Nos["mn_ID"];
         // print_r($menu);
-        // array_push($quant,$odh_Nos["odhm_Quant"]);
+        array_push($quant,$odh_Nos["odhm_Quant"]);
         $i++;
-}
+    }
     //数量
     // $quants = json_encode($quant);
 
@@ -83,7 +109,6 @@ if(isset($_GET["odh_No"])){
     // オプション
     while($odh_Nos = $stmt->fetch(PDO::FETCH_ASSOC)){             
         // $_SESSION["update"] = true;
-        
         if($max_Odhm < $odh_Nos["odhm_No"] ){
             // print("新しいメニューに入った<br/>");
             // print_r($odh_Nos["odhm_No"]);
@@ -191,10 +216,10 @@ if(isset($_SESSION['options'])){
             <?php 
             foreach($orders as $value):
             ?>
-            <script>
+                <script>
                     // 数量配列の初期化
-                cart.push(1)
-            </script>
+                    cart.push(1)
+                </script>
 
             <?php
                 // 中身があるとき
@@ -210,13 +235,17 @@ if(isset($_SESSION['options'])){
                     <div class="number" id="<?php print $count ?>"></div>
                     <button class="up" onclick=up(<?php echo $count;?>)>＋</button>
                 </div>
+                <?php else: ?>
+                    <div class="amount">
+                        <div class="number" id="<?php print $count ?>">✕<?php print $quant[$count];?></div>
+                    </div>
                 <?php endif;?>
                 
                         
             <!-- DBから持ってくる場合 -->
             <!-- <?php #if(isset($_GET["odh_No"])):?>
                 <script>
-                    cart = JSON.parse('<?php# echo $quants;?>');
+                    cart = JSON.parse('<?php #echo $quants;?>');
                         $("#" +  i).html(cart[i]);
                         i++;
                 </script>
@@ -273,11 +302,10 @@ if(isset($_SESSION['options'])){
                     </form>
                     <?php else:?>
                         <form action="" method="post">
-                                <input type="hidden" name="DB_delete" value="<?php print($odhm_No[$count])?>">
+                                <input type="hidden" name="DB_delete" value="<?php print($opno_array[$count])?>">
                                 <input type="submit" value="削除" class="order_delete">
                         </form>
-                        
-                    <?php endif;?>
+                    <?php  endif;?>
                     
                     <!-- <button class="delete" onclick=Delete(<?php #echo $count?>)>
                         削除

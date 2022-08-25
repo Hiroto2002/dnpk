@@ -81,7 +81,7 @@
                 <div class="midashi">人数</div>
             </li> 
             <?php
-            $sql = 'SELECT o.* FROM t_d_order_handy as o INNER JOIN t_d_morder_handy as m ON o.odh_No = m.odh_No WHERE o.odh_situation=2 ';
+            $sql = 'SELECT DISTINCT o.* FROM t_d_order_handy as o INNER JOIN t_d_morder_handy as m ON o.odh_No = m.odh_No WHERE o.odh_situation=2 ';
             $products = fetch_all_query($pdo, $sql);
             foreach ($products as $product) {
                 echo "<li>\n"; 

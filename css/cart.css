@@ -211,5 +211,6 @@ header {
             font-size: 2.6rem;
         }
         .number{
+            position: absolute;
             margin: 0 15px;
         }
