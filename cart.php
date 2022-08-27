@@ -27,14 +27,9 @@ if(isset($_POST["DB_delete"])){
     ));
 
     $post_odhm  = $_POST["DB_delete"];
-    // 両方削除
-    $stmt = $pdo->prepare(" DELETE han,op 
-                            FROM t_d_morder_handy AS han 
-                            LEFT JOIN t_d_morder_option AS op 
-                            ON han.odhm_No = op.odhm_No 
-                            WHERE han.odhm_No=? AND op.odhm_No=?;");
+    // オプション削除
+    $stmt = $pdo->prepare(" DELETE  FROM t_d_morder_option WHERE odhm_No=? ");
     $stmt->execute(array(
-        $_POST["DB_delete"],
         $_POST["DB_delete"],
     ));
 }
@@ -58,15 +53,7 @@ if(isset($_GET["odh_No"])){
     while($odh_Nos = $stmt->fetch(PDO::FETCH_ASSOC)){
         array_push($opno_array,$odh_Nos["odhm_No"]);
     }
-
-    // すべて削除されたとき
-    if(!$odh_Nos = $stmt->fetch(PDO::FETCH_ASSOC)){
-        $delete = $pdo->prepare("UPDATE t_d_order_handy SET odh_situation=1 WHERE odh_No=?;");
-        $delete->execute(array(
-            $_GET["odh_No"]
-        ));
-    }
-    
+ 
     $stmt= $pdo->prepare("SELECT DISTINCT t_d_order_handy.odh_No,t_d_order_handy.odh_Tbl_No,t_d_order_handy.odh_Ninzu,t_d_morder_handy.mn_ID,t_d_morder_handy.odhm_Quant
                         FROM t_d_order_handy 
                         INNER JOIN t_d_morder_handy on t_d_order_handy.odh_No = t_d_morder_handy.odh_No 
@@ -334,6 +321,7 @@ if(isset($_SESSION['options'])){
 
                 <?php else:?>
                     <form action="order_con.php?#tyumonzumi" method="post">
+                        <input type="hidden" value="<?php print $_GET["odh_No"]; ?>" name="back"/>
                         <input type="submit" value="戻る" class="add">
                     </form>
                     <form action="order_finish.php" method="post" id="post">

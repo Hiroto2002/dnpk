@@ -89,8 +89,22 @@
                 echo "<a class='widget-list-link1'>{$product['odh_Ninzu']}</a>\n"; 
                 echo "<a href='registercoming.php?p=2&odh_No={$product['odh_No']}&odh_Ninzu={$product['odh_Ninzu']}&odh_situation=2' class='widget-list-link2'>席変更</a>\n"; 
                 echo "<a href='cart.php?odh_No={$product['odh_No']}' class='widget-list-link2'>注変更</a>\n"; 
-                echo "<a href='order.php?odh_No={$product['odh_No']}'' class='widget-list-link2'>追加</a>\n"; 
+                echo "<a href='cart.php?odh_No={$product['odh_No']}'' class='widget-list-link2'>追加</a>\n"; 
                 echo "</li>\n"; 
+            }
+
+            if(isset($_POST["back"])) {
+
+              $check  = $pdo->prepare("SELECT odhm_No FROM t_d_morder_handy WHERE odh_No = ?");  
+              $check->execute(array($_POST["back"]));
+                if($odh_Nos = $check->fetch(PDO::FETCH_ASSOC)){
+                    
+                }else{
+                    $update = $pdo->prepare("UPDATE t_d_order_handy SET odh_situation=1 WHERE odh_No=?;");
+                    $update->execute(array(
+                    $_POST["back"]
+                ));
+                }
             }
             ?>
         </ol>
