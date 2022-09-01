@@ -4,6 +4,13 @@ error_reporting(E_ALL & ~E_NOTICE);
 session_start();
 require_once "DbManager.php";
 
+if($_SESSION["situ"]==="add"){
+    // これによって注文変更のif文に入れる
+    $_GET["odh_No"] =$_SESSION["odh_No"];
+}else{
+    // print("aaa");
+}
+
  // 削除
 if(isset($_POST["delete"])){
     $delete_id=$_POST["delete"] ;
@@ -16,22 +23,24 @@ if(isset($_POST["delete"])){
     header("Location: cart.php");
     exit();
 }
+
 // DBから削除
 if(isset($_POST["DB_delete"])){
     $pdo = getDb();
+    // print("<br/><br/><br/><br/><br/><br/><br/><br/><br/><br/>");
+    // print($_POST["DB_delete"]);
 
     // オプションがない場合の削除
-    $statement = $pdo->prepare(" DELETE FROM t_d_morder_handy WHERE odhm_No=?");
-    $statement->execute(array(
-        $_POST["DB_delete"],
-    ));
+    // $statement = $pdo->prepare(" DELETE FROM t_d_morder_handy WHERE odhm_No=?");
+    // $statement->execute(array(
+    //     $_POST["DB_delete"],
+    // ));
 
-    $post_odhm  = $_POST["DB_delete"];
     // オプション削除
-    $stmt = $pdo->prepare(" DELETE  FROM t_d_morder_option WHERE odhm_No=? ");
-    $stmt->execute(array(
-        $_POST["DB_delete"],
-    ));
+    // $stmt = $pdo->prepare(" DELETE  FROM t_d_morder_option WHERE odhm_No=? ");
+    // $stmt->execute(array(
+    //     $_POST["DB_delete"],
+    // ));
 }
 
 // 注文済みから注文変更
@@ -44,31 +53,66 @@ if(isset($_GET["odh_No"])){
     //                     ");
     // $stmt->execute(array($_GET["odh_No"]));
 
+    // $stmt = $pdo->prepare("SELECT the_order.odh_No,the_order.odh_Tbl_No,the_order.odh_Ninzu, 
+    //                         menu.odhm_No,menu.mn_ID,menu.odhm_Quant,the_option.opm_ID 
+    //                         FROM t_d_order_handy as the_order 
+    //                         INNER JOIN t_d_morder_handy as menu on the_order.odh_No = menu.odh_No 
+    //                         INNER JOIN t_d_morder_option as the_option on menu.odhm_No = the_option.odhm_No 
+    //                         WHERE the_order.odh_No = ? ORDER BY menu.odhm_No;");
+    // $stmt->execute(array($_GET["odh_No"]));
+
+    // $statement = $pdo->prepare("SELECT odhm_No FROM t_d_morder_handy WHERE odh_No=?");
+    // $statement->execute(array($_GET["odh_No"]));
+
+
+    // $i = 0;
+    // while($odh_Nos = $stmt->fetch(PDO::FETCH_ASSOC)){
+    //     print_r($odh_Nos);
+    //     print("<br/>");
+    //     print("<br/>");
+    // }
+    // while($no_option = $statement->fetch(PDO::FETCH_ASSOC)){
+    //     print "全部".$no_option["odhm_No"]."<br/>";
+
+    //         if($odh_Nos["odhm_No"] === $no_option["odhm_No"]){
+    //             print "オプション無いよ".$odh_Nos["odhm_No"]."<br/>";
+    //         }
+    //     }
+    // exit();
+
     
     // オプションがない場合のodhm_No
     $opno_array  = array();
-    $stmt = $pdo->prepare("SELECT odhm_No FROM `t_d_morder_handy` ");
-    $stmt->execute(array());
+    $stmt = $pdo->prepare("SELECT odhm_No FROM `t_d_morder_handy` WHERE odh_No=? ORDER BY odhm_No");
+    $stmt->execute(array($_GET["odh_No"]));
 
     while($odh_Nos = $stmt->fetch(PDO::FETCH_ASSOC)){
         array_push($opno_array,$odh_Nos["odhm_No"]);
     }
  
-    $stmt= $pdo->prepare("SELECT DISTINCT t_d_order_handy.odh_No,t_d_order_handy.odh_Tbl_No,t_d_order_handy.odh_Ninzu,t_d_morder_handy.mn_ID,t_d_morder_handy.odhm_Quant
-                        FROM t_d_order_handy 
-                        INNER JOIN t_d_morder_handy on t_d_order_handy.odh_No = t_d_morder_handy.odh_No 
-                        WHERE t_d_order_handy.odh_No = ? ORDER BY t_d_morder_handy.odhm_No;
-                        ");
+    $stmt= $pdo->prepare("SELECT handy.odh_No,handy.odh_Tbl_No,handy.odh_Ninzu, 
+                        menu.odhm_No,menu.mn_ID,menu.odhm_Quant,
+                        op.opm_ID 
+                        FROM t_d_order_handy as handy 
+                        INNER JOIN t_d_morder_handy as menu 
+                        ON handy.odh_No = menu.odh_No 
+                        LEFT OUTER JOIN t_d_morder_option as op 
+                        ON menu.odhm_No = op.odhm_No 
+                        WHERE handy.odh_No = ?
+                        ORDER BY menu.odhm_No;");
     $stmt->execute(array($_GET["odh_No"]));
     $i = 0;
     $quant = array();
 
     while($odh_Nos = $stmt->fetch(PDO::FETCH_ASSOC)){
-        // print("<br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/>");
         // $_SESSION["odh_No"] = $odh_Nos["odh_No"];
         // $_SESSION["odh_Tbl_No"] = $odh_Nos["odh_Tbl_No"];
         // $_SESSION["odh_Ninzu"] = $odh_Nos["odh_Ninzu"];
         // $_SESSION["orders"][$i] = $odh_Nos["mn_ID"];
+        print("<br/><br/><br/><br/><br/><br/><br/><br/><br/><br/>");
+        print_r($odh_Nos);
+
+        // 最小値を取る
 
         $_SESSION["odh_No"] = $odh_Nos["odh_No"];
         $_SESSION["odh_Tbl_No"] = $odh_Nos["odh_Tbl_No"];
@@ -88,10 +132,10 @@ if(isset($_GET["odh_No"])){
                         ");
     $stmt->execute(array($_GET["odh_No"]));
     // テーブルの中身がなくなるまで
-    $i =0;
     $max_Odhm = 0;
-    $opt = array();
     $odhm_No = array();
+
+    // print("count:".$_POST["count"]."<br/>");
 
     // オプション
     while($odh_Nos = $stmt->fetch(PDO::FETCH_ASSOC)){             
@@ -107,6 +151,9 @@ if(isset($_GET["odh_No"])){
                     $option[0][$i]=$opt;
                     $opt = array();               
                     $i++;
+                }else{
+                    $i =$odhm_No[0]- $min_odh_No;
+                    $opt = array();
                 }
                 array_push($opt,$odh_Nos["opm_Name"]);
                 $max_Odhm = $odh_Nos["odhm_No"];
@@ -115,14 +162,17 @@ if(isset($_GET["odh_No"])){
             array_push($opt,$odh_Nos["opm_Name"]);
         }
     }
-
     // print_r($odhm_No);
+    // print("<br/>");
     // print_r("<br/>");
     // 残った状態で終わってしまった場合
     if($opt!==array()){
         // $_SESSION["options"][$i] = $opt;
+        // print($i."<br/>");
         $option[0][$i] = $opt;
     }
+    // print("最後に渡す");
+    // print_r($option[0]);
 
     
     $orders=$menu[0];
@@ -146,10 +196,7 @@ if(isset($_SESSION['options'])){
     $options=$_SESSION['options'];
 }
 
-
-
 // print_r($_SESSION['orders'] );
-
 ?>
 
 <!DOCTYPE html>
@@ -174,7 +221,6 @@ if(isset($_SESSION['options'])){
         }
         t = now;
         }, false);
-
     </script>
 
     <body>
@@ -193,15 +239,17 @@ if(isset($_SESSION['options'])){
             // $_SESSION["options"] = array();
             // $_SESSION["orders"] = array();
             // カートの中身に対してすべて表示
-            $count = 0;
+                $count = 0;
             ?>
+
             <script>
                 // 数量用の配列
                 let cart = [];
                 let i = 0;
             </script>
+
             <?php 
-            foreach($orders as $value):
+                foreach($orders as $value):
             ?>
                 <script>
                     // 数量配列の初期化
@@ -278,20 +326,27 @@ if(isset($_SESSION['options'])){
                 <!-- <div class="quantity"></div> -->
                 <div class="tool">
                     <?php if(!isset($_GET["odh_No"])):?>
-                    <form action="option.php" method="post">
-                            <input type="hidden" name="mode" value="<?php print($count)?>">
-                            <input type="submit" value="変更" class="change">
-                    </form>
-
-                    <form action="" method="post">
-                            <input type="hidden" name="delete" value="<?php print($count)?>">
-                            <input type="submit" value="削除" class="delete">
-                    </form>
+                            <form action="option.php" method="post">
+                                <input type="hidden" name="mode" value="<?php print($count)?>">
+                                <input type="submit" value="変更" class="change">
+                            </form>
+                            
+                            <form action="" method="post">
+                                <input type="hidden" name="delete" value="<?php print($count)?>">
+                                <input type="submit" value="削除" class="delete">
+                            </form>
                     <?php else:?>
-                        <form action="" method="post">
-                                <input type="hidden" name="DB_delete" value="<?php print($opno_array[$count])?>">
-                                <input type="submit" value="削除" class="order_delete">
-                        </form>
+                        <?php if($_SESSION["situ"] !== "add"):?>
+                            <!-- 注文済みを削除 -->
+                            <form action="" method="post">
+                                    <input type="hidden" name="count" value="<?php print($count)?>">
+                                    <input type="hidden" name="DB_delete" value="<?php print($opno_array[$count])?>">
+                                    <input type="submit" value="削除" class="order_delete">
+                            </form>
+                        <?php else:?>
+                            <!-- 注文済みに追加 -->
+                            <strong style="color:red;font-size:3rem;margin: 55px 0px 0 160px;">注文済</strong>
+                        <?php endif;?>
                     <?php  endif;?>
                     
                     <!-- <button class="delete" onclick=Delete(<?php #echo $count?>)>
@@ -320,6 +375,7 @@ if(isset($_SESSION['options'])){
                 </form>
 
                 <?php else:?>
+                    <?php if($_SESSION["situ"] !== "add"):?>
                     <form action="order_con.php?#tyumonzumi" method="post">
                         <input type="hidden" value="<?php print $_GET["odh_No"]; ?>" name="back"/>
                         <input type="submit" value="戻る" class="add">
@@ -327,6 +383,14 @@ if(isset($_SESSION['options'])){
                     <form action="order_finish.php" method="post" id="post">
                         <input type="submit" value="注文を追加する" class="decision" >                
                     </form>
+                    <?php else:?>
+                        <form action="order.php" method="post">
+                            <input type="submit" value="戻る" class="add">
+                        </form>
+                    <form action="order_con.php?#tyumonzumi" method="post" id="post">
+                        <input type="submit" value="追加を辞める" class="decision" >                
+                    </form>
+                    <?php endif;?>
                 <?php endif;?>
             </div>
             <p style="color: rgb(255, 255, 255);">Copyright © DNPK.JP All Rights Reserved.</p> 

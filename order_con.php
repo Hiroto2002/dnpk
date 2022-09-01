@@ -89,7 +89,7 @@
                 echo "<a class='widget-list-link1'>{$product['odh_Ninzu']}</a>\n"; 
                 echo "<a href='registercoming.php?p=2&odh_No={$product['odh_No']}&odh_Ninzu={$product['odh_Ninzu']}&odh_situation=2' class='widget-list-link2'>席変更</a>\n"; 
                 echo "<a href='cart.php?odh_No={$product['odh_No']}' class='widget-list-link2'>注変更</a>\n"; 
-                echo "<a href='cart.php?odh_No={$product['odh_No']}'' class='widget-list-link2'>追加</a>\n"; 
+                echo "<a href='order.php?odh_Tbl_No={$product['odh_Tbl_No']}&odh_No={$product['odh_No']}&odh_Ninzu={$product['odh_Ninzu']}&situ=add' class='widget-list-link2'>追加</a>\n"; 
                 echo "</li>\n"; 
             }
 

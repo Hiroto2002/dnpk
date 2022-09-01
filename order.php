@@ -6,6 +6,12 @@ session_start();
 // 新しいIDに置き換える
 // session_regenerate_id();
 
+//注文済みに追加する
+if($_GET["situ"]==="add"){
+  $_SESSION["situ"] = "add";
+}
+
+
 if(isset($_GET['odh_No'])) {
     $odh_No = $_GET['odh_No'];
 }
@@ -30,8 +36,6 @@ if(isset($_POST["odh_No"])){
   $odh_No = $_POST["odh_No"];
 }
 
-              
-              
 ?>
 <!DOCTYPE html>
 <html>

@@ -42,7 +42,9 @@ if(!empty($options)) {
 
 }
 
-
+if($_SESSION["situ"]==="add"){
+    $_SESSION["situ"] = array();
+}
 // print_r($_SESSION['orders']);
 // print_r($_SESSION['options']);
 if(isset($_POST["change"])){
