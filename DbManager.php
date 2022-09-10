@@ -71,4 +71,14 @@ function ChangeOptionID($option_name){
 
   return $opm_ID;
 }
+
+function ChangeOptionName($option_ID){
+  $pdo = getDb();
+  $sql = $pdo->prepare('SELECT opm_Name FROM `t_m_option_menu` WHERE opm_ID = ?; ');
+  $sql->execute(array($option_ID));
+  $product = $sql->fetch(PDO::FETCH_ASSOC);
+  $option_Name = $product["opm_Name"];
+
+  return $option_Name;
+}
 ?>
