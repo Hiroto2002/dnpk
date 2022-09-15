@@ -1,13 +1,13 @@
 <?php
  // ブラウザでエラー確認が出来るようにします
- ini_set('display_errors', 0);
- error_reporting(E_ALL & ~E_NOTICE);
+ini_set('display_errors', 0);
+error_reporting(E_ALL & ~E_NOTICE);
 session_start();
 // 新しいIDに置き換える
 // session_regenerate_id();
 
 //注文済みに追加する
-if($_GET["situ"]==="add"){
+if($_GET["situ"]==="add" || $_POST["add"]){
   $_SESSION["situ"] = "add";
 }
 
@@ -46,7 +46,6 @@ if(isset($_POST["odh_No"])){
         <link rel="stylesheet" href="css/order.css" >
         <link rel="stylesheet" href="https://unpkg.com/swiper@7/swiper-bundle.min.css"/>
         <script type="text/javascript" src="./js/JQuery.js"></script>
-        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.0/jquery.min.js"></script>
         <script type="text/javascript" src="./js/spinner.js"></script>
         
 

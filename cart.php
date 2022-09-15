@@ -35,22 +35,14 @@ if(isset($_POST["delete"])){
 // DBから削除
 if(isset($_POST["DB_delete"])){
     $pdo = getDb();
-    print("<br/><br/><br/><br/><br/><br/><br/><br/><br/><br/>");
-    print($_POST["DB_delete"]."a");
-    // print($_POST["DB_delete"]);
-    // print("a");
+    // print("<br/><br/><br/><br/><br/><br/><br/><br/><br/><br/>");
+    // print($_POST["DB_delete"]."a");
 
-    // オプションがない場合の削除
-    // $statement = $pdo->prepare(" DELETE FROM t_d_morder_handy WHERE odhm_No=?");
-    // $statement->execute(array(
-    //     $_POST["DB_delete"],
-    // ));
-
-    // オプション削除
-    // $stmt = $pdo->prepare(" DELETE  FROM t_d_morder_option WHERE odhm_No=? ");
-    // $stmt->execute(array(
-    //     $_POST["DB_delete"],
-    // ));
+    // 外部キー制約によって参照ごと消える
+    $statement = $pdo->prepare(" DELETE FROM t_d_morder_handy WHERE odhm_No=?");
+    $statement->execute(array(
+        $_POST["DB_delete"],
+    ));
 }
 
 // 注文済みから注文変更
@@ -108,8 +100,9 @@ if(isset($_GET["odh_No"])){
     $opt_count=0;
     $j = 0;
     $i = 0;
-    $quant = array();
-    $odhm_Nos = array();
+    $quant = [];
+    $odhm_Nos = [];
+    $delete_No = [];
     while($odh_Nos = $stmt->fetch(PDO::FETCH_ASSOC)){
         // print("<br/><br/><br/><br/><br/><br/><br/><br/><br/><br/>");
         // print("i:".$i."<br/>");
@@ -138,6 +131,7 @@ if(isset($_GET["odh_No"])){
                 $menu[0][$j] = $odh_Nos["mn_ID"];
                 $options[$j][0] = ChangeOptionName($odh_Nos["opm_ID"]);
                 array_push($quant,$odh_Nos["odhm_Quant"]);
+                array_push($delete_No,$odh_Nos["odhm_No"]);
                 // print("<br/> j:".$j);
                 $j++;
             }
@@ -177,7 +171,7 @@ if(isset($_SESSION['options'])){
         <title>カート</title>
         <link rel="stylesheet" href="css/cart.css">
     </head>
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.0/jquery.min.js"></script>
+    <script src="./js/JQuery.js"></script>
     <script>
         /* ピッチインピッチアウトによる拡大縮小を禁止 */
         document.documentElement.addEventListener('touchstart', function (e) {
@@ -311,7 +305,7 @@ if(isset($_SESSION['options'])){
                             <!-- 注文済みを削除 -->
                             <form action="" method="post">
                                     <input type="hidden" name="count" value="<?php print($count)?>">
-                                    <input type="hidden" name="DB_delete" value="<?php print($odhm_Nos[$count])?>">
+                                    <input type="hidden" name="DB_delete" value="<?php print($delete_No[$count])?>">
                                     <input type="submit" value="削除" class="order_delete">
                             </form>
                         <?php else:?>
@@ -353,8 +347,10 @@ if(isset($_SESSION['options'])){
                         <input type="hidden" value="<?php print $_GET["odh_No"]; ?>" name="back"/>
                         <input type="submit" value="戻る" class="add">
                     </form>
-                    <form action="order_finish.php" method="post" id="post">
-                        <input type="submit" value="注文を追加する" class="decision" >                
+                    <!-- 注文変更から追加 -->
+                    <form action="order.php" method="post" id="post">
+                        <input type="hidden" value="" name="add"/>
+                        <input type="submit" value="注文を追加する" class="decision" >    
                     </form>
                     <?php else:?>
                         <form action="order.php" method="post">
