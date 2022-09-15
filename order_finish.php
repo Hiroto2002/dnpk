@@ -2,13 +2,9 @@
 
 // ブラウザでエラー確認が出来るようにします
 ini_set('display_errors', 1);
-error_reporting(E_ALL);
+error_reporting(0);
+session_start();
 require_once 'DbManager.php';
-
-if(!isset($_SESSION["orders"])){
-    header('Location: cart.php');
-    exit();
-}
 
 $order_num = $_SESSION['odh_No'];
 $quantList = explode (",",$_POST["quant"]);
