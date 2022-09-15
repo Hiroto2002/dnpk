@@ -35,8 +35,10 @@ if(isset($_POST["delete"])){
 // DBから削除
 if(isset($_POST["DB_delete"])){
     $pdo = getDb();
-    // print("<br/><br/><br/><br/><br/><br/><br/><br/><br/><br/>");
+    print("<br/><br/><br/><br/><br/><br/><br/><br/><br/><br/>");
+    print($_POST["DB_delete"]."a");
     // print($_POST["DB_delete"]);
+    // print("a");
 
     // オプションがない場合の削除
     // $statement = $pdo->prepare(" DELETE FROM t_d_morder_handy WHERE odhm_No=?");
@@ -88,9 +90,6 @@ if(isset($_GET["odh_No"])){
     //         }
     //     }
     // exit();
-    $i = 0;
-    $quant = array();
-    $odhm_Nos=array();
     $stmt= $pdo->prepare("SELECT handy.odh_No,handy.odh_Tbl_No,handy.odh_Ninzu, 
                         menu.odhm_No,menu.mn_ID,menu.odhm_Quant,
                         op.opm_ID 
@@ -100,19 +99,21 @@ if(isset($_GET["odh_No"])){
                         LEFT OUTER JOIN t_d_morder_option as op 
                         ON menu.odhm_No = op.odhm_No 
                         WHERE handy.odh_No = ?
-                        ORDER BY menu.odhm_No;");
+                        ORDER BY menu.odhm_No;
+                        ");
     $stmt->execute(array($_GET["odh_No"]));
     
     
-    $opt=[];  
+    $options=[];  
     $opt_count=0;
+    $j = 0;
+    $i = 0;
+    $quant = array();
+    $odhm_Nos = array();
     while($odh_Nos = $stmt->fetch(PDO::FETCH_ASSOC)){
-        // $_SESSION["odh_No"] = $odh_Nos["odh_No"];
-        // $_SESSION["odh_Tbl_No"] = $odh_Nos["odh_Tbl_No"];
-        // $_SESSION["odh_Ninzu"] = $odh_Nos["odh_Ninzu"];
-        // $_SESSION["orders"][$i] = $odh_Nos["mn_ID"];
-        print("<br/><br/><br/><br/><br/><br/><br/><br/><br/><br/>");
-        print_r($odh_Nos);
+        // print("<br/><br/><br/><br/><br/><br/><br/><br/><br/><br/>");
+        // print("i:".$i."<br/>");
+        // print_r($odh_Nos);
 
         // 最小値を取る
 
@@ -120,102 +121,35 @@ if(isset($_GET["odh_No"])){
         $_SESSION["odh_Tbl_No"] = $odh_Nos["odh_Tbl_No"];
         $_SESSION["odh_Ninzu"] = $odh_Nos["odh_Ninzu"];
 
-        $menu[0][$i] = $odh_Nos["mn_ID"];
-        // print_r($menu);
-        array_push($quant,$odh_Nos["odhm_Quant"]);
         array_push($odhm_Nos,$odh_Nos["odhm_No"]);
-        // print("<br/><br/>");
-        // print_r(ChangeOptionName($odh_Nos["opm_ID"]));
-        // print("呼ばれました");
-            $flg = 0;
-            // 最後まで見る
-            for($j = $i;$j > 0;$j--){
-                // 一個前をチェック
-                // print "<br/>"."odhm_Nos[i]".$odhm_Nos[$i]."<br/>";
-                // print "odhm_Nos[i-1]".$odhm_Nos[$i-1]."<br/>";
-                // ここ
-                if($odhm_Nos[$j] === $odhm_Nos[$j-1]){
-                    print("同じ");
-                    $opt_count++;
-                    $opt[$i-$opt_count][$opt_count] = $odh_Nos["opm_ID"];
-                    $flg = 1;
-                    // print("<br/>option:<br/>");
-                    // print_r($opt);
-                    // print("ua");
-                }
-                print("j:".$j."<br/>");
-            }
-        
-            if($flg === 0){
-                $opt[$i][0] = $odh_Nos["opm_ID"];
-                // print("<br/>flg=0option:<br/>");
-                // print_r($opt);
-            }
-            
-            $i++;
-        print("<br/><br/>opt:");
-        print_r($opt);
-    }
-    // print("<br/>");
-    // print_r($menu);
-    // print("<br/><br/>opt:");
-    // print_r($opt);
-    // print_r($odhm_Nos);
 
+        // for($j = $i;$j > 0;$j--){
+            // 一個前をチェック
+            // ここ
+            if($odhm_Nos[$i] === $odhm_Nos[$i-1]){
+                // print("同じ");
+                $opt_count++;
+                $options[$j-1][$opt_count] = ChangeOptionName($odh_Nos["opm_ID"]);
+                $flg = 1;
+                // print("<br/> opt_count:".$opt_count);
+                // print("<br/> j:".$j);
+                // print("<br/> i-opt_count:".$i-$opt_count);
+            }else{
+                $menu[0][$j] = $odh_Nos["mn_ID"];
+                $options[$j][0] = ChangeOptionName($odh_Nos["opm_ID"]);
+                array_push($quant,$odh_Nos["odhm_Quant"]);
+                // print("<br/> j:".$j);
+                $j++;
+            }
+            // } //for
+        $i++;
+        // print("<br/><br/>opt:");
+        // print_r($options);
+    }
     //数量
     // $quants = json_encode($quant);
-
-    // $stmt = $pdo->prepare("SELECT d.opm_ID,d.odhm_No,m.opm_Name 
-    //                         FROM t_d_morder_option d ,t_m_option_menu m 
-    //                         WHERE d.opm_ID = m.opm_ID AND d.odh_No = ?;
-    //                     ");
-    // $stmt->execute(array($_GET["odh_No"]));
-    // テーブルの中身がなくなるまで
-    // $max_Odhm = 0;
-    // $odhm_No = array();
-
-    // print("count:".$_POST["count"]."<br/>");
-
-    // オプション
-    // while($odh_Nos = $stmt->fetch(PDO::FETCH_ASSOC)){             
-        // $_SESSION["update"] = true;
-        // if($max_Odhm < $odh_Nos["odhm_No"] ){
-            // print("新しいメニューに入った<br/>");
-            // print_r($odh_Nos["odhm_No"]);
-            // print_r("<br/>");
-            // array_push($odhm_No,$odh_Nos["odhm_No"]);
-            //     if($max_Odhm!==0){
-                // print("2回目以降<br/>");
-                    // $_SESSION["options"][$i]=$opt;
-        //             $option[0][$i]=$opt;
-        //             $opt = array();               
-        //             $i++;
-        //         }else{
-        //             $i =$odhm_No[0]- $min_odh_No;
-        //             $opt = array();
-        //         }
-        //         array_push($opt,$odh_Nos["opm_Name"]);
-        //         $max_Odhm = $odh_Nos["odhm_No"];
-        // }else{
-            // print("同じメニュー<br/>");
-    //         array_push($opt,$odh_Nos["opm_Name"]);
-    //     }
-    // }
-    // print_r($odhm_No);
-    // print("<br/>");
-    // print_r("<br/>");
-    // 残った状態で終わってしまった場合
-    // if($opt!==array()){
-        // $_SESSION["options"][$i] = $opt;
-        // print($i."<br/>");
-        // $option[0][$i] = $opt;
-    // }
-    // print("最後に渡す");
-    // print_r($option[0]);
-
     
     $orders=$menu[0];
-    // print_r($option);
 }else{
     if(!isset($_SESSION["orders"])){
         print("<p class='none'>注文がありません</p>");
@@ -377,7 +311,7 @@ if(isset($_SESSION['options'])){
                             <!-- 注文済みを削除 -->
                             <form action="" method="post">
                                     <input type="hidden" name="count" value="<?php print($count)?>">
-                                    <input type="hidden" name="DB_delete" value="<?php print($opodhm_Nos[$count])?>">
+                                    <input type="hidden" name="DB_delete" value="<?php print($odhm_Nos[$count])?>">
                                     <input type="submit" value="削除" class="order_delete">
                             </form>
                         <?php else:?>
@@ -395,8 +329,8 @@ if(isset($_SESSION['options'])){
                 endif;
                 $count++;
                 endforeach;
-                print("<br/><br/><br/><br/>");
-                print_r($options);
+                // print("<br/><br/><br/><br/>");
+                // print_r($options);
             ?>
 
 
