@@ -14,6 +14,7 @@
     if(isset($_GET["logout"])){
         $_SESSION =  array();
         $url = 'http://localhost/%E3%81%A9%E3%82%93%E3%81%B7%E3%81%8F/index.php?logout=1';
+        // $url = 'https://dnpk.jp/test/index.php?logout=1';
         $url = strtok($url, '?');
         header("Location: $url");
         exit();
