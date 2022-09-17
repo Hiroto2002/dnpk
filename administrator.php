@@ -19,7 +19,7 @@
         //menuを持ってくる
         public function getOdhm_Name($odh_No){
             $pdo = getDb();
-            $sql = $pdo->prepare('SELECT menu.mn_Name 
+            $sql = $pdo->prepare('SELECT menu.mn_Name,morder.odhm_No
                                 FROM t_d_morder_handy morder
                                 INNER JOIN t_m_menu menu ON menu.mn_ID = morder.mn_ID
                                 WHERE odh_No = ?'
@@ -27,9 +27,9 @@
             $sql->execute(array($odh_No));
             while($product = $sql->fetch(PDO::FETCH_ASSOC)){
                 $odhm_Name = $product["mn_Name"];
+                $odhm_No = $product["odhm_No"];
                 print "<p class='menu'>$odhm_Name</p>";
-                print $this->getOdhm_Option(#ここにNoが必要
-            );
+                print ($this->getOdhm_Option($odhm_No));
                 print("<br/>"); 
             }
         }
