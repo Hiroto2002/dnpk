@@ -81,6 +81,9 @@
                     <a href="order_con.php#teikyozumi">提供済みリスト</a>
                 </div>
                 <div class="widget-list">
+                    <a href="administrator.php">管理者</a>
+                </div>
+                <div class="widget-list">
                     <a href="index.php?logout=1">ログアウト</a>
                 </div>
                 <!-- <div class="widget-list">
