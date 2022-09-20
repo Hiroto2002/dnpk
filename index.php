@@ -71,7 +71,7 @@ if (isset($_GET["logout"])) {
 
 <body>
     <header style="text-align:center;line-height: 1.5;">
-        <p class="title">どんぷく Order Entry System</p>
+        <p class="title">どんぷく オーダーエントリー</p>
     </header>
     <?php if (isset($_SESSION["user"])) : ?>
         <div class="widget">
@@ -81,18 +81,24 @@ if (isset($_GET["logout"])) {
             <div class="widget-list">
                 <a href="order_con.php#tyumonmati">注文待ちリスト</a>
             </div>
-            <div class="widget-list">
-                <a href="order_con.php#tyumonzumi">注文済みリスト</a>
+            <div class="under">
+                <div class="widget-list">
+                    <a href="order_con.php#tyumonzumi">注文済みリスト</a>
+                </div>
+                <div class="widget-list">
+                    <a href="order_con.php#teikyozumi">提供済みリスト</a>
+                </div>
+                <div class="widget-list">
+                    <a href="administrator.php">管理者</a>
+                </div>
+                <div class="widget-list">
+                    <a href="index.php?logout=1">ログアウト</a>
+                </div>
             </div>
-            <div class="widget-list">
-                <a href="order_con.php#teikyozumi">提供済みリスト</a>
-            </div>
-            <div class="widget-list">
-                <a href="administrator.php">管理者</a>
-            </div>
-            <div class="widget-list">
-                <a href="index.php?logout=1">ログアウト</a>
-            </div>
+
+            <select>
+                <option>
+            </select>
             <!-- <div class="widget-list">
                     <button id="InstallBtn" class="installbotton" style="display:none;">
                     アプリをインストールする
@@ -113,9 +119,9 @@ if (isset($_GET["logout"])) {
             <input type="submit" value="送信" />
         </form>
     <?php endif; ?>
-    <footer style="text-align:center; font-size:20px; line-height: 0.5;">
+    <!-- <footer style="text-align:center; font-size:20px; line-height: 0.5;">
         <p style="color: rgb(255, 255, 255);">Copyright © DNPK.JP All Rights Reserved.</p>
-    </footer>
+    </footer> -->
 </body>
 
 </html>
