@@ -116,7 +116,7 @@ if (isset($_GET["logout"])) {
     <footer style="text-align:center; font-size:20px; line-height: 0.5;">
         <p style="color: rgb(255, 255, 255);">Copyright © DNPK.JP All Rights Reserved.</p>
     </footer>
-
+        s
 </body>
 
 </html>
