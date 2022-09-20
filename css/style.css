@@ -85,7 +85,7 @@ header {
 
 .back {
     position: absolute;
-    top: -60px;
+    top: 20px;
     left: 0px;
     font-size: 40px;
 }
@@ -93,7 +93,7 @@ header {
 .back a {
     text-decoration: none;
     z-index: 999;
-    padding:10px 0;
+    padding:15px 25px;
 }
 
 footer {
