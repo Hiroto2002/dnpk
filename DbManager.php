@@ -13,7 +13,7 @@ function getDb() : PDO {
   }catch(PDOException $e){
       exit('接続できませんでした。理由：'.$e->getMessage());
   }
-  return $db;
+    return $db;
 
 }
 
