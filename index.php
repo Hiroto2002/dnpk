@@ -70,7 +70,7 @@ if (isset($_GET["logout"])) {
 </script>
 
 <body>
-    <header style="text-align:center;line-height: 1.5;">
+    <header>
         <p class="title">どんぷく オーダーエントリー</p>
     </header>
     <?php if (isset($_SESSION["user"])) : ?>
@@ -96,9 +96,6 @@ if (isset($_GET["logout"])) {
                 </div>
             </div>
 
-            <select>
-                <option>
-            </select>
             <!-- <div class="widget-list">
                     <button id="InstallBtn" class="installbotton" style="display:none;">
                     アプリをインストールする
