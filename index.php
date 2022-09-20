@@ -111,4 +111,4 @@
             <p style="color: rgb(255, 255, 255);">Copyright © DNPK.JP All Rights Reserved.</p> 
         </footer>
     </body>
-</html>
+</htma>
