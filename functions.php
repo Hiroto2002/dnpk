@@ -24,6 +24,7 @@ function set_session($name, $value){
   $_SESSION[$name] = $value;
 }
 
+
 // エラーメッセージ
 function set_error($error){
   $_SESSION['__errors'][] = $error;
