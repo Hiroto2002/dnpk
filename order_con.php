@@ -62,10 +62,11 @@ $_SESSION["user"] = $user;
     </header>
     <div class="widget">
         <ol class="widget-list" id="teikyozumi">
-            <li>
+            <li style="text-align: left;">
                 <div class="midashi">席番</div>
                 <div class="midashi">人数</div>
             </li>
+            <hr size="3px" color="#888">
             <?php
             // ブラウザでエラー確認が出来るようにします
             ini_set('display_errors', 1);
@@ -79,16 +80,20 @@ $_SESSION["user"] = $user;
                 echo "<a class='widget-list-link1'>{$product['odh_Tbl_No']}</a>\n";
                 echo "<a class='widget-list-link1'>{$product['odh_Ninzu']}</a>\n";
                 echo "<a href='order.php' class='widget-list-link1'>注変更</a>\n";
-                echo "<a href='order.php' class='widget-list-link1'>追加</a>\n";
+                echo "<a href='order.php' class='widget-list-link1 add'>追加</a>\n";
                 echo "</li>\n";
+                echo "<hr>";
+
             }
             ?>
         </ol>
         <ol class="widget-list" id="tyumonzumi">
-            <li>
+            <li style="text-align: left;">
                 <div class="midashi">席番</div>
                 <div class="midashi">人数</div>
             </li>
+            <hr size="3px" color="#888">
+
             <?php
             $sql = 'SELECT DISTINCT o.* FROM t_d_order_handy as o INNER JOIN t_d_morder_handy as m ON o.odh_No = m.odh_No WHERE o.odh_situation=2 ';
             $products = fetch_all_query($pdo, $sql);
@@ -98,8 +103,10 @@ $_SESSION["user"] = $user;
                 echo "<a class='widget-list-link1'>{$product['odh_Ninzu']}</a>\n";
                 echo "<a href='registercoming.php?p=2&odh_No={$product['odh_No']}&odh_Ninzu={$product['odh_Ninzu']}&odh_situation=2' class='widget-list-link2'>席変更</a>\n";
                 echo "<a href='cart.php?odh_No={$product['odh_No']}' class='widget-list-link2'>注変更</a>\n";
-                echo "<a href='order.php?odh_Tbl_No={$product['odh_Tbl_No']}&odh_No={$product['odh_No']}&odh_Ninzu={$product['odh_Ninzu']}&situ=add' class='widget-list-link2'>追加</a>\n";
+                echo "<a href='order.php?odh_Tbl_No={$product['odh_Tbl_No']}&odh_No={$product['odh_No']}&odh_Ninzu={$product['odh_Ninzu']}&situ=add' class='widget-list-link2 add'>追加</a>\n";
                 echo "</li>\n";
+                echo "<hr>";
+
             }
 
             if (isset($_POST["back"])) {
@@ -118,10 +125,12 @@ $_SESSION["user"] = $user;
         </ol>
 
         <ol class="widget-list" id="tyumonmati">
-            <li>
+            <li style="text-align: left;">
                 <div class="midashi">席番</div>
                 <div class="midashi">人数</div>
             </li>
+            <hr size="3px" color="#888">
+
             <?php
             $sql = 'SELECT * FROM t_d_order_handy where odh_situation=1';
             $products = fetch_all_query($pdo, $sql);
@@ -131,8 +140,10 @@ $_SESSION["user"] = $user;
                 echo "<a class='widget-list-link1'>{$product['odh_Ninzu']}</a>\n";
                 echo "<a href='order.php?odh_No={$product['odh_No']}&odh_Tbl_No={$product['odh_Tbl_No']}&odh_Ninzu={$product['odh_Ninzu']}&odh_situation=1#don' class='widget-list-link2'>注文</a>\n";
                 echo "<a href='registercoming.php?p=2&odh_No={$product['odh_No']}&odh_Ninzu={$product['odh_Ninzu']}&odh_situation=1' class='widget-list-link2'>席変更</a>\n";
-                echo "<a href='order_del.php?odh_No={$product['odh_No']}' onclick='return MoveCheck({$product['odh_No']})' class='widget-list-link2'>削除</a>\n";
+                echo "<a href='order_del.php?odh_No={$product['odh_No']}' onclick='return MoveCheck({$product['odh_No']})' class='widget-list-link2 delete'>削除</a>\n";
                 echo "</li>";
+                echo "<hr>";
+
             }
             ?>
         </ol>
