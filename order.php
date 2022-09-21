@@ -161,7 +161,7 @@ if (isset($_POST["odh_No"])) {
                   <input type="hidden" name="mn_id" value="<?php echo $product['mn_id']; ?>">
                   <input type="hidden" name="mn_Name_sub" value="<?php echo $product['mn_Name_sub']; ?>">
                   <input type="hidden" name="my_i" value="<?php echo $product['my_i']; ?>">
-                  <img src="./img/<?php print $product['mn_id']; ?>.jpg" name="<?php print $product['mn_id']; ?>"/>
+                  <img src="./img/<?php print $product['mn_id']; ?>.jpg" name="<?php print $product['mn_id']; ?>" />
 
                   <div><?php echo $product['mn_Name_sub']; ?></div>
                 </form>
@@ -191,6 +191,7 @@ if (isset($_POST["odh_No"])) {
       slideToClickedSlide: true,
       loopedSlides: 9, //スライドの枚数と同じ値を指定
       freemode: true,
+
     });
 
     //サムネイル
@@ -201,7 +202,9 @@ if (isset($_POST["odh_No"])) {
       loop: true,
       slideToClickedSlide: true,
       freemode: true,
-      slideActiveClass: 'swiper-slide-active'
+      slideActiveClass: 'swiper-slide-active',
+      autoHeight: true
+
     });
 
     //4系～

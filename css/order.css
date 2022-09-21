@@ -17,6 +17,7 @@
     display: grid;
     grid-template-columns: 1fr 1fr;
     margin-top: 232px;
+    margin-bottom: 200px;
 }
 
 .menu-img {
