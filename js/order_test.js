@@ -2,8 +2,9 @@
 var slider = new Swiper ('.gallery-slider', {
     slidesPerView: 1,
     centeredSlides: true,
-    loop: true,
+    loop: false,
     loopedSlides: 6, //スライドの枚数と同じ値を指定
+    slideToClickedSlide	:true,
     navigation: {
         nextEl: '.swiper-button-next',
         prevEl: '.swiper-button-prev',
