@@ -44,6 +44,7 @@ if(isset($_SESSION['odh_No'])){
     <head>
         <meta charset="UTF-8">
         <title>オプション選択画面</title>
+        <link rel="stylesheet" href="./css/style.css">
         <link rel="stylesheet" href="./css/option.css">
     </head>
 
@@ -64,7 +65,7 @@ if(isset($_SESSION['odh_No'])){
     </script>
 
     <body>
-        <header style="text-align:center;line-height: 1.5;">
+        <header >
             <div class="information">
                 <div class="info_1">席番号<br><span style="font-size:2em;"><?php print $odh_Tbl_No; ?></span></div>
                 <div class="info_1">人数<br><span style="font-size:2em;"><?php print $odh_Ninzu; ?>名</span></div>
