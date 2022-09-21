@@ -10,16 +10,16 @@
             $sql = $pdo->query('SELECT odh_No FROM t_d_order_handy');
             while($product = $sql->fetch(PDO::FETCH_ASSOC)){
                 $odh_No = $product["odh_No"];
-                print ("<div class='menu_box'>$odh_No<br/>");
+                print ("<input type='checkbox' id='$odh_No'><label class='menu_box' for='$odh_No'>$odh_No<br/>");
                     print($this->getOdhm_Name($odh_No));
-                print("</div>");
+                print("</label>");
             }
         }
 
         //menuを持ってくる
         public function getOdhm_Name($odh_No){
             $pdo = getDb();
-            $sql = $pdo->prepare('SELECT menu.mn_Name,morder.odhm_No
+            $sql = $pdo->prepare('SELECT menu.mn_Name,morder.odhm_No,odhm_Quant
                                 FROM t_d_morder_handy morder
                                 INNER JOIN t_m_menu menu ON menu.mn_ID = morder.mn_ID
                                 WHERE odh_No = ?'
@@ -28,11 +28,14 @@
             while($product = $sql->fetch(PDO::FETCH_ASSOC)){
                 $odhm_Name = $product["mn_Name"];
                 $odhm_No = $product["odhm_No"];
-                print "<p class='menu'>$odhm_Name</p>";
+                $odhm_Quant = $product["odhm_Quant"];
+                print "<input type='checkbox' id='$odhm_No'><label class='menu' for='$odhm_No'><p class='menu_name'>$odhm_Name</p>";
+                print "<span class='menu_name'>✕$odhm_Quant</span>";
                 print ($this->getOdhm_Option($odhm_No));
-                print("<br/>"); 
+                print("</label></input><br/>"); 
             }
         }
+        
         // optionを持ってくる
         public function getOdhm_Option($odhm_No){
             $pdo = getDb();
@@ -44,8 +47,7 @@
             $sql->execute(array($odhm_No));
             while($product = $sql->fetch(PDO::FETCH_ASSOC)){
                 $opt_Name = $product["opm_Name"];
-                print "<p class='menu'>$opt_Name</p>";
-                print("<br/>"); 
+                print "<span class='option'>$opt_Name</span>";
             }
         }
     }
