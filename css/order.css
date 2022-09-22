@@ -30,6 +30,68 @@
     padding: 20px;
     line-height: 70px;
 }
-.menu-img img{
+
+.menu-img img {
     max-width: 240px;
+}
+
+/* 下のオーダー */
+.user.under{
+    position: fixed;
+    bottom: 0;
+    height: 230px;
+    width: 100%;
+    z-index: 999;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.4);
+    border-radius: 40px 40px 0 0;
+    background-color: #fff;
+}
+
+.user {
+
+    display: grid;
+    grid-template-columns: 1fr 1fr 2fr 2fr;
+    font-size: 30px;
+    text-align: center;
+    line-height: normal;
+    padding: 40px;
+    box-sizing: border-box;
+}
+
+.user dt{
+font-weight: bold;
+font-size: 40px;
+}
+.user div{
+    border-left: #CCC solid 3px;
+}
+.user div:first-child,:nth-last-child(1),:last-child{
+    border: none;
+}
+.user #cart{
+background-color: #DEAE34;
+font-size: 40px;
+color: white;
+border-radius: 20px;
+height: 120px;
+margin-top: 30px;
+border: none;
+}
+
+.user #cart:hover{
+opacity: 0.5;
+}
+
+.user .draggable-area{
+    position: absolute;
+    bottom: 210px;
+    left: 50%;
+    transform: translate(-50%);
+    border-radius: 20px;
+    width: 16rem;
+    height: 0.5rem;
+    background-color: #999;
+
+}
+.user .draggable-thumb{
 }

@@ -48,7 +48,7 @@ if (isset($_POST["odh_No"])) {
   <link rel="stylesheet" href="css/bottomsheet.css">
   <link rel="stylesheet" href="https://unpkg.com/swiper@7/swiper-bundle.min.css" />
   <script type="text/javascript" src="./js/JQuery.js"></script>
-  <script type="text/javascript" src="./js/spinner.js"></script>
+  <!-- <script type="text/javascript" src="./js/spinner.js"></script> -->
 
 
 </head>
@@ -81,14 +81,6 @@ if (isset($_POST["odh_No"])) {
       <p class="back"><a href="./order_con.php">
           < 戻る</a>
       </p>
-      <button id="open-sheet" aria-controls="sheet">aa</button>
-      <!-- カート情報として表示 -->
-      <!-- <div class="info_1">席番号<br><span style="font-size:2em;"><?php print $_SESSION['odh_Tbl_No']; ?></span></div>
-      <div class="info_1">人数<br><span style="font-size:2em;"><?php print $_SESSION['odh_Ninzu']; ?>名</span></div>
-      <div class="info_2">オーダーNo<br>
-      <?php //print($_SESSION['odh_No']); 
-      ?>
-    </div> -->
       <form method="post" action="cart.php">
         <input type="hidden" value="<?php print $_SESSION["odh_No"]; ?>" name="odh_No">
 
@@ -215,6 +207,43 @@ if (isset($_POST["odh_No"])) {
     thumbs.controller.control = slider;
   </script>
 
+  <!-- 下のオーダー確認らん -->
+  <div class="user under">
+
+    <div>
+      <dl>
+        席番号
+      </dl>
+      <dt>
+        <?php print $_SESSION['odh_Tbl_No']; ?>
+      </dt>
+    </div>
+    <div>
+      <dl>
+        人数
+      </dl>
+      <dt>
+        <?php print $_SESSION['odh_Ninzu']; ?>
+      </dt>
+    </div>
+    <div>
+      <dl>
+        オーダーNo.
+      </dl>
+      <dt>
+        <?php print $_SESSION['odh_No']; ?>
+      </dt>
+    </div>
+    <button id="cart">
+      カートを見る
+    </button>
+
+    <div class="draggable-area">
+      <!-- <div class="draggable-thumb"></div> -->
+    </div>
+
+  </div>
+
 
   <!-- The sheet component -->
   <div id="sheet" class="column items-center justify-end" aria-hidden="true">
@@ -233,7 +262,35 @@ if (isset($_POST["odh_No"])) {
       </div>
       <!-- Body of the sheet -->
       <main class="body fill column">
-        <h2>Hello, World!</h2>
+      <div class="user">
+
+<div>
+  <dl>
+    席番号
+  </dl>
+  <dt>
+    <?php print $_SESSION['odh_Tbl_No']; ?>
+  </dt>
+</div>
+<div>
+  <dl>
+    人数
+  </dl>
+  <dt>
+    <?php print $_SESSION['odh_Ninzu']; ?>
+  </dt>
+</div>
+<div>
+  <dl>
+    オーダーNo.
+  </dl>
+  <dt>
+    <?php print $_SESSION['odh_No']; ?>
+  </dt>
+</div>
+<button id="cart">
+  カートを見る
+</button>
 
       </main>
     </div>
@@ -253,12 +310,24 @@ if (isset($_POST["odh_No"])) {
         sheetContents.classList.remove("fullscreen")
       }
     }
+    // スクロールさせない
+    const body = document.querySelector('body')
     const setIsSheetShown = (value) => {
       sheet.setAttribute("aria-hidden", String(!value))
+      const isScroll = !value ? "scroll" : "hidden"
+      body.style.overflowY = isScroll;
     }
     // Open the sheet when clicking the 'open sheet' button
-    setSheetHeight(Math.min(50, 720 / window.innerHeight * 100))
-    setIsSheetShown(true)
+    // setSheetHeight(Math.min(50, 720 / window.innerHeight * 100))
+    // setIsSheetShown(true)
+    const user = document.querySelector(".user")
+    user.addEventListener("click", () => {
+      // setSheetHeight(Math.min(50, 720 / window.innerHeight * 100))
+      setSheetHeight(50)
+      setIsSheetShown(true)
+
+    })
+
     // Hide the sheet when clicking the 'close' button
     sheet.querySelector(".close-sheet").addEventListener("click", () => {
       setIsSheetShown(false)
