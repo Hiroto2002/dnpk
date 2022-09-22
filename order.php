@@ -262,36 +262,36 @@ if (isset($_POST["odh_No"])) {
       </div>
       <!-- Body of the sheet -->
       <main class="body fill column">
-      <div class="user">
+        <div class="user">
 
-<div>
-  <dl>
-    席番号
-  </dl>
-  <dt>
-    <?php print $_SESSION['odh_Tbl_No']; ?>
-  </dt>
-</div>
-<div>
-  <dl>
-    人数
-  </dl>
-  <dt>
-    <?php print $_SESSION['odh_Ninzu']; ?>
-  </dt>
-</div>
-<div>
-  <dl>
-    オーダーNo.
-  </dl>
-  <dt>
-    <?php print $_SESSION['odh_No']; ?>
-  </dt>
-</div>
-<button id="cart">
-  カートを見る
-</button>
-
+          <div>
+            <dl>
+              席番号
+            </dl>
+            <dt>
+              <?php print $_SESSION['odh_Tbl_No']; ?>
+            </dt>
+          </div>
+          <div>
+            <dl>
+              人数
+            </dl>
+            <dt>
+              <?php print $_SESSION['odh_Ninzu']; ?>
+            </dt>
+          </div>
+          <div>
+            <dl>
+              オーダーNo.
+            </dl>
+            <dt>
+              <?php print $_SESSION['odh_No']; ?>
+            </dt>
+          </div>
+          <button id="cart">
+            カートを見る
+          </button>
+        </div>
       </main>
     </div>
   </div>
