@@ -45,6 +45,7 @@ if (isset($_POST["odh_No"])) {
   <title>注文画面</title>
   <link rel="stylesheet" href="css/style.css">
   <link rel="stylesheet" href="css/order.css">
+  <link rel="stylesheet" href="css/bottomsheet.css">
   <link rel="stylesheet" href="https://unpkg.com/swiper@7/swiper-bundle.min.css" />
   <script type="text/javascript" src="./js/JQuery.js"></script>
   <script type="text/javascript" src="./js/spinner.js"></script>
@@ -80,7 +81,7 @@ if (isset($_POST["odh_No"])) {
       <p class="back"><a href="./order_con.php">
           < 戻る</a>
       </p>
-
+      <button id="open-sheet" aria-controls="sheet">aa</button>
       <!-- カート情報として表示 -->
       <!-- <div class="info_1">席番号<br><span style="font-size:2em;"><?php print $_SESSION['odh_Tbl_No']; ?></span></div>
       <div class="info_1">人数<br><span style="font-size:2em;"><?php print $_SESSION['odh_Ninzu']; ?>名</span></div>
@@ -112,6 +113,7 @@ if (isset($_POST["odh_No"])) {
   <!--メイン-->
   <div class="swiper mySwiper2">
     <div class="swiper-wrapper">
+
       <?php
       // データベース呼び出し
       require_once 'DbManager.php';
@@ -212,6 +214,95 @@ if (isset($_POST["odh_No"])) {
     slider.controller.control = thumbs;
     thumbs.controller.control = slider;
   </script>
+
+
+  <!-- The sheet component -->
+  <div id="sheet" class="column items-center justify-end" aria-hidden="true">
+    <!-- Dark background for the sheet -->
+    <div class="overlay"></div>
+    <!-- The sheet itself -->
+    <div class="contents column">
+      <!-- Sheet controls -->
+      <div class="controls">
+        <!-- The thing to drag if you want to resize the sheet -->
+        <div class="draggable-area">
+          <div class="draggable-thumb"></div>
+        </div>
+        <!-- Button to close the sheet -->
+        <button class="close-sheet" type="button" title="Close the sheet">&times;</button>
+      </div>
+      <!-- Body of the sheet -->
+      <main class="body fill column">
+        <h2>Hello, World!</h2>
+
+      </main>
+    </div>
+  </div>
+  <script>
+    const $ = document.querySelector.bind(document)
+    const sheet = $("#sheet")
+    const sheetContents = sheet.querySelector(".contents")
+    const draggableArea = sheet.querySelector(".draggable-area")
+    let sheetHeight // in vh
+    const setSheetHeight = (value) => {
+      sheetHeight = Math.max(0, Math.min(100, value))
+      sheetContents.style.height = `${sheetHeight}vh`
+      if (sheetHeight === 100) {
+        sheetContents.classList.add("fullscreen")
+      } else {
+        sheetContents.classList.remove("fullscreen")
+      }
+    }
+    const setIsSheetShown = (value) => {
+      sheet.setAttribute("aria-hidden", String(!value))
+    }
+    // Open the sheet when clicking the 'open sheet' button
+    setSheetHeight(Math.min(50, 720 / window.innerHeight * 100))
+    setIsSheetShown(true)
+    // Hide the sheet when clicking the 'close' button
+    sheet.querySelector(".close-sheet").addEventListener("click", () => {
+      setIsSheetShown(false)
+    })
+    // Hide the sheet when clicking the background
+    sheet.querySelector(".overlay").addEventListener("click", () => {
+      setIsSheetShown(false)
+    })
+    const touchPosition = (event) =>
+      event.touches ? event.touches[0] : event
+    let dragPosition
+    const onDragStart = (event) => {
+      dragPosition = touchPosition(event).pageY
+      sheetContents.classList.add("not-selectable")
+      draggableArea.style.cursor = document.body.style.cursor = "grabbing"
+    }
+    const onDragMove = (event) => {
+      if (dragPosition === undefined) return
+      const y = touchPosition(event).pageY
+      const deltaY = dragPosition - y
+      const deltaHeight = deltaY / window.innerHeight * 100
+      setSheetHeight(sheetHeight + deltaHeight)
+      dragPosition = y
+    }
+    const onDragEnd = () => {
+      dragPosition = undefined
+      sheetContents.classList.remove("not-selectable")
+      draggableArea.style.cursor = document.body.style.cursor = ""
+      if (sheetHeight < 25) {
+        setIsSheetShown(false)
+      } else if (sheetHeight > 75) {
+        setSheetHeight(100)
+      } else {
+        setSheetHeight(50)
+      }
+    }
+    draggableArea.addEventListener("mousedown", onDragStart)
+    draggableArea.addEventListener("touchstart", onDragStart)
+    window.addEventListener("mousemove", onDragMove)
+    window.addEventListener("touchmove", onDragMove)
+    window.addEventListener("mouseup", onDragEnd)
+    window.addEventListener("touchend", onDragEnd)
+  </script>
+
 </body>
 
 </html>

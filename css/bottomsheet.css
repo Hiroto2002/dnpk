@@ -1,0 +1,111 @@
+:root {
+    --background: #fff;
+    --foreground: #000;
+    --divider: #dcdcdc;
+    --overlay: #888;
+}
+
+@media (prefers-color-scheme: dark) {
+    :root {
+        --background: #000;
+        --foreground: #fff;
+        --divider: #333;
+    }
+}
+
+#sheet {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 999;
+    visibility: visible;
+    transition: opacity 0.5s, visibility 0.5s;
+}
+
+#sheet[aria-hidden="true"] {
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+}
+
+#sheet .overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: -1;
+    background: var(--overlay);
+    opacity: 0.5;
+}
+
+#sheet .contents {
+    border-radius: 1rem 1rem 0 0;
+    background: var(--background);
+    position: relative;
+    overflow-y: hidden;
+    --default-transitions: transform 0.5s, border-radius 0.5s;
+    transition: var(--default-transitions);
+    transform: translateY(0);
+    max-height: 100vh;
+    height: 30vh;
+    max-width: 70rem;
+    box-sizing: border-box;
+    padding: 1rem;
+    padding-top: 3rem;
+
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+
+}
+
+#sheet .contents:not(.not-selectable) {
+    transition: var(--default-transitions), height 0.5s;
+}
+
+#sheet .contents.fullscreen {
+    border-radius: 0;
+}
+
+#sheet[aria-hidden="true"] .contents {
+    transform: translateY(100%);
+}
+
+#sheet .draggable-area {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    width: 16rem;
+    margin: auto;
+    padding: 1rem;
+    cursor: grab;
+}
+
+#sheet .draggable-thumb {
+    width: inherit;
+    /* height: 0.25rem; */
+    /* background: var(--divider); */
+    height: 0.5rem;
+    background: #999;
+    border-radius: 0.5rem;
+}
+
+#sheet .close-sheet {
+    position: absolute;
+    right: 10px;
+    top: 10px;
+    border: none;
+    background-color: white;
+    font-size: 40px;
+}
+
+#sheet .body {
+    height: 100%;
+    overflow-y: auto;
+    gap: 1rem;
+    overflow-y: scroll;
+}
