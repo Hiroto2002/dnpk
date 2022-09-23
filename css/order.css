@@ -36,7 +36,7 @@
 }
 
 /* 下のオーダー */
-.user.under{
+.user.under {
     position: fixed;
     bottom: 0;
     height: 230px;
@@ -58,31 +58,34 @@
     box-sizing: border-box;
 }
 
-.user dt{
-font-weight: bold;
-font-size: 40px;
+.user dt {
+    font-weight: bold;
+    font-size: 40px;
 }
-.user div{
+
+.user div {
     border-left: #CCC solid 3px;
 }
-.user div:first-child,:nth-last-child(1),:last-child{
+
+.user div:first-child, :nth-last-child(1), :last-child {
     border: none;
 }
-.user #cart{
-background-color: #DEAE34;
-font-size: 40px;
-color: white;
-border-radius: 20px;
-height: 120px;
-margin-top: 30px;
-border: none;
+
+.user #cart {
+    background-color: #DEAE34;
+    font-size: 40px;
+    color: white;
+    border-radius: 20px;
+    height: 120px;
+    margin-top: 30px;
+    border: none;
 }
 
-.user #cart:hover{
-opacity: 0.5;
+.user #cart:hover {
+    opacity: 0.5;
 }
 
-.user .draggable-area{
+.user .draggable-area {
     position: absolute;
     bottom: 210px;
     left: 50%;
@@ -93,5 +96,270 @@ opacity: 0.5;
     background-color: #999;
 
 }
-.user .draggable-thumb{
+
+
+/* カートない */
+.incart {
+    display: grid;
+    grid-template-columns: 3fr 2fr 1fr 1fr 1fr;
+    /* height: 50px; */
+    align-items: center;
+    text-align: center;
+    border-bottom: #ddd solid 3px;
+    margin-top: 40px;
+}
+
+.henkou {
+    background-color: white;
+    border: #000 solid 1px;
+    font-size: 40px;
+    border-radius: 15px;
+    /* padding: 5px 40px; */
+    width: 160px;
+    height: 80px;
+    transition: all 0.2s;
+}
+
+.henkou:hover {
+    background-color: #000;
+    color: white;
+}
+
+.value {
+    border-radius: 50%;
+    background-color: #333;
+    color: white;
+    font-size: 60px;
+    width: 70px;
+    height: 70px;
+    line-height: 0;
+    margin: 0 auto;
+}
+
+.value:hover {
+    opacity: 0.5;
+}
+
+.incart dl {
+    font-size: 30px;
+    padding-left: 20px;
+    text-align: left;
+    margin: 0;
+    line-height: normal;
+}
+
+.incart dt {
+    font-size: 45px;
+    font-weight: bold;
+}
+
+.incart dd {
+    color: #999;
+
+    margin: 0;
+}
+
+
+/* カートの下のボタン */
+.cart_under {
+    position: fixed;
+    background-color: white;
+    bottom: 20px;
+    width: 100%;
+    left: 50%;
+    transform: translate(-50%);
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+}
+.cart_under button{
+font-size: 45px;
+margin: 30px;
+height: 100px;
+background-color: white;
+border: #DEAE34 5px solid;
+border-radius: 20px;
+}
+
+.cart_under .decide{
+background-color: #DEAE34;
+color: white;
+}
+/* モーダル */
+.modal-wrapper {
+    z-index: 999;
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    padding: 40px 10px;
+    text-align: center;
+}
+
+.modal-button {
+    background-color: transparent;
+    border: #CCC solid 1px;
+    border-radius: 0;
+    padding: 0;
+}
+
+.modal-wrapper:not(:target) {
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity .3s, visibility .3s;
+}
+
+.modal-wrapper:target {
+    opacity: 1;
+    visibility: visible;
+    transition: opacity .4s, visibility .4s;
+}
+
+.modal-wrapper::after {
+    display: inline-block;
+    height: 100%;
+    margin-left: -.05em;
+    vertical-align: middle;
+    content: ""
+}
+
+.modal-wrapper .modal-window {
+    box-sizing: border-box;
+    display: inline-block;
+    z-index: 20;
+    position: relative;
+    width: 80%;
+    max-width: 900px;
+    padding: 10px 30px 25px;
+    border-radius: 2px;
+    background: #fff;
+    /* box-shadow: 0 0 30px rgba(0, 0, 0, .4); */
+    vertical-align: middle;
+    border-radius: 30px;
+
+    height: 85%;
+}
+
+.modal-wrapper .modal-window .modal-content {
+    max-height: 80vh;
+    overflow-y: auto;
+    text-align: left
+}
+
+.modal_title {
+    font-size: 1.5em;
+    position: relative;
+    overflow: hidden;
+    padding: 0;
+    text-align: center;
+}
+
+.modal_title::before,
+.modal_title::after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+}
+
+/* h2 プライマリカラー*/
+/* .modal_title:before {
+    border-bottom: 4px solid #6bb6ff;
+    width: 100%;
+}
+
+/* h2 セカンダリカラー*/
+/* .modal_title:after {
+    border-bottom: 4px solid #c8e4ff;
+    width: 100%;
+} */
+
+.modal-content p {
+    margin: 10px 0 0 0;
+}
+
+.modal-overlay {
+    z-index: 10;
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    background: rgba(0, 0, 0, .8);
+    border-radius: 0;
+}
+
+/* .modal-wrapper .modal-close {
+    z-index: 20;
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    width: 35px;
+    color: #95979c !important;
+    font-size: 30px;
+    font-weight: 700;
+    line-height: 35px;
+    text-align: center;
+    text-decoration: none;
+    text-indent: 0
+} */
+
+.modal-wrapper .modal-close:hover {
+    color: #2b2e38 !important
+}
+
+/* オプションズ */
+.modal_options {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+}
+
+.modal_options button {
+    margin: 20px 20px;
+    /* height: 30px; */
+    font-size: 50px;
+    padding: 40px;
+    box-sizing: border-box;
+    background-color: white;
+    /* border: ; */
+    border: none;
+    border-radius: 20px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.243);
+}
+
+.modal_options button:active {
+    box-shadow: 0 0 10px #DEAE34;
+
+}
+
+.modal_options button:hover {
+    box-shadow: 0 0 10px #DEAE34;
+
+}
+
+.u {
+    position: absolute;
+    bottom: 20px;
+    left: 50%;
+    transform: translate(-50%);
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    /* width: 500px; */
+
+}
+
+.u button {
+    margin: 30px;
+    padding: 0px 40px;
+    font-size: 35px;
+    line-height: 40px;
+    width: 300px;
+    height: 100px;
+    border: #DEAE34 solid 5px;
+    background-color: white;
+    border-radius: 20px;
+}
+
+.u button.add_cart {
+    background-color: #DEAE34;
+    color: white;
 }

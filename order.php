@@ -150,23 +150,27 @@ if (isset($_POST["odh_No"])) {
             $my_i = $i . "01";
             foreach ($products as $product) {
             ?>
-              <div class="menu-img">
-                <form method="post" action="option.php">
-                  <input type="hidden" name="mn_id" value="<?php echo $product['mn_id']; ?>">
-                  <input type="hidden" name="mn_Name_sub" value="<?php echo $product['mn_Name_sub']; ?>">
-                  <input type="hidden" name="my_i" value="<?php echo $product['my_i']; ?>">
-                  <img src="./img/<?php print $product['mn_id']; ?>.jpg" name="<?php print $product['mn_id']; ?>" />
 
-                  <div><?php echo $product['mn_Name_sub']; ?></div>
-                </form>
-              </div>
+              <a href="#modal-01" class="modal-button">
+                <div class="menu-img">
+                  <form method="post" action="option.php">
+                    <input type="hidden" name="mn_id" value="<?php echo $product['mn_id']; ?>">
+                    <input type="hidden" name="mn_Name_sub" value="<?php echo $product['mn_Name_sub']; ?>">
+                    <input type="hidden" name="my_i" value="<?php echo $product['my_i']; ?>">
+                    <img src="./img/<?php print $product['mn_id']; ?>.jpg" name="<?php print $product['mn_id']; ?>" />
+
+                    <div><?php echo $product['mn_Name_sub']; ?></div>
+                  </form>
+                </div>
+              </a>
+
             <?php
               $my_i = $my_i + 1;
             }
             if ($my_i % 2 == 0) {
               //奇数の場合>
-              echo "          <div class='menu-img'>\n";
-              echo "              <input type='image' src='./img/null.jpg'>\n";
+              echo "          <div class='menu-img modal-button' style='background-color:white;'>\n";
+              echo "              <img src='./img/null.jpg'>\n";
               echo "          </div>\n";
             }
             ?>
@@ -292,6 +296,47 @@ if (isset($_POST["odh_No"])) {
             カートを見る
           </button>
         </div>
+
+        <!-- 商品一個 -->
+        <div class="incart">
+          <div>
+            <dl>
+              <dt>
+                海老天
+              </dt>
+              <dd>ご飯大、味噌汁</dd>
+
+            </dl>
+          </div>
+          <button class="henkou">変更</button>
+          <button class="value">-</button>
+          1
+          <button class="value">+</button>
+        </div>
+
+        <!-- 二個目 -->
+        <div class="incart">
+          <div>
+            <dl>
+              <dt>
+                海老天
+              </dt>
+              <dd>ご飯大、味噌汁</dd>
+
+            </dl>
+          </div>
+          <button class="henkou">変更</button>
+          <button class="value">-</button>
+          1
+          <button class="value">+</button>
+        </div>
+
+        <div class="cart_under">
+
+          <button class="return">戻る</button>
+          <button class="decide">注文決定</button>
+        </div>
+
       </main>
     </div>
   </div>
@@ -332,6 +377,11 @@ if (isset($_POST["odh_No"])) {
     sheet.querySelector(".close-sheet").addEventListener("click", () => {
       setIsSheetShown(false)
     })
+    document.querySelector('.cart_under .return').addEventListener('click', () => {
+      setIsSheetShown(false)
+
+    })
+
     // Hide the sheet when clicking the background
     sheet.querySelector(".overlay").addEventListener("click", () => {
       setIsSheetShown(false)
@@ -372,6 +422,32 @@ if (isset($_POST["odh_No"])) {
     window.addEventListener("touchend", onDragEnd)
   </script>
 
+
+  <!-- モーダル -->
+
+  <div class="modal-wrapper" id="modal-01">
+    <a href="#!" class="modal-overlay"></a>
+    <div class="modal-window">
+      <div class="modal-content">
+        <p class="modal_title">海老天</p>
+        <div class="modal_options">
+          <button>ご飯大</button>
+          <button>CミニS</button>
+          <button>CミニS</button>
+          <button>CミニS</button>
+          <button>CミニS</button>
+          <button>CミニS</button>
+        </div>
+
+        <div class="u">
+          <button class="return_cart .modal-close" onclick="location.href='#!'">戻る</button>
+          <button class="add_cart">カートに追加</button>
+        </div>
+
+      </div>
+      <a href="#!" class="modal-close"><i class="far fa-times-circle"></i></a>
+    </div>
+  </div>
 </body>
 
 </html>
