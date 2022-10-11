@@ -7,13 +7,24 @@
         // orderを持ってくる
         public function getOdh_No(){
             $pdo = getDb();
-            $sql = $pdo->query('SELECT odh_No FROM t_d_order_handy');
+            $sql = $pdo->query('SELECT odh_No,odh_Tbl_No,odh_Ninzu FROM t_d_order_handy WHERE odh_situation = 2');
             while($product = $sql->fetch(PDO::FETCH_ASSOC)){
                 $odh_No = $product["odh_No"];
-                print ("<input type='checkbox' id='$odh_No'><label class='menu_box' for='$odh_No'>$odh_No<br/>");
-                    print($this->getOdhm_Name($odh_No));
+                $odh_Tbl = $product["odh_Tbl_No"];
+                $odh_Ninzu = $product["odh_Ninzu"];
+                print ("<input type='checkbox' id='$odh_No'><label class='menu_box' for='$odh_No'>
+                <div>席番号$odh_Tbl</div><br/>
+                <div>人数$odh_Ninzu</div><br/>
+                <div>オーダーNo.$odh_No</div><br/>
+                <button>全削除</button>
+                ");
+                print($this->getOdhm_Name($odh_No));
+                print("
+                <div class='calc_result'>
+                    計算結果エリア
+                </div>");
                 print("</label>");
-            }
+                }
         }
 
         //menuを持ってくる
@@ -29,7 +40,7 @@
                 $odhm_Name = $product["mn_Name"];
                 $odhm_No = $product["odhm_No"];
                 $odhm_Quant = $product["odhm_Quant"];
-                print "<input type='checkbox' id='$odhm_No'><label class='menu' for='$odhm_No'><p class='menu_name'>$odhm_Name</p>";
+                print "<input type='checkbox' id='menu$odhm_No'><label class='menu' for='menu$odhm_No'><p class='menu_name'>$odhm_Name</p>";
                 print "<span class='menu_name'>✕$odhm_Quant</span>";
                 print ($this->getOdhm_Option($odhm_No));
                 print("</label></input><br/>"); 
@@ -68,6 +79,7 @@
         <a href="./index.php">＜戻る</a>
     </header>
     <div class="container">
+        
     <?php 
         $DBaction->getOdh_No();
         // $DBaction->getOdhm_Name(220915001);
