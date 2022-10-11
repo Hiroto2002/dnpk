@@ -14,6 +14,28 @@ error_reporting(E_ALL & ~E_NOTICE);
         function addTF(str) {
             document.mySheet.tableno.value += str;
         }
+        function addTN(str) {
+            document.mySheet.visitors.value += str;
+        }
+
+        let focus_flg = 0;
+
+        function focusCheck(){
+            if(document.activeElement.name === "tableno"){
+                focus_flg = 0;
+            }else{
+                focus_flg = 1;
+            }
+        }
+        const addNo = (str) =>{
+
+             if(focus_flg === 0){
+                document.mySheet.tableno.value += str;
+            }else{
+                document.mySheet.visitors.value += str;
+            }
+        } 
+
     </script>
     <script src="./js/JQuery.js"></script>
     <script>
@@ -60,7 +82,7 @@ error_reporting(E_ALL & ~E_NOTICE);
             $odh_Ninzu = $_GET['odh_Ninzu'];
             $odh_situation = $_GET['odh_situation'];
         }
-        // p=2　は、変更の場合a
+        // p=2は、変更の場合a
         if ($p == 2) {
             print("<form name='mySheet' action='rejicom__db.php?p=" . $p . "&odh_No=" . $odh_No . "&odh_situation=" . $odh_situation . "' method='POST'>\n");
         } else {
@@ -68,26 +90,26 @@ error_reporting(E_ALL & ~E_NOTICE);
         }
         ?>
         <div style="display: grid;grid-template-columns: 1fr 1fr;margin-top:50px">
-            <label>座席<input type="text" placeholder="ボタンで入力" name="tableno" class="output" required readonly></label>
-            <label>人数<input type="text" pattern="[0-9]*" class="quantity" name="visitors" id="visitors" placeholder="タップ" required <?php if ($p == 2) echo 'value=' . $odh_Ninzu ?>></label>
+            <label>座席<input type="text" placeholder="ボタンで入力" name="tableno" class="output" required readonly onclick="focusCheck()"></label>
+            <label>人数<input type="text" class="quantity" name="visitors" id="visitors" placeholder="ボタンで入力" required readonly onclick="focusCheck()"<?php if ($p == 2) echo 'value=' . $odh_Ninzu ?>></label>
         </div>
         <div style="margin-top:150px">
-            <button type="button" value="A" onClick="addTF(this.value)">A</button>
-            <button type="button" value="B" onClick="addTF(this.value)">B</button>
-            <button type="button" value="C" onClick="addTF(this.value)">C</button>
-            <button type="button" value="D" onClick="addTF(this.value)">D</button><br>
-            <button type="button" value="1" onClick="addTF(this.value)">1</button>
-            <button type="button" value="2" onClick="addTF(this.value)">2</button>
-            <button type="button" value="3" onClick="addTF(this.value)">3</button>
-            <button type="button" value="4" onClick="addTF(this.value)">4</button><br>
-            <button type="button" value="5" onClick="addTF(this.value)">5</button>
-            <button type="button" value="6" onClick="addTF(this.value)">6</button>
-            <button type="button" value="7" onClick="addTF(this.value)">7</button>
-            <button type="button" value="8" onClick="addTF(this.value)">8</button><br>
-            <button type="button" value="9" onClick="addTF(this.value)">9</button>
-            <button type="button" value="0" onClick="addTF(this.value)">0</button>
-            <button type="button" value="~" onClick="addTF(this.value)">~</button>
-            <button type="button" value="," onClick="addTF(this.value)">,</button><br>
+            <button type="button" value="A" onClick="addNo(this.value)">A</button>
+            <button type="button" value="B" onClick="addNo(this.value)">B</button>
+            <button type="button" value="C" onClick="addNo(this.value)">C</button>
+            <button type="button" value="D" onClick="addNo(this.value)">D</button><br>
+            <button type="button" value="1" onClick="addNo(this.value)">1</button>
+            <button type="button" value="2" onClick="addNo(this.value)">2</button>
+            <button type="button" value="3" onClick="addNo(this.value)">3</button>
+            <button type="button" value="4" onClick="addNo(this.value)">4</button><br>
+            <button type="button" value="5" onClick="addNo(this.value)">5</button>
+            <button type="button" value="6" onClick="addNo(this.value)">6</button>
+            <button type="button" value="7" onClick="addNo(this.value)">7</button>
+            <button type="button" value="8" onClick="addNo(this.value)">8</button><br>
+            <button type="button" value="9" onClick="addNo(this.value)">9</button>
+            <button type="button" value="0" onClick="addNo(this.value)">0</button>
+            <button type="button" value="~" onClick="addNo(this.value)">~</button>
+            <button type="button" value="," onClick="addNo(this.value)">,</button><br>
         </div>
         <div style="display: grid;grid-template-columns: 1fr 1fr;justify-items:center;align-items:center">
 
