@@ -1,34 +1,75 @@
-*{
+* {
     margin: 0 0 0 0;
     box-sizing: border-box;
 }
-header{
-    height: 50px;
-    width: 100%;
-    box-shadow: 0px 0px 0px 1px rgba(0 0 0 / 20%);
-    position: fixed;
+
+body {
+    background-color: #FAF8F4;
+
 }
-header a{
-    display: inline-block;
-    margin: 10px 0 0px 0px;
-    text-decoration: none;
-    font-style: inherit;
-    color: #000;
-    font-size: 1.3rem;
-}
-.container{
-    display: flex;
+
+.title {
     position: relative;
+    margin: 20px auto;
+    width: 100%;
+    height: 10px;
+    font-size: 28px;
+    /* color: #411900; */
+    text-align: center;
+}
+
+
+header {
+    position: fixed;
+    /* background: linear-gradient(180deg, #411900 0%, #411900 30%, rgb(255, 255, 255) 30%, rgb(255, 255, 255) 100%); */
+    background-color: #fff;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.4);
+    top: 0;
+    right: 0;
+    left: 0;
+    z-index: 100;
+    height: 70px;
+    width: 100%;
+    font-weight: bold;
+    text-align: center;
+    line-height: 1.5;
+}
+
+.back {
+    position: fixed;
+    top: 30px;
+    left: 0px;
+    font-size: 20px;
+}
+
+.back a {
+    text-decoration: none;
+    z-index: 999;
+    color: black;
+    padding: 15px 25px;
+}
+
+.container {
+    display: flex;
+    position: absolute;
     top: 70px;
+    bottom: 0;
+    overflow-x: scroll;
+    /* width: 4000px; */
 }
-.menu_box{
-    width: 40vw;
+
+.menu_box {
+    width: 300px;
+    flex: 1;
     height: 84vh;
-    border-radius: 10px;
+    /* border-radius: 10px; */
+    border: #ccc;
+    background-color: #fff;
     box-shadow: 0px 0px 0px 1px rgb(0 0 0 / 20%);
-    margin: 0 3.7vw;
+    margin: auto 1vw;
 }
-.menu{
+
+.menu {
     margin: 10px 0 0 5%;
     display: inline-block;
     box-shadow: 0px 0px 0px 1px rgb(0 0 0 / 20%);
@@ -36,13 +77,16 @@ header a{
     height: 70px;
     /* z-index: 999; */
 }
-input{
-    display:none;
+
+input {
+    display: none;
 }
-input:checked+label{
+
+input:checked+label {
     background: rgb(252, 233, 165);
 }
-.calc_result{
+
+.calc_result {
     position: absolute;
     margin: 10px 0 0 7px;
     display: inline-block;
@@ -50,4 +94,78 @@ input:checked+label{
     width: 103px;
     top: 350px;
     height: 70px;
+}
+
+
+/* 追加 中尾 */
+
+.menu_head {
+    display: grid;
+    grid-template-columns: 1fr 1fr 3fr 1fr;
+    font-size: small;
+    box-sizing: border-box;
+    padding: 10px;
+    text-align: center;
+}
+
+.menu_head button {
+    color: white;
+    background-color: #DE5334;
+    border: none;
+    font-size: 12px;
+    line-height: 10px;
+    width: 60px;
+    height: 30px;
+    border-radius: 5px;
+    margin: auto;
+}
+
+.menu_head .dt {
+    color: #333;
+    font-size: 11px;
+    border-left: #ccc solid 1px;
+}
+
+.menu_head .dt:nth-child(1), .menu_head .dt:nth-child(4) {
+    border-left: none;
+
+}
+
+.menu_head .dl {
+    color: black;
+    font-weight: bold;
+    margin-top: 5px;
+    font-size: 14px;
+}
+
+.menu {
+    border: none;
+    box-shadow: 0 0 4px rgba(0, 0, 0, 0.3);
+    display: grid;
+    grid-template-columns: 4fr 1fr;
+}
+
+.menu dl {
+    padding-left: 15px;
+    margin: auto 0;
+}
+
+.menu dt {
+    font-weight: bold;
+}
+
+.menu dd {
+    color: #555;
+    font-size: 14px;
+}
+
+.menu div {
+    margin: auto 0;
+
+}
+
+.menus{
+    height: 300px;
+
+    overflow-y: scroll;
 }
