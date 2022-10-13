@@ -28,10 +28,10 @@ class DB
                     <button>全削除</button>
                 </div>
                     ");
-                    print("<div class='menus'>");
-                    print($this->getOdhm_Name($odh_No));
-                    print("</div>");
-                    print("
+            print("<div class='menus'>");
+            print($this->getOdhm_Name($odh_No));
+            print("</div>");
+            print("
                 <div class='calc_result'>
                     計算結果エリア
                 </div>");
@@ -77,7 +77,7 @@ class DB
         while ($product = $sql->fetch(PDO::FETCH_ASSOC)) {
             $opt_Name = $product["opm_Name"];
             // print "<span class='option'>$opt_Name</span>";
-            print $opt_Name .", ";
+            print $opt_Name . ", ";
         }
         print("</dd>");
     }
@@ -113,7 +113,6 @@ $DBaction = new DB();
         ?>
 
     </div>
-
 </body>
 
 </html>
