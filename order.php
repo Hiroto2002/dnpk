@@ -67,7 +67,7 @@ if (isset($_POST["odh_No"])) {
   <link rel="stylesheet" href="css/order.css">
   <link rel="stylesheet" href="css/bottomsheet.css">
   <link rel="stylesheet" href="https://unpkg.com/swiper@7/swiper-bundle.min.css" />
-  <script type="text/javascript" src="https://code.jquery.com/jquery-3.5.0.min.js"></script>
+  <script type="text/javascript" src="https://code.jquery.com/jquery-3.6.0.js"></script>
   <!-- <script type="text/javascript" src="./js/spinner.js"></script> -->
 
 
@@ -172,11 +172,13 @@ if (isset($_POST["odh_No"])) {
             ?>
 
               <a href="#modal-01" class="modal-button">
-                <div class="menu-img" id="menu<?php echo $product['mn_id']; ?>" onclick="menuID(<?php echo $product['mn_id']?>)">
+                <div class="menu-img" id="<?php echo $product['mn_id']; ?>">
                   <form method="post" action="option.php">
                     <input type="hidden" name="mn_id" value="<?php echo $product['mn_id']; ?>">
-                    <!-- <input type="hidden" name="mn_Name_sub" value="<?php# echo $product['mn_Name_sub']; ?>"> -->
-                    <!-- <input type="hidden" name="my_i" value="<?php# echo $product['my_i']; ?>"> -->
+                    <!-- <input type="hidden" name="mn_Name_sub" value="<?php # echo $product['mn_Name_sub']; 
+                                                                        ?>"> -->
+                    <!-- <input type="hidden" name="my_i" value="<?php # echo $product['my_i']; 
+                                                                  ?>"> -->
                     <img src="./img/<?php print $product['mn_id']; ?>.jpg" name="<?php print $product['mn_id']; ?>" />
                     <div><?php echo $product['mn_Name_sub']; ?></div>
                   </form>
@@ -193,69 +195,67 @@ if (isset($_POST["odh_No"])) {
               echo "              <img src='./img/null.jpg'>\n";
               echo "          </div>\n";
             }
-            
+
             ?>
           </div>
         </div>
       <?php } ?>
     </div>
   </div>
+  <script src="https://code.jquery.com/jquery-2.2.4.min.js" type="text/javascript"></script>
+
   <script src="https://unpkg.com/swiper@7/swiper-bundle.min.js"></script>
   <script>
+    function menuID(menuID) {
+      // GET送信の場合は、
+      // Formタグをシリアライズ化する
 
+      // $.ajax({
+      //   type: "POST",
+      //   url: "./option.php",
+      //   data: {
+      //     id: 1
+      //   },
+      //   dataType: "JSON",
+      //   success: function(response) {
+      //     console.log(response);
+      //   }
+      // });
 
+      fetch(`option.php?id=${menuID}`)
+        .then(response => response.json())
+        .then(data => console.log(data));
+      // $.ajax({
+      //     url: 'option.php',
+      //     type: 'post',
+      //     datatype: 'text',
+      //     async: true,
+      //     data: {
+      //       "id": menuID
+      //     },
+      //     dataType: "json"
+      //   })
 
-
-
-
-
-
-
-          function menuID(menuID) {
-            // GET送信の場合は、
-            // Formタグをシリアライズ化する
-
-            $.ajax({
-                  url: 'option.php', 
-                  type: 'post', 
-                  datatype: 'text', 
-                  async: true, 
-                  data: {"id":menuID},
-                  dataType:"json"
-               })
-
-               .done(function(response) {
-                  //通信成功した時の処理
-                  console.log(response);
-               })
-               .fail(function(xhr) {
-                  //通信失敗した時の処理
-                  console.log(xhr);
-               })
-              }
-
-
-
-
-
-
-
-
-
-
-
-
-    
-    // const menus = $(".menu-img").find("input");
-    const getMenuID = (menuID) =>{
-      console.log(menuID);
+      //   .done(function(response) {
+      //     //通信成功した時の処理
+      //     console.log(response);
+      //   })
+      //   .fail(function(xhr) {
+      //     //通信失敗した時の処理
+      //     console.log(xhr);
+      //   })
     }
 
+    $(".menu-img").on("click", function() {
+      // console.log(this.id);
+      menuID(this.id)
+    })
+
     // menus.each((i,menu)=>{
-      // console.log(menu.value);
+    // console.log(menu.value);
     // })
-    
-    
+
+
 
     //メイン
     var slider = new Swiper('.mySwiper', {
@@ -514,7 +514,7 @@ if (isset($_POST["odh_No"])) {
 
 
 
-        <div class="topping">
+          <div class="topping">
             <?php
             // ブラウザでエラー確認が出来るようにします
             // $pdo = getDb();
@@ -526,15 +526,16 @@ if (isset($_POST["odh_No"])) {
             // $products = fetch_all_query($pdo, $sql);
             // $my_i=1;
             // // 商品ごとのオプション値のチェックボックスを出力　4列にする仕様
-           # foreach ($products  as $index => $product) { ?>
-                <!-- <div class="toggle_button3">
+            # foreach ($products  as $index => $product) { 
+            ?>
+            <!-- <div class="toggle_button3">
                     <input class="toggle_input" type='checkbox' id="Option<?php echo $my_i; ?>" name="option[]" value="<?php echo $product['opm_Name']; ?>">
                     <label class="toggle_label" for="toggle"><?php echo $product['opm_Name']; ?></label>
                 </div> -->
             <?php #$my_i=$my_i+1;
             // }
             ?>
-        </div>
+          </div>
 
 
 

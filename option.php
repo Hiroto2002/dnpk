@@ -4,7 +4,7 @@
 // require_once "DbManager.php"; 
 
 
-$mn_id  = $_POST["id"];
+$mn_id  = $_REQUEST["id"];
 
 require_once 'DbManager.php';
             $pdo = getDb();
