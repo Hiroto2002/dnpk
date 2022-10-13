@@ -8,13 +8,13 @@ function getDb(): PDO
   $dsn = 'mysql:dbname=dnpk_dnpk_oes; host=127.0.0.1; charset=utf8';
 
   $user = 'root';
-  $password = '';
+  $password = 'root';
 
 
   try {
     // DB接続
-    $db = new PDO($dsn, $user, $password); //ここ戻したら動くYO
-    // $db = new PDO("mysql:host=localhost;dbname=dnpk_dnpk_oes;charset=utf8;port=8888", "root", "root");
+    // $db = new PDO($dsn, $user, $password); //ここ戻したら動くYO
+    $db = new PDO("mysql:host=localhost;dbname=dnpk_dnpk_oes;charset=utf8;port=8888", "root", "root"); // 中尾
 
     $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
     // $db = new PDO($dsn, $usr, $passwd, [PDO::ATTR_PERSISTENT => true]);
