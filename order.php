@@ -239,11 +239,11 @@ if (isset($_POST["odh_No"])) {
           return response.json()
         })
         .then(data => {
-          console.log(data);
+          // console.log(data);
             for(let i = 0;data.length>i;i++){
               option_buttons.insertAdjacentHTML(
                 "beforeend",
-              `<input type='checkbox' id="option_check${i}" style="display:none;">
+              `<input type='checkbox' id="option_check${i}" style="display:none;" name="options" value="${data[i]["opm_Name"]}">
                 <label for="option_check${i}" id="option_button" >${data[i]["opm_Name"]}</label>
               `);
               
@@ -284,7 +284,41 @@ if (isset($_POST["odh_No"])) {
 
     //オプションを確定
     function add_cart(){
-      let checkbox = document.querySelector("")
+      let menu_name = document.querySelector(".modal_title").textContent
+      let checkbox = document.querySelectorAll("input[name=options]:checked");
+      let cart_body = document.querySelector("#cart_body");
+
+      // optionのなかみ
+      if( 0 < checkbox.length ) {
+        let options = []
+        for(let checked_data of checkbox) {
+          options.push(checked_data.value); // 1, 2, 5
+        }
+        string_options = options.join("、");
+      }else{
+        console.log("ありません");
+      }
+
+      // カートに追加
+      cart_body.insertAdjacentHTML(
+                "beforeend",
+        `<div class="incart">
+          <div>
+            <dl>
+              <dt>
+                ${menu_name}
+              </dt>
+              <dd>${string_options}</dd>
+
+            </dl>
+          </div>
+          <button class="henkou">変更</button>
+          <button class="value">-</button>
+          1
+          <button class="value">+</button>
+        </div>`
+      )
+      location.hash = "#!"
     }
 
     // menus.each((i,menu)=>{
@@ -377,7 +411,7 @@ if (isset($_POST["odh_No"])) {
         <button class="close-sheet" type="button" title="Close the sheet">&times;</button>
       </div>
       <!-- Body of the sheet -->
-      <main class="body fill column">
+      <main class="body fill column" id="cart_body">
         <div class="user">
 
           <div>
@@ -407,40 +441,6 @@ if (isset($_POST["odh_No"])) {
           <button id="cart">
             カートを見る
           </button>
-        </div>
-
-        <!-- 商品一個 -->
-        <div class="incart">
-          <div>
-            <dl>
-              <dt>
-                海老天
-              </dt>
-              <dd>ご飯大、味噌汁</dd>
-
-            </dl>
-          </div>
-          <button class="henkou">変更</button>
-          <button class="value">-</button>
-          1
-          <button class="value">+</button>
-        </div>
-
-        <!-- 二個目 -->
-        <div class="incart">
-          <div>
-            <dl>
-              <dt>
-                海老天
-              </dt>
-              <dd>ご飯大、味噌汁</dd>
-
-            </dl>
-          </div>
-          <button class="henkou">変更</button>
-          <button class="value">-</button>
-          1
-          <button class="value">+</button>
         </div>
 
         <div class="cart_under">
@@ -566,25 +566,6 @@ if (isset($_POST["odh_No"])) {
             // }
             ?>
           </div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-          <!-- <button>ご飯大</button>
-          <button>CミニS</button>
-          <button>CミニS</button>
-          <button>CミニS</button>
-          <button>CミニS</button>
-          <button>CミニS</button> -->
         </div>
 
         <div class="u">
