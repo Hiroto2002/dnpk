@@ -67,7 +67,6 @@ if (isset($_POST["odh_No"])) {
   <link rel="stylesheet" href="css/order.css">
   <link rel="stylesheet" href="css/bottomsheet.css">
   <link rel="stylesheet" href="https://unpkg.com/swiper@7/swiper-bundle.min.css" />
-  <script type="text/javascript" src="https://code.jquery.com/jquery-3.6.0.js"></script>
   <!-- <script type="text/javascript" src="./js/spinner.js"></script> -->
 
 
@@ -202,11 +201,23 @@ if (isset($_POST["odh_No"])) {
       <?php } ?>
     </div>
   </div>
-  <script src="https://code.jquery.com/jquery-2.2.4.min.js" type="text/javascript"></script>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js" type="text/javascript"></script>
 
   <script src="https://unpkg.com/swiper@7/swiper-bundle.min.js"></script>
   <script>
+
     function menuID(menuID) {
+      const option_buttons = document.querySelector(".modal_options")
+      const modal_title = document.querySelector(".modal_title")
+      // アンカーからモーダルの判定
+      if(location.hash === "#!"){
+        // optionをリセット
+        while( option_buttons.firstChild ){
+          option_buttons.removeChild( option_buttons.firstChild );
+        }
+      };
+
+      // const option_max = option_buttons.childElementCount
       // GET送信の場合は、
       // Formタグをシリアライズ化する
 
@@ -221,10 +232,29 @@ if (isset($_POST["odh_No"])) {
       //     console.log(response);
       //   }
       // });
-
+        
       fetch(`option.php?id=${menuID}`)
-        .then(response => response.json())
-        .then(data => console.log(data));
+      // 第一引数、Promise:成功か失敗か状態を表す
+        .then(response => {
+          return response.json()
+        })
+        .then(data => {
+          console.log(data);
+            for(let i = 0;data.length>i;i++){
+              option_buttons.insertAdjacentHTML(
+                "beforeend",
+              `<input type='checkbox' id="option_check${i}" style="display:none;">
+                <label for="option_check${i}" id="option_button" >${data[i]["opm_Name"]}</label>
+              `);
+              
+              modal_title.innerHTML = data[i]["mn_Name_sub"];
+            }
+          // }
+        })
+        .catch(error =>{
+          console.log("失敗しました");
+        });
+
       // $.ajax({
       //     url: 'option.php',
       //     type: 'post',
@@ -246,10 +276,16 @@ if (isset($_POST["odh_No"])) {
       //   })
     }
 
-    $(".menu-img").on("click", function() {
+    // オプションを表示
+    $(document).on("click",".menu-img", function() {
       // console.log(this.id);
-      menuID(this.id)
-    })
+      const option = menuID(this.id)
+    });
+
+    //オプションを確定
+    function add_cart(){
+      let checkbox = document.querySelector("")
+    }
 
     // menus.each((i,menu)=>{
     // console.log(menu.value);
@@ -508,12 +544,6 @@ if (isset($_POST["odh_No"])) {
         <p class="modal_title">海老天</p>
         <div class="modal_options">
 
-
-
-
-
-
-
           <div class="topping">
             <?php
             // ブラウザでエラー確認が出来るようにします
@@ -549,19 +579,17 @@ if (isset($_POST["odh_No"])) {
 
 
 
-
-
-          <button>ご飯大</button>
+          <!-- <button>ご飯大</button>
           <button>CミニS</button>
           <button>CミニS</button>
           <button>CミニS</button>
           <button>CミニS</button>
-          <button>CミニS</button>
+          <button>CミニS</button> -->
         </div>
 
         <div class="u">
           <button class="return_cart .modal-close" onclick="location.href='#!'">戻る</button>
-          <button class="add_cart">カートに追加</button>
+          <button class="add_cart" onclick="add_cart()">カートに追加</button>
         </div>
 
       </div>
