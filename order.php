@@ -320,22 +320,45 @@ if (isset($_POST["odh_No"])) {
 
             </dl>
           </div>
-          <button class="henkou">変更</button>
-          <button class="delete" id="delete${menu_ID}" onclick="cart_delete(${menu_ID})">削除</button>
+          <button class="henkou" onclick="cart_change(${menu_ID})">変更</button>
+          <button class="delete" onclick="cart_delete(${menu_ID})">削除</button>
           <div class="number">
-            <button class="value">-</button>
-            1
-            <button class="value">+</button>
+            <button class="value" onclick="count_minus(${menu_ID})">-</button>
+            <span id="count${menu_ID}">1</span>
+            <button class="value" onclick="count_plus(${menu_ID})">+</button>
           </div>
         </div>`
       )
       location.hash = "#!"
     }
 
+    // 削除（見かけのみ）
     const cart_delete = (menu_ID) =>{
       document.querySelector(`#menu_ID${menu_ID}`).style.display = "none";
     }
 
+    // 変更
+    const cart_change = (menu_ID) =>{
+      document.querySelector("#sheet").setAttribute('aria-hidden',"true") 
+    }
+
+    // 数量プラス
+    const count_plus = (menu_ID) =>{
+      let count_ID = document.querySelector(`#count${menu_ID}`) 
+      let number = Number(count_ID.textContent)
+      console.log(number);
+      count_ID.innerHTML = number+1
+    }
+
+    // 数量マイナス
+    const count_minus = (menu_ID) =>{
+      let count_ID = document.querySelector(`#count${menu_ID}`) 
+      let number = Number(count_ID.textContent)
+      console.log(number);
+      if(number>1){
+        count_ID.innerHTML = number-1
+      }
+    }
     // menus.each((i,menu)=>{
     // console.log(menu.value);
     // })
