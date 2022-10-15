@@ -206,6 +206,7 @@ if (isset($_POST["odh_No"])) {
   <script src="https://unpkg.com/swiper@7/swiper-bundle.min.js"></script>
   <script>
 
+    let menu_ID = 1
     function menuID(menuID) {
       const option_buttons = document.querySelector(".modal_options")
       const modal_title = document.querySelector(".modal_title")
@@ -287,6 +288,13 @@ if (isset($_POST["odh_No"])) {
       let menu_name = document.querySelector(".modal_title").textContent
       let checkbox = document.querySelectorAll("input[name=options]:checked");
       let cart_body = document.querySelector("#cart_body");
+      let menu_count = document.querySelectorAll(".incart");
+
+      if(0 < menu_count.length){
+          menu_ID = menu_count.length + 1
+      }else{
+          menu_ID = 1
+      }
 
       // optionのなかみ
       if( 0 < checkbox.length ) {
@@ -302,7 +310,7 @@ if (isset($_POST["odh_No"])) {
       // カートに追加
       cart_body.insertAdjacentHTML(
                 "beforeend",
-        `<div class="incart">
+        `<div class="incart" id="menu_ID${menu_ID}">
           <div>
             <dl>
               <dt>
@@ -313,12 +321,19 @@ if (isset($_POST["odh_No"])) {
             </dl>
           </div>
           <button class="henkou">変更</button>
-          <button class="value">-</button>
-          1
-          <button class="value">+</button>
+          <button class="delete" id="delete${menu_ID}" onclick="cart_delete(${menu_ID})">削除</button>
+          <div class="number">
+            <button class="value">-</button>
+            1
+            <button class="value">+</button>
+          </div>
         </div>`
       )
       location.hash = "#!"
+    }
+
+    const cart_delete = (menu_ID) =>{
+      document.querySelector(`#menu_ID${menu_ID}`).style.display = "none";
     }
 
     // menus.each((i,menu)=>{

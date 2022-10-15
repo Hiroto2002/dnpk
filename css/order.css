@@ -109,21 +109,47 @@
     margin-top: 40px;
 }
 
+.number{
+    margin: 0 0px 0 0px;
+    padding: 0 0px 0px 0px;
+    position: absolute;
+    right: 1%;
+}
+
 .henkou {
+    position: absolute;
     background-color: white;
     border: #000 solid 1px;
     font-size: 40px;
     border-radius: 15px;
-    /* padding: 5px 40px; */
     width: 160px;
-    height: 80px;
+    height: 100px;
     transition: all 0.2s;
+    left: 39%;
 }
 
 .henkou:hover {
     background-color: #000;
     color: white;
 }
+
+.delete {
+    background: #DE5334;
+    color: white;
+    font-size: 40px;
+    border-radius: 15px;
+    width: 160px;
+    height: 100px;
+    transition: all 0.2s;
+    position: absolute;
+    left: 59%;
+}
+
+.delete:hover {
+    background-color: #000;
+    color: white;
+}
+
 
 .value {
     border-radius: 50%;
