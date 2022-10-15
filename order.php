@@ -484,13 +484,20 @@ if (isset($_POST["odh_No"])) {
         <div class="cart_under">
 
           <button class="return">戻る</button>
-          <button class="decide">注文決定</button>
+          <button class="decide" onclick="order_finish()">注文決定</button>
         </div>
 
       </main>
     </div>
   </div>
   <script>
+    const order_finish = () =>{
+      location.href = "order_finish.php"
+    }
+
+
+
+
     const $ = document.querySelector.bind(document)
     const sheet = $("#sheet")
     const sheetContents = sheet.querySelector(".contents")

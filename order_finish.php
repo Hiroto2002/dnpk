@@ -2,10 +2,11 @@
 
 // ブラウザでエラー確認が出来るようにします
 ini_set('display_errors', 1);
-error_reporting(0);
-session_start();
+// error_reporting(0);
+// session_start();
 require_once 'DbManager.php';
 
+exit();
 $order_num = $_SESSION['odh_No'];
 $quantList = explode (",",$_POST["quant"]);
 
@@ -86,6 +87,6 @@ $stmt->execute(array(
     $order_num
 ));
 $_SESSION = array();
-header('Location: order_con.php');
+// header('Location: order_con.php');
 exit();
 ?>
