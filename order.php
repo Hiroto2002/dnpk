@@ -289,9 +289,11 @@ if (isset($_POST["odh_No"])) {
 
     //オプションを確定
     const mn_IDs = new Object() 
+    const opm_IDs = new Object()
+
     function add_cart(){
       let menu_name = document.querySelector(".modal_title").textContent
-      let checkbox = document.querySelectorAll("input[name=options]:checked");
+      let checkbox = document.querySelectorAll("input[name=options]:checked");      
       let cart_body = document.querySelector("#cart_body");
       let menu_count = document.querySelectorAll(".incart");
       
@@ -307,14 +309,25 @@ if (isset($_POST["odh_No"])) {
       mn_IDs[menu_ID] = mn_ID.value
 
       // optionのなかみ
+      // optionがあるとき
       if( 0 < checkbox.length ) {
         let options = []
+        let opms_ID = []
+        let i = 1;
+        // 選択されているもの
         for(let checked_data of checkbox) {
-          options.push(checked_data.value); // 1, 2, 5
+          let opm_ID = checked_data.getAttribute('data-name')
+          options.push(checked_data.value); 
+          opms_ID.push(opm_ID); 
+          i++; 
         }
+        opm_IDs[menu_ID] = opms_ID;
+
         string_options = options.join("、");
       }else{
+        string_options = "　";
         console.log("ありません");
+        opm_IDs[menu_ID] = null;
       }
 
       // カートに追加
@@ -504,13 +517,7 @@ if (isset($_POST["odh_No"])) {
 
 
     const order_finish = () =>{
-      
-      let opm_ID = document.querySelectorAll("input[name=options]");
-
-      for(let value of opm_ID){
-          console.log(value.getAttribute('data-name')); 
-      }
-
+        console.log(opm_IDs); 
         console.log(mn_IDs);
       // location.href = "order_finish.php"
     }
