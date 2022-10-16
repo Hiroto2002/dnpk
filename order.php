@@ -173,7 +173,7 @@ if (isset($_POST["odh_No"])) {
               <a href="#modal-01" class="modal-button">
                 <div class="menu-img" id="<?php echo $product['mn_id']; ?>">
                   <form method="post" action="option.php">
-                    <input type="hidden" name="mn_id" value="<?php echo $product['mn_id']; ?>">
+                    <!-- <input type="hidden" name="mn_id" value="<?php #echo $product['mn_id']; ?>"> -->
                     <!-- <input type="hidden" name="mn_Name_sub" value="<?php # echo $product['mn_Name_sub']; 
                                                                         ?>"> -->
                     <!-- <input type="hidden" name="my_i" value="<?php # echo $product['my_i']; 
@@ -244,12 +244,16 @@ if (isset($_POST["odh_No"])) {
             for(let i = 0;data.length>i;i++){
               option_buttons.insertAdjacentHTML(
                 "beforeend",
-              `<input type='checkbox' id="option_check${i}" style="display:none;" name="options" value="${data[i]["opm_Name"]}">
+              `<input type='checkbox' id="option_check${i}" style="display:none;" name="options" value="${data[i]["opm_Name"]}" data-name="${data[i]["opm_ID"]}">
                 <label for="option_check${i}" id="option_button" >${data[i]["opm_Name"]}</label>
               `);
               
-              modal_title.innerHTML = data[i]["mn_Name_sub"];
             }
+            modal_title.innerHTML = data[0]["mn_Name_sub"];
+            option_buttons.insertAdjacentHTML(
+                "beforeend",
+            `<input type="hidden" value="${data[0]["mn_ID"]}" name="mn_ID">`
+            );
           // }
         })
         .catch(error =>{
@@ -284,17 +288,23 @@ if (isset($_POST["odh_No"])) {
     });
 
     //オプションを確定
+    const mn_IDs = new Object() 
     function add_cart(){
       let menu_name = document.querySelector(".modal_title").textContent
       let checkbox = document.querySelectorAll("input[name=options]:checked");
       let cart_body = document.querySelector("#cart_body");
       let menu_count = document.querySelectorAll(".incart");
-
+      
+      // カートのメニューに番号をつける
       if(0 < menu_count.length){
           menu_ID = menu_count.length + 1
       }else{
           menu_ID = 1
       }
+
+      // mn_IDを持ってくる
+      let mn_ID = document.querySelector("input[name=mn_ID]");
+      mn_IDs[menu_ID] = mn_ID.value
 
       // optionのなかみ
       if( 0 < checkbox.length ) {
@@ -491,8 +501,18 @@ if (isset($_POST["odh_No"])) {
     </div>
   </div>
   <script>
+
+
     const order_finish = () =>{
-      location.href = "order_finish.php"
+      
+      let opm_ID = document.querySelectorAll("input[name=options]");
+
+      for(let value of opm_ID){
+          console.log(value.getAttribute('data-name')); 
+      }
+
+        console.log(mn_IDs);
+      // location.href = "order_finish.php"
     }
 
 
