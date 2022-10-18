@@ -519,6 +519,10 @@ if (isset($_POST["odh_No"])) {
     const order_finish = () =>{
         console.log(opm_IDs); 
         console.log(mn_IDs);
+
+        // 表示されていない番号を取得
+
+        // 表示されているものをpostでfinishに送る
       // location.href = "order_finish.php"
     }
 
