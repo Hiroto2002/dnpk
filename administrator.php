@@ -1,4 +1,5 @@
 <?php
+// exit();
 require_once 'DbManager.php';
 getDb();
 

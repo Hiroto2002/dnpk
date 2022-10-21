@@ -6,9 +6,35 @@ ini_set('display_errors', 1);
 // session_start();
 require_once 'DbManager.php';
 
-exit();
+
+// $mn_ids = file_get_contents('php://input');
+$mn_ids = json_decode($_GET["mn_IDs"]);
+$opm_ids = json_decode($_GET["opm_IDs"]);
+$quant_list = json_decode($_GET["quant_list"]);
+// print 
+
+// $mn_IDs = json_decode($_POST["mn_IDs"],true);
+// $opm_IDs = json_decode($_POST["opm_IDs"],true);
+
+// print($_POST["mn_IDs"]);
+// JSONデータを受信
+// print_r($_POST);
+// print("<br/>");
+// print($test);
+
+// $_SESSION["orders"]  = $mn_ids;
+// foreach($mn_ids as $value){
+    // echo $mn_ids;
+    
+    // echo $opm_ids;
+// }
+
+// exit();
+// print("<br/>");
+// print($opm_IDs);
+
 $order_num = $_SESSION['odh_No'];
-$quantList = explode (",",$_POST["quant"]);
+// $quantList = explode (",",$_POST["quant"]);
 
 
 $count = 0;
@@ -25,21 +51,60 @@ if($odhm_No <= $Max[0] && $Max[0]){
     $odhm_No = $Max[0] + 1;
 }
 
-foreach($_SESSION["orders"] as $value){
+$mn_IDs=[];
+$opm_IDs=[];
+$quant_List=[];
+// echo $opm_ids;
+// exit();
+// menu
+foreach($mn_ids as $value){
     if($value){
-                
-        // order
-        $price = ChangePrice($_SESSION["orders"][$count]);
+        array_push($mn_IDs,$value);
+        // array_push($opm_IDs,$opm_ids[$i]);
+        // array_push($quant_List,$quant_list[$i]);
+    }
+}
 
+// option
+foreach($opm_ids as $value){
+        array_push($opm_IDs,$value);
+        // array_push($opm_IDs,$opm_ids[$i]);
+        // array_push($quant_List,$quant_list[$i]);
+}
+
+//quant
+foreach($quant_list as $value){
+    if($value){
+        array_push($quant_List,$value);
+        // array_push($opm_IDs,$opm_ids[$i]);
+        // array_push($quant_List,$quant_list[$i]);
+    }
+}
+
+// echo json_encode($mn_IDs);
+// exit();
+
+    while(count($mn_IDs) > $count){
+        
+        if($mn_IDs[$count]){
+            
+        // price
+        $price = ChangePrice($mn_IDs[$count],$quant_List[$count]);
         // if(!isset($_SESSION["update"])){
-        $stmt= $pdo->prepare("INSERT INTO t_d_morder_handy (odhm_No,odh_No,mn_ID,odhm_Quant,odhm_Amount,Edittime) VALUES(?,?,?,?,?,NOW())");
-        $stmt->execute(array(
-            $odhm_No,
-            $order_num,
-            $_SESSION["orders"][$count],
-            $quantList[$count],
-            $price,
-        ));
+            $stmt= $pdo->prepare("INSERT INTO t_d_morder_handy (odhm_No,odh_No,mn_ID,odhm_Quant,odhm_Amount,Edittime) VALUES(?,?,?,?,?,NOW())");
+            $stmt->execute(array(
+                $odhm_No,
+                $order_num,
+                $mn_IDs[$count],
+                $quant_List[$count],
+                $price,
+            ));
+            $odhm_No++;
+        }
+        $count++;
+    }
+        echo json_encode($mn_IDs);
+        exit();
         // }else{
             // $stmt=$pdo->prepare("SELECT odhm_No FROM t_d_morder_handy WHERE odh_No=?");
             // $stmt->execute(array(
@@ -77,10 +142,10 @@ foreach($_SESSION["orders"] as $value){
             ));
         }
 
-        $odhm_No++;
-    }
+        // $odhm_No++;
+    // }
     $count ++;
-}
+
 
 $stmt = $pdo->prepare("UPDATE t_d_order_handy SET odh_situation=2 WHERE odh_No=?;");
 $stmt->execute(array(

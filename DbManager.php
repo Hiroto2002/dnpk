@@ -59,13 +59,13 @@ function ChangeName($menu_id)
   return $mn_name;
 }
 
-function ChangePrice($menu_id)
+function ChangePrice($menu_id,$quant)
 {
   $pdo = getDb();
   $sql = $pdo->prepare('SELECT mn_Price FROM `t_m_menu` WHERE mn_ID = ?; ');
   $sql->execute(array($menu_id));
   $product = $sql->fetch(PDO::FETCH_ASSOC);
-  $price = $product["mn_Price"];
+  $price = $product["mn_Price"]*$quant;
 
   return $price;
 }

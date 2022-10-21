@@ -201,7 +201,7 @@ if (isset($_POST["odh_No"])) {
       <?php } ?>
     </div>
   </div>
-  <script src="https://code.jquery.com/jquery-3.6.0.min.js" type="text/javascript"></script>
+  <script src="./js/JQuery.js" type="text/javascript"></script>
 
   <script src="https://unpkg.com/swiper@7/swiper-bundle.min.js"></script>
   <script>
@@ -347,7 +347,7 @@ if (isset($_POST["odh_No"])) {
           <button class="delete" onclick="cart_delete(${menu_ID})">削除</button>
           <div class="number">
             <button class="value" onclick="count_minus(${menu_ID})">-</button>
-            <span id="count${menu_ID}">1</span>
+            <span id="count${menu_ID}" class="quant">1</span>
             <button class="value" onclick="count_plus(${menu_ID})">+</button>
           </div>
         </div>`
@@ -355,14 +355,11 @@ if (isset($_POST["odh_No"])) {
       location.hash = "#!"
     }
 
+    let delete_list = []
     // 削除（見かけのみ）
     const cart_delete = (menu_ID) =>{
       document.querySelector(`#menu_ID${menu_ID}`).style.display = "none";
-    }
-
-    // 変更
-    const cart_change = (menu_ID) =>{
-      document.querySelector("#sheet").setAttribute('aria-hidden',"true") 
+      delete_list.push(`${menu_ID}`)
     }
 
     // 数量プラス
@@ -517,17 +514,71 @@ if (isset($_POST["odh_No"])) {
 
 
     const order_finish = () =>{
-        console.log(opm_IDs); 
-        console.log(mn_IDs);
-
         // 表示されていない番号を取得
+        // console.log("消された番号：" + delete_list);     
+        let quant_list  = new Object();   
+        let quants =document.querySelectorAll(".quant");
+        for(let i = 1; i<quants.length + 1;i++){
+          quant_list[i] = quants[i-1].textContent
+        }
+
+        // 削除されているもの
+        for(value of delete_list){
+          delete mn_IDs[value]
+          delete opm_IDs[value]
+          delete quant_list[value]
+        }
+
+        // console.log(quant_list);
+
+        // console.log(mn_IDs);
+        // console.log(opm_IDs);
+
+        // fetch("order_finish.php",{
+        //   method:"POST",
+        //   body: JSON.stringify(opm_IDs)
+        // })
+        fetch(`order_finish.php?
+        mn_IDs=${JSON.stringify(mn_IDs)}&
+        opm_IDs=${JSON.stringify(opm_IDs)}&
+        quant_list=${JSON.stringify(quant_list)}
+        `
+        )
+      // 第一引数、Promise:成功か失敗か状態を表す
+        .then(response => {
+          return response.json()
+        })
+        .then(data => {
+          // Object.keys(data).forEach(function (key) {
+          //   console.log('key:', key);
+          //   console.log('json_parse:', data.family);
+          // });
+            console.log(data);
+            // console.dir(data);
+        })
+        .catch(error =>{
+          console.log("失敗しました");
+        });
+      }
+
+
+        // post_menu = JSON.stringify(mn_IDs);
+        // post_opm = JSON.stringify(opm_IDs);
 
         // 表示されているものをpostでfinishに送る
-      // location.href = "order_finish.php"
-    }
+//  送る
+    //   let form =  document.createElement('form');
+    //   form.action = "./order_finish.php";
+    //   form.method = "post";     
+      
+    //   form.insertAdjacentHTML(
+    //             "beforeend",`<input type="hidden" value="${mn_IDs}" name="mn_IDs">
+    //                           <input type="hidden" value="${opm_IDs}" name="opm_IDs">`
+    //                         );
+    //   document.body.append(form);
 
-
-
+    //   form.submit();
+    // }
 
     const $ = document.querySelector.bind(document)
     const sheet = $("#sheet")
@@ -620,7 +671,6 @@ if (isset($_POST["odh_No"])) {
         <p class="modal_title">海老天</p>
         <div class="modal_options">
 
-          <div class="topping">
             <?php
             // ブラウザでエラー確認が出来るようにします
             // $pdo = getDb();
@@ -641,7 +691,6 @@ if (isset($_POST["odh_No"])) {
             <?php #$my_i=$my_i+1;
             // }
             ?>
-          </div>
         </div>
 
         <div class="u">
