@@ -80,17 +80,12 @@ foreach($quant_list as $value){
         // array_push($quant_List,$quant_list[$i]);
     }
 }
-
-// echo json_encode($mn_IDs);
-// exit();
-
     while(count($mn_IDs) > $count){
         
         if($mn_IDs[$count]){
-            
-        // price
-        $price = ChangePrice($mn_IDs[$count],$quant_List[$count]);
-        // if(!isset($_SESSION["update"])){
+            // price
+            $price = ChangePrice($mn_IDs[$count],$quant_List[$count]);
+            // if(!isset($_SESSION["update"])){
             $stmt= $pdo->prepare("INSERT INTO t_d_morder_handy (odhm_No,odh_No,mn_ID,odhm_Quant,odhm_Amount,Edittime) VALUES(?,?,?,?,?,NOW())");
             $stmt->execute(array(
                 $odhm_No,
@@ -99,12 +94,9 @@ foreach($quant_list as $value){
                 $quant_List[$count],
                 $price,
             ));
-            $odhm_No++;
         }
-        $count++;
-    }
-        echo json_encode($mn_IDs);
-        exit();
+    
+ 
         // }else{
             // $stmt=$pdo->prepare("SELECT odhm_No FROM t_d_morder_handy WHERE odh_No=?");
             // $stmt->execute(array(
@@ -127,31 +119,40 @@ foreach($quant_list as $value){
             // exit();
         // }
 
+              
         // option
-        foreach($_SESSION["options"][$count] as $val){
-            $opm_ID = ChangeOptionID($val);        
-            // if(!isset($_SESSION["update"])){        
-            $stmt= $pdo->prepare("INSERT INTO t_d_morder_option (odhm_No,opm_ID,odh_No) VALUES(?,?,?)");
-            // }else{
-            //     $stmt= $pdo->prepare("UPDATE t_d_morder_option SET odhm_No=?,opm_ID=?,odh_No=?");
-            // }
-            $stmt->execute(array(
-                $odhm_No,
-                $opm_ID,
-                $order_num,
-            ));
+        if($opm_IDs[$count]){
+            foreach($opm_IDs[$count] as $val){
+                // if(!isset($_SESSION["update"])){              
+                $stmt= $pdo->prepare("INSERT INTO t_d_morder_option (odhm_No,opm_ID,odh_No) VALUES(?,?,?)");
+                // }else{
+                //     $stmt= $pdo->prepare("UPDATE t_d_morder_option SET odhm_No=?,opm_ID=?,odh_No=?");
+                // }
+                $stmt->execute(array(
+                    $odhm_No,
+                    $val,
+                    $order_num,
+                ));
+            }
         }
+        $odhm_No++;
+        $count++;
+    }
+    
 
         // $odhm_No++;
     // }
-    $count ++;
 
 
 $stmt = $pdo->prepare("UPDATE t_d_order_handy SET odh_situation=2 WHERE odh_No=?;");
 $stmt->execute(array(
     $order_num
 ));
+
 $_SESSION = array();
+
+echo json_encode("success");
+exit();    
 // header('Location: order_con.php');
 exit();
 ?>

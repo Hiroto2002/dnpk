@@ -555,9 +555,10 @@ if (isset($_POST["odh_No"])) {
           // });
             console.log(data);
             // console.dir(data);
+            location.href = "./order_con.php#tyumonmati"
         })
         .catch(error =>{
-          console.log("失敗しました");
+          console.error("失敗しました",error);
         });
       }
 
