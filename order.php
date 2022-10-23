@@ -334,6 +334,7 @@ if (isset($_POST["odh_No"])) {
       cart_body.insertAdjacentHTML(
                 "beforeend",
         `<div class="incart" id="menu_ID${menu_ID}">
+        <button class="delete" onclick="cart_delete(${menu_ID})">✕</button>
           <div>
             <dl>
               <dt>
@@ -343,8 +344,6 @@ if (isset($_POST["odh_No"])) {
 
             </dl>
           </div>
-          <button class="henkou" onclick="cart_change(${menu_ID})">変更</button>
-          <button class="delete" onclick="cart_delete(${menu_ID})">削除</button>
           <div class="number">
             <button class="value" onclick="count_minus(${menu_ID})">-</button>
             <span id="count${menu_ID}" class="quant">1</span>
