@@ -607,7 +607,7 @@ if (isset($_POST["odh_No"])) {
     const user = document.querySelector(".user")
     user.addEventListener("click", () => {
       // setSheetHeight(Math.min(50, 720 / window.innerHeight * 100))
-      setSheetHeight(50)
+      setSheetHeight(100)
       setIsSheetShown(true)
 
     })
