@@ -25,16 +25,15 @@ function cbCreateDevice_printer(devobj, retcode) {
         printer.oncoveropen = function () {
             alert('coveropen'); 
         }; 
-        print(); 
+        Print(); 
     } else { 
         alert(retcode); 
     }
 }
-
-function print() { 
+function Print() { 
     printer.addTextLang('ja'); 
     printer.addTextFont(printer.FONT_A); 
-    printer.addText('ああああ\n'); 
+    printer.addText('')
     printer.addCut(printer.CUT_FEED); 
     printer.send();
 }

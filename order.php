@@ -499,14 +499,29 @@ window.onbeforeunload = beforeUnload;
         <div class="cart_under">
 
           <button class="return">戻る</button>
-          <button class="decide" onclick="order_finish()">注文決定</button>
+          <button class="decide" onclick="order_finish()" id="print-send">注文決定</button>
         </div>
 
       </main>
+    <div id="canvas"></div>
     </div>
   </div>
+  <script src="./test/epos-2.17.0.js"></script>
+  <script type="text/javascript" src="./test/epos-print-editor-ja.js"></script>
+  <script type="text/javascript" src="./test/editor-main.js"></script>
+  <script type="text/javascript" src="./test/editor-import.js"></script>
+  <script type="text/javascript" src="./test/editor-export.js"></script>
+  <script type="text/javascript" src="./test/editor-preview.js"></script>
+  <script type="text/javascript" src="./test/editor-print.js"></script>
   <script>
+
     const order_finish = () => {
+      // 注文がない場合
+      if(!Object.keys(mn_IDs).length){
+        alert("注文がありません!")
+        return;
+      }
+
       // 表示されていない番号を取得
       // console.log("消された番号：" + delete_list);     
       let quant_list = new Object();
@@ -521,6 +536,24 @@ window.onbeforeunload = beforeUnload;
         delete opm_IDs[value]
         delete quant_list[value]
       }
+
+      // 削除後注文があるか
+      let order_flg = true
+      Object.keys(mn_IDs).forEach(function(key){
+        if(mn_IDs[key]){
+          order_flg = false
+        }
+      })
+      if(order_flg){
+        alert("注文がありません")
+        return
+      }
+        
+
+
+
+      // Print()
+
 
       // console.log(quant_list);
 
@@ -697,6 +730,7 @@ window.onbeforeunload = beforeUnload;
       </div>
       <a href="#!" class="modal-close"><i class="far fa-times-circle"></i></a>
     </div>
+    <textarea id="print-doc">a</textarea>
   </div>
 </body>
 

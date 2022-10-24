@@ -207,7 +207,7 @@ if (isset($_SESSION['options'])) {
         <div class="information">
             <p class="title">カート</p>
 
-            <p class="back"><a href="./index.php">＜戻る</a></p>
+            <p class="back"><a href="./order_con.php#tyumonzumi">＜戻る</a></p>
         </div>
     </header>
 
