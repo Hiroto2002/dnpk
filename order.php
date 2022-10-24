@@ -90,6 +90,16 @@ if (isset($_POST["odh_No"])) {
     }
     t = now;
   }, false);
+
+  let flg = 0
+  window.addEventListener('beforeunload', function(event){
+    if (flg === 0) {
+        event.preventDefault();
+        event.returnValue = 'Check';
+    }
+  });
+
+window.onbeforeunload = beforeUnload;
 </script>
 
 <body>
@@ -553,6 +563,7 @@ if (isset($_POST["odh_No"])) {
           //   console.log('json_parse:', data.family);
           // });
             console.log(data);
+            flg = 1;
             // console.dir(data);
             location.href = "./order_con.php#tyumonmati"
         })
