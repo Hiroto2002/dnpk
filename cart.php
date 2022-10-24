@@ -314,6 +314,7 @@ if (isset($_SESSION['options'])) {
                         <?php endif; ?>
 
                         <?php if (!empty($options)) { ?>
+                            <br>
                             <div class="option">
                             <?php
                             $option_count = 0;
@@ -337,38 +338,42 @@ if (isset($_SESSION['options'])) {
                             }
                         } ?>
                             </div>
-                    </div>
-                    <!-- <div class="quantity"></div> -->
-                    <div class="tool">
-                        <?php if (!isset($_GET["odh_No"])) : ?>
-                            <form action="option.php" method="post">
-                                <input type="hidden" name="mode" value="<?php print($count) ?>">
-                                <input type="submit" value="変更" class="change">
-                            </form>
+                            <div class="tool">
+                                <?php if (!isset($_GET["odh_No"])) : ?>
+                                    <form action="option.php" method="post">
+                                        <input type="hidden" name="mode" value="<?php print($count) ?>">
+                                        <input type="submit" value="変更" class="change">
+                                    </form>
 
-                            <form action="" method="post">
-                                <input type="hidden" name="delete" value="<?php print($count) ?>">
-                                <input type="submit" value="削除" class="delete">
-                            </form>
-                        <?php else : ?>
-                            <?php if ($_SESSION["situ"] !== "add") : ?>
-                                <!-- 注文済みを削除 -->
-                                <form action="" method="post">
-                                    <input type="hidden" name="count" value="<?php print($count) ?>">
-                                    <input type="hidden" name="DB_delete" value="<?php print($delete_No[$count]) ?>">
-                                    <input type="submit" value="削除" class="order_delete">
-                                </form>
-                            <?php else : ?>
-                                <!-- 注文済みに追加 -->
-                                <strong style="color:red;font-size:3rem;margin: 55px 0px 0 160px;">注文済</strong>
-                            <?php endif; ?>
-                        <?php endif; ?>
+                                    <form action="" method="post">
+                                        <input type="hidden" name="delete" value="<?php print($count) ?>">
+                                        <input type="submit" value="削除" class="delete">
+                                    </form>
+                                <?php else : ?>
+                                    <?php if ($_SESSION["situ"] !== "add") : ?>
+                                        <!-- 注文済みを削除 -->
+                                        <form action="" method="post">
+                                            <input type="hidden" name="count" value="<?php print($count) ?>">
+                                            <input type="hidden" name="DB_delete" value="<?php print($delete_No[$count]) ?>">
+                                            <input type="submit" value="削除" class="order_delete">
+                                        </form>
+                                    <?php else : ?>
+                                        <!-- 注文済みに追加 -->
+                                        <strong style="color:red;font-size:3rem;margin: 55px 0px 0 160px;">注文済</strong>
+                                    <?php endif; ?>
+                                <?php endif; ?>
 
-                        <!-- <button class="delete" onclick=Delete(<?php #echo $count
-                                                                    ?>)>
+                                <!-- <button class="delete" onclick=Delete(<?php #echo $count
+                                                                            ?>)>
                         削除
                     </button> -->
+                            </div>
+
+
+
                     </div>
+                    <!-- <div class="quantity"></div> -->
+
                 </div>
         <?php
             endif;
@@ -380,41 +385,14 @@ if (isset($_SESSION['options'])) {
 
 
     </div>
-    <footer style="text-align:center; font-size:20px;line-height: 0.5;">
-        <div class="button">
 
-            <?php if (!isset($_GET["odh_No"])) : ?>
-                <form action="order.php" method="post">
-                    <input type="submit" value="続けて注文" class="add">
-                </form>
+    <form action="order.php" method="post" id="post">
+        <input type="hidden" value="" name="add" />
+        <input type="submit" value="追加" class="decision">
+    </form>
 
-                <form action="order_finish.php" method="post" id="post">
-                    <input type="submit" value="注文を確定する" class="decision">
-                </form>
 
-            <?php else : ?>
-                <?php if ($_SESSION["situ"] !== "add") : ?>
-                    <form action="order_con.php?#tyumonzumi" method="post">
-                        <input type="hidden" value="<?php print $_GET["odh_No"]; ?>" name="back" />
-                        <input type="submit" value="戻る" class="add">
-                    </form>
-                    <!-- 注文変更から追加 -->
-                    <form action="order.php" method="post" id="post">
-                        <input type="hidden" value="" name="add" />
-                        <input type="submit" value="注文を追加する" class="decision">
-                    </form>
-                <?php else : ?>
-                    <form action="order.php" method="post">
-                        <input type="submit" value="戻る" class="add">
-                    </form>
-                    <form action="order_con.php?#tyumonzumi" method="post" id="post">
-                        <input type="submit" value="追加を辞める" class="decision">
-                    </form>
-                <?php endif; ?>
-            <?php endif; ?>
-        </div>
-        <p style="color: rgb(255, 255, 255);">Copyright © DNPK.JP All Rights Reserved.</p>
-    </footer>
+
     <script>
         const down = (value) => {
             if (cart[value] > 1) {
