@@ -561,16 +561,10 @@ window.onbeforeunload = beforeUnload;
           //   console.log('key:', key);
           //   console.log('json_parse:', data.family);
           // });
-<<<<<<< HEAD
-            console.log(data);
-            flg = 1;
-            // console.dir(data);
-            location.href = "./order_con.php#tyumonmati"
-=======
+
           console.log(data);
           // console.dir(data);
           location.href = "./order_con.php#tyumonmati"
->>>>>>> ce6e53c58809a85e98c6a7422ba29cc84ecd0dd0
         })
         .catch(error => {
           console.error("失敗しました", error);
