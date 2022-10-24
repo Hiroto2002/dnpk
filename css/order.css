@@ -109,7 +109,7 @@
     margin-top: 40px;
 }
 
-.number{
+.number {
     display: inline-flex;
     margin: 0 0px 0 0px;
     padding: 0 0px 0px 0px;
@@ -117,7 +117,7 @@
 }
 
 
-.quant{
+.quant {
     margin: 0 40px;
 }
 
@@ -129,7 +129,7 @@
     width: 80px;
     height: 80px;
     transition: all 0.2s;
-    
+
 }
 
 
@@ -177,19 +177,21 @@
     display: grid;
     grid-template-columns: 1fr 1fr;
 }
-.cart_under button{
-font-size: 45px;
-margin: 30px;
-height: 100px;
-background-color: white;
-border: #DEAE34 5px solid;
-border-radius: 20px;
+
+.cart_under button {
+    font-size: 45px;
+    margin: 30px;
+    height: 100px;
+    background-color: white;
+    border: #DEAE34 5px solid;
+    border-radius: 20px;
 }
 
-.cart_under .decide{
-background-color: #DEAE34;
-color: white;
+.cart_under .decide {
+    background-color: #DEAE34;
+    color: white;
 }
+
 /* モーダル */
 .modal-wrapper {
     z-index: 999;
@@ -319,7 +321,7 @@ color: white;
     grid-template-columns: 1fr 1fr;
 }
 
-.modal_options label{
+.modal_options label {
     display: inline-block;
     margin: 20px 20px;
     /* height: 30px; */
@@ -333,9 +335,10 @@ color: white;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.243);
 }
 
-input[type=checkbox]:checked + label  {
+input[type=checkbox]:checked+label {
     box-shadow: 0 0 20px #DEAE34;
 }
+
 /* 
 .modal_options input[type=checkbox]:checked {
     box-shadow: 0 0 10px #DEAE34;
@@ -367,4 +370,8 @@ input[type=checkbox]:checked + label  {
 .u button.add_cart {
     background-color: #DEAE34;
     color: white;
+}
+
+button {
+    box-shadow: inset -6px -6px 4px rgba(0, 0, 0, 0.25);
 }

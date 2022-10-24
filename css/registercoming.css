@@ -46,6 +46,8 @@ button {
     -webkit-text-size-adjust: 100%;
     appearance: none;
     transition: all 0.2s;
+    box-shadow: inset -6px -6px 8px rgba(0, 0, 0, 0.25);
+
 }
 
 button:hover {
@@ -62,6 +64,8 @@ button:hover {
     color: white;
     margin-top: 50px;
     transition: all 0.2s;
+    box-shadow: inset -6px -6px 8px rgba(0, 0, 0, 0.25);
+
 }
 
 .underbtn:hover {

@@ -183,7 +183,8 @@ window.onbeforeunload = beforeUnload;
               <a href="#modal-01" class="modal-button">
                 <div class="menu-img" id="<?php echo $product['mn_id']; ?>">
                   <form method="post" action="option.php">
-                    <!-- <input type="hidden" name="mn_id" value="<?php #echo $product['mn_id']; ?>"> -->
+                    <!-- <input type="hidden" name="mn_id" value="<?php #echo $product['mn_id']; 
+                                                                  ?>"> -->
                     <!-- <input type="hidden" name="mn_Name_sub" value="<?php # echo $product['mn_Name_sub']; 
                                                                         ?>"> -->
                     <!-- <input type="hidden" name="my_i" value="<?php # echo $product['my_i']; 
@@ -215,16 +216,16 @@ window.onbeforeunload = beforeUnload;
 
   <script src="https://unpkg.com/swiper@7/swiper-bundle.min.js"></script>
   <script>
-
     let menu_ID = 1
+
     function menuID(menuID) {
       const option_buttons = document.querySelector(".modal_options")
       const modal_title = document.querySelector(".modal_title")
       // アンカーからモーダルの判定
-      if(location.hash === "#!"){
+      if (location.hash === "#!") {
         // optionをリセット
-        while( option_buttons.firstChild ){
-          option_buttons.removeChild( option_buttons.firstChild );
+        while (option_buttons.firstChild) {
+          option_buttons.removeChild(option_buttons.firstChild);
         }
       };
 
@@ -243,30 +244,30 @@ window.onbeforeunload = beforeUnload;
       //     console.log(response);
       //   }
       // });
-        
+
       fetch(`option.php?id=${menuID}`)
-      // 第一引数、Promise:成功か失敗か状態を表す
+        // 第一引数、Promise:成功か失敗か状態を表す
         .then(response => {
           return response.json()
         })
         .then(data => {
           // console.log(data);
-            for(let i = 0;data.length>i;i++){
-              option_buttons.insertAdjacentHTML(
-                "beforeend",
+          for (let i = 0; data.length > i; i++) {
+            option_buttons.insertAdjacentHTML(
+              "beforeend",
               `<input type='checkbox' id="option_check${i}" style="display:none;" name="options" value="${data[i]["opm_Name"]}" data-name="${data[i]["opm_ID"]}">
                 <label for="option_check${i}" id="option_button" >${data[i]["opm_Name"]}</label>
               `);
-              
-            }
-            modal_title.innerHTML = data[0]["mn_Name_sub"];
-            option_buttons.insertAdjacentHTML(
-                "beforeend",
+
+          }
+          modal_title.innerHTML = data[0]["mn_Name_sub"];
+          option_buttons.insertAdjacentHTML(
+            "beforeend",
             `<input type="hidden" value="${data[0]["mn_ID"]}" name="mn_ID">`
-            );
+          );
           // }
         })
-        .catch(error =>{
+        .catch(error => {
           console.log("失敗しました");
         });
 
@@ -292,26 +293,26 @@ window.onbeforeunload = beforeUnload;
     }
 
     // オプションを表示
-    $(document).on("click",".menu-img", function() {
+    $(document).on("click", ".menu-img", function() {
       // console.log(this.id);
       const option = menuID(this.id)
     });
 
     //オプションを確定
-    const mn_IDs = new Object() 
+    const mn_IDs = new Object()
     const opm_IDs = new Object()
 
-    function add_cart(){
+    function add_cart() {
       let menu_name = document.querySelector(".modal_title").textContent
-      let checkbox = document.querySelectorAll("input[name=options]:checked");      
+      let checkbox = document.querySelectorAll("input[name=options]:checked");
       let cart_body = document.querySelector("#cart_body");
       let menu_count = document.querySelectorAll(".incart");
-      
+
       // カートのメニューに番号をつける
-      if(0 < menu_count.length){
-          menu_ID = menu_count.length + 1
-      }else{
-          menu_ID = 1
+      if (0 < menu_count.length) {
+        menu_ID = menu_count.length + 1
+      } else {
+        menu_ID = 1
       }
 
       // mn_IDを持ってくる
@@ -320,21 +321,21 @@ window.onbeforeunload = beforeUnload;
 
       // optionのなかみ
       // optionがあるとき
-      if( 0 < checkbox.length ) {
+      if (0 < checkbox.length) {
         let options = []
         let opms_ID = []
         let i = 1;
         // 選択されているもの
-        for(let checked_data of checkbox) {
+        for (let checked_data of checkbox) {
           let opm_ID = checked_data.getAttribute('data-name')
-          options.push(checked_data.value); 
-          opms_ID.push(opm_ID); 
-          i++; 
+          options.push(checked_data.value);
+          opms_ID.push(opm_ID);
+          i++;
         }
         opm_IDs[menu_ID] = opms_ID;
 
         string_options = options.join("、");
-      }else{
+      } else {
         string_options = "　";
         console.log("ありません");
         opm_IDs[menu_ID] = null;
@@ -342,7 +343,7 @@ window.onbeforeunload = beforeUnload;
 
       // カートに追加
       cart_body.insertAdjacentHTML(
-                "beforeend",
+        "beforeend",
         `<div class="incart" id="menu_ID${menu_ID}">
         <button class="delete" onclick="cart_delete(${menu_ID})">✕</button>
           <div>
@@ -366,26 +367,26 @@ window.onbeforeunload = beforeUnload;
 
     let delete_list = []
     // 削除（見かけのみ）
-    const cart_delete = (menu_ID) =>{
+    const cart_delete = (menu_ID) => {
       document.querySelector(`#menu_ID${menu_ID}`).style.display = "none";
       delete_list.push(`${menu_ID}`)
     }
 
     // 数量プラス
-    const count_plus = (menu_ID) =>{
-      let count_ID = document.querySelector(`#count${menu_ID}`) 
+    const count_plus = (menu_ID) => {
+      let count_ID = document.querySelector(`#count${menu_ID}`)
       let number = Number(count_ID.textContent)
       console.log(number);
-      count_ID.innerHTML = number+1
+      count_ID.innerHTML = number + 1
     }
 
     // 数量マイナス
-    const count_minus = (menu_ID) =>{
-      let count_ID = document.querySelector(`#count${menu_ID}`) 
+    const count_minus = (menu_ID) => {
+      let count_ID = document.querySelector(`#count${menu_ID}`)
       let number = Number(count_ID.textContent)
       console.log(number);
-      if(number>1){
-        count_ID.innerHTML = number-1
+      if (number > 1) {
+        count_ID.innerHTML = number - 1
       }
     }
     // menus.each((i,menu)=>{
@@ -505,9 +506,10 @@ window.onbeforeunload = beforeUnload;
               <?php print $_SESSION['odh_No']; ?>
             </dt>
           </div>
-          <button id="cart">
+          <!-- <button id="cart">
             カートを見る
-          </button>
+          </button> -->
+          <div></div>
         </div>
 
         <div class="cart_under">
@@ -520,40 +522,37 @@ window.onbeforeunload = beforeUnload;
     </div>
   </div>
   <script>
+    const order_finish = () => {
+      // 表示されていない番号を取得
+      // console.log("消された番号：" + delete_list);     
+      let quant_list = new Object();
+      let quants = document.querySelectorAll(".quant");
+      for (let i = 1; i < quants.length + 1; i++) {
+        quant_list[i] = quants[i - 1].textContent
+      }
 
+      // 削除されているもの
+      for (value of delete_list) {
+        delete mn_IDs[value]
+        delete opm_IDs[value]
+        delete quant_list[value]
+      }
 
-    const order_finish = () =>{
-        // 表示されていない番号を取得
-        // console.log("消された番号：" + delete_list);     
-        let quant_list  = new Object();   
-        let quants =document.querySelectorAll(".quant");
-        for(let i = 1; i<quants.length + 1;i++){
-          quant_list[i] = quants[i-1].textContent
-        }
+      // console.log(quant_list);
 
-        // 削除されているもの
-        for(value of delete_list){
-          delete mn_IDs[value]
-          delete opm_IDs[value]
-          delete quant_list[value]
-        }
+      // console.log(mn_IDs);
+      // console.log(opm_IDs);
 
-        // console.log(quant_list);
-
-        // console.log(mn_IDs);
-        // console.log(opm_IDs);
-
-        // fetch("order_finish.php",{
-        //   method:"POST",
-        //   body: JSON.stringify(opm_IDs)
-        // })
-        fetch(`order_finish.php?
+      // fetch("order_finish.php",{
+      //   method:"POST",
+      //   body: JSON.stringify(opm_IDs)
+      // })
+      fetch(`order_finish.php?
         mn_IDs=${JSON.stringify(mn_IDs)}&
         opm_IDs=${JSON.stringify(opm_IDs)}&
         quant_list=${JSON.stringify(quant_list)}
-        `
-        )
-      // 第一引数、Promise:成功か失敗か状態を表す
+        `)
+        // 第一引数、Promise:成功か失敗か状態を表す
         .then(response => {
           return response.json()
         })
@@ -562,26 +561,32 @@ window.onbeforeunload = beforeUnload;
           //   console.log('key:', key);
           //   console.log('json_parse:', data.family);
           // });
+<<<<<<< HEAD
             console.log(data);
             flg = 1;
             // console.dir(data);
             location.href = "./order_con.php#tyumonmati"
+=======
+          console.log(data);
+          // console.dir(data);
+          location.href = "./order_con.php#tyumonmati"
+>>>>>>> ce6e53c58809a85e98c6a7422ba29cc84ecd0dd0
         })
-        .catch(error =>{
-          console.error("失敗しました",error);
+        .catch(error => {
+          console.error("失敗しました", error);
         });
-      }
+    }
 
 
-        // post_menu = JSON.stringify(mn_IDs);
-        // post_opm = JSON.stringify(opm_IDs);
+    // post_menu = JSON.stringify(mn_IDs);
+    // post_opm = JSON.stringify(opm_IDs);
 
-        // 表示されているものをpostでfinishに送る
-//  送る
+    // 表示されているものをpostでfinishに送る
+    //  送る
     //   let form =  document.createElement('form');
     //   form.action = "./order_finish.php";
     //   form.method = "post";     
-      
+
     //   form.insertAdjacentHTML(
     //             "beforeend",`<input type="hidden" value="${mn_IDs}" name="mn_IDs">
     //                           <input type="hidden" value="${opm_IDs}" name="opm_IDs">`
@@ -618,7 +623,7 @@ window.onbeforeunload = beforeUnload;
     const user = document.querySelector(".user")
     user.addEventListener("click", () => {
       // setSheetHeight(Math.min(50, 720 / window.innerHeight * 100))
-      setSheetHeight(50)
+      setSheetHeight(100)
       setIsSheetShown(true)
 
     })
@@ -682,26 +687,26 @@ window.onbeforeunload = beforeUnload;
         <p class="modal_title">海老天</p>
         <div class="modal_options">
 
-            <?php
-            // ブラウザでエラー確認が出来るようにします
-            // $pdo = getDb();
-            // $sql = "SELECT t_d_option_menu.*, t_m_option_menu.opm_Name, t_m_option_menu.opm_Price
-            // FROM t_d_option_menu INNER JOIN t_m_option_menu ON t_d_option_menu.opm_ID = t_m_option_menu.opm_ID
-            // WHERE t_d_option_menu.mn_ID=".$mn_id."
-            // ORDER BY t_d_option_menu.mn_ID, t_d_option_menu.op_Sort;
-            // ";
-            // $products = fetch_all_query($pdo, $sql);
-            // $my_i=1;
-            // // 商品ごとのオプション値のチェックボックスを出力　4列にする仕様
-            # foreach ($products  as $index => $product) { 
-            ?>
-            <!-- <div class="toggle_button3">
+          <?php
+          // ブラウザでエラー確認が出来るようにします
+          // $pdo = getDb();
+          // $sql = "SELECT t_d_option_menu.*, t_m_option_menu.opm_Name, t_m_option_menu.opm_Price
+          // FROM t_d_option_menu INNER JOIN t_m_option_menu ON t_d_option_menu.opm_ID = t_m_option_menu.opm_ID
+          // WHERE t_d_option_menu.mn_ID=".$mn_id."
+          // ORDER BY t_d_option_menu.mn_ID, t_d_option_menu.op_Sort;
+          // ";
+          // $products = fetch_all_query($pdo, $sql);
+          // $my_i=1;
+          // // 商品ごとのオプション値のチェックボックスを出力　4列にする仕様
+          # foreach ($products  as $index => $product) { 
+          ?>
+          <!-- <div class="toggle_button3">
                     <input class="toggle_input" type='checkbox' id="Option<?php echo $my_i; ?>" name="option[]" value="<?php echo $product['opm_Name']; ?>">
                     <label class="toggle_label" for="toggle"><?php echo $product['opm_Name']; ?></label>
                 </div> -->
-            <?php #$my_i=$my_i+1;
-            // }
-            ?>
+          <?php #$my_i=$my_i+1;
+          // }
+          ?>
         </div>
 
         <div class="u">
