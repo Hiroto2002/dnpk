@@ -254,3 +254,7 @@ a {
     opacity: 0.5;
     color: white;
 }
+.widget-list-link2{
+    box-shadow: inset -6px -6px 8px rgba(0, 0, 0, 0.25);
+
+}
