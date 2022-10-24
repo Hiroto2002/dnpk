@@ -171,7 +171,7 @@ if (isset($_SESSION['options'])) {
     <meta charset="UTF-8">
     <title>カート</title>
     <link rel="stylesheet" href="css/style.css">
-    <!-- <link rel="stylesheet" href="css/cart.css"> -->
+    <link rel="stylesheet" href="css/cart.css">
 </head>
 <script src="./js/JQuery.js"></script>
 <script>
