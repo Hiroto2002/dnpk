@@ -109,17 +109,12 @@
     margin-top: 40px;
 }
 
-.number {
-    display: inline-flex;
-    margin: 0 0px 0 0px;
-    padding: 0 0px 0px 0px;
-    align-items: center;
-}
-
-
 .quant {
-    margin: 0 40px;
+    font-size: 60px;
+    appearance: none;
+    text-align: center;
 }
+
 
 .delete {
     background: #DE5334;

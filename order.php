@@ -91,6 +91,7 @@ if (isset($_POST["odh_No"])) {
     t = now;
   }, false);
 
+  // 更新を防ぐ
   let flg = 0
   window.addEventListener('beforeunload', function(event){
     if (flg === 0) {
@@ -355,11 +356,13 @@ window.onbeforeunload = beforeUnload;
 
             </dl>
           </div>
-          <div class="number">
-            <button class="value" onclick="count_minus(${menu_ID})">-</button>
-            <span id="count${menu_ID}" class="quant">1</span>
-            <button class="value" onclick="count_plus(${menu_ID})">+</button>
-          </div>
+          <select class="quant">
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+            <option value="5">5</option>
+          </select>
         </div>`
       )
       location.hash = "#!"
@@ -372,27 +375,8 @@ window.onbeforeunload = beforeUnload;
       delete_list.push(`${menu_ID}`)
     }
 
-    // 数量プラス
-    const count_plus = (menu_ID) => {
-      let count_ID = document.querySelector(`#count${menu_ID}`)
-      let number = Number(count_ID.textContent)
-      console.log(number);
-      count_ID.innerHTML = number + 1
-    }
-
-    // 数量マイナス
-    const count_minus = (menu_ID) => {
-      let count_ID = document.querySelector(`#count${menu_ID}`)
-      let number = Number(count_ID.textContent)
-      console.log(number);
-      if (number > 1) {
-        count_ID.innerHTML = number - 1
-      }
-    }
-    // menus.each((i,menu)=>{
-    // console.log(menu.value);
-    // })
-
+    
+    
 
 
     //メイン
@@ -527,10 +511,10 @@ window.onbeforeunload = beforeUnload;
       // console.log("消された番号：" + delete_list);     
       let quant_list = new Object();
       let quants = document.querySelectorAll(".quant");
+      
       for (let i = 1; i < quants.length + 1; i++) {
-        quant_list[i] = quants[i - 1].textContent
+        quant_list[i] = quants[i - 1].value
       }
-
       // 削除されているもの
       for (value of delete_list) {
         delete mn_IDs[value]
@@ -562,6 +546,7 @@ window.onbeforeunload = beforeUnload;
           //   console.log('json_parse:', data.family);
           // });
 
+          flg = 1
           console.log(data);
           // console.dir(data);
           location.href = "./order_con.php#tyumonmati"
@@ -617,7 +602,7 @@ window.onbeforeunload = beforeUnload;
     const user = document.querySelector(".user")
     user.addEventListener("click", () => {
       // setSheetHeight(Math.min(50, 720 / window.innerHeight * 100))
-      setSheetHeight(100)
+      setSheetHeight(92)
       setIsSheetShown(true)
 
     })
@@ -658,7 +643,8 @@ window.onbeforeunload = beforeUnload;
       if (sheetHeight < 25) {
         setIsSheetShown(false)
       } else if (sheetHeight > 75) {
-        setSheetHeight(100)
+        setSheetHeight(92
+        )
       } else {
         setSheetHeight(50)
       }
