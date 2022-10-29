@@ -154,5 +154,4 @@ $_SESSION = array();
 echo json_encode("success");
 exit();    
 // header('Location: order_con.php');
-exit();
 ?>

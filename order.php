@@ -37,25 +37,6 @@ if (isset($_POST["odh_No"])) {
 }
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 ?>
 <!DOCTYPE html>
 <html>
@@ -349,11 +330,8 @@ window.onbeforeunload = beforeUnload;
         <button class="delete" onclick="cart_delete(${menu_ID})">✕</button>
           <div>
             <dl>
-              <dt>
-                ${menu_name}
-              </dt>
-              <dd>${string_options}</dd>
-
+              <dt class="menu_name">${menu_name}</dt>
+              <dd class="option_name">${string_options}</dd>
             </dl>
           </div>
           <select class="quant">
@@ -416,25 +394,19 @@ window.onbeforeunload = beforeUnload;
       <dl>
         席番号
       </dl>
-      <dt>
-        <?php print $_SESSION['odh_Tbl_No']; ?>
-      </dt>
+      <dt  class="table_number"><?php print $_SESSION['odh_Tbl_No']; ?></dt>
     </div>
     <div>
       <dl>
         人数
       </dl>
-      <dt>
-        <?php print $_SESSION['odh_Ninzu']; ?>
-      </dt>
+      <dt class="people_number"><?php print $_SESSION['odh_Ninzu']; ?></dt>
     </div>
     <div>
       <dl>
         オーダーNo.
       </dl>
-      <dt>
-        <?php print $_SESSION['odh_No']; ?>
-      </dt>
+      <dt class="order_number"><?php print $_SESSION['odh_No']; ?></dt>
     </div>
     <button id="cart">
       カートを見る
@@ -509,13 +481,24 @@ window.onbeforeunload = beforeUnload;
   <script src="./test/epos-2.17.0.js"></script>
 
   <script>
+    let  table_number = String(document.querySelector(".table_number").textContent)
+    let  people_number = String(document.querySelector(".people_number").textContent)
+    let  order_number = String(document.querySelector(".order_number").textContent)
+    
+    // console.log(quant_list);
 
     const order_finish = () => {
+      
       // 注文がない場合
       if(!Object.keys(mn_IDs).length){
         alert("注文がありません!")
         return;
       }
+
+      let mn_name_obj = new Object();
+      let opm_name_obj = new Object();
+      let mn_names = document.querySelectorAll(".menu_name")
+      let opm_names = document.querySelectorAll(".option_name")
 
       // 表示されていない番号を取得
       // console.log("消された番号：" + delete_list);     
@@ -524,12 +507,16 @@ window.onbeforeunload = beforeUnload;
       
       for (let i = 1; i < quants.length + 1; i++) {
         quant_list[i] = quants[i - 1].value
+        mn_name_obj[i] = mn_names[i - 1].textContent
+        opm_name_obj[i] = opm_names[i - 1].textContent
       }
       // 削除されているもの
       for (value of delete_list) {
         delete mn_IDs[value]
         delete opm_IDs[value]
         delete quant_list[value]
+        delete mn_name_obj[value]
+        delete opm_name_obj[value]
       }
 
       // 削除後注文があるか
@@ -544,6 +531,8 @@ window.onbeforeunload = beforeUnload;
         return
       }
 
+      
+      
 // print
   let printer = null;
   let ePosDev = new epson.ePOSDevice();
@@ -578,7 +567,7 @@ window.onbeforeunload = beforeUnload;
       }
   }
 
-  function Print() { 
+  function Print() {
     printer.addTextLang('ja');
     printer.addTextSmooth(true);
     printer.addPageBegin();
@@ -589,87 +578,58 @@ window.onbeforeunload = beforeUnload;
     printer.addTextStyle(false, false, false, printer.COLOR_1);
     printer.addText('　ﾃｰﾌﾞﾙ\n\n');
     printer.addTextSize(2, 2);
-    printer.addText('　D1～2\n');
+    printer.addText(`　${table_number}\n`);
     printer.addTextSize(1, 1);
     printer.addPageArea(288, 0, 288, 120);
     printer.addTextStyle(false, true, false, printer.COLOR_1);
-    printer.addText('　　　　No. ');
-    printer.addText('20221020001');
+    printer.addText('No. ');
+    printer.addText(order_number);
     printer.addText(' \n');
     printer.addTextStyle(false, false, false, printer.COLOR_1);
     printer.addText('人数\n\n');
     printer.addTextSize(1, 2);
-    printer.addText('3\n');
+    printer.addText(`${people_number}\n`);
     printer.addTextSize(1, 1);
     printer.addPageEnd();
     printer.addTextLineSpace(24);
     printer.addText('┏━━━━━━━━━━━━━┯━━┯━━━━━┓\n');
     printer.addText('┃　　　品　　　　　名　　　│数量│　備　考　┃\n');
     printer.addText('┠─────────────┼──┼─────┨\n');
-    printer.addTextDouble(false, true);
-    printer.addText('┃');
-    printer.addTextDouble(false, false);
-    printer.addText(' ');
-    printer.addTextDouble(true, true);
-    printer.addText('天丼');
-    printer.addTextPosition(336);
-    printer.addTextDouble(false, true);
-    printer.addText('│');
-    printer.addTextDouble(true, true);
-    printer.addText(' 2');
-    printer.addTextDouble(false, true);
-    printer.addText('│');
-    printer.addText('　');
-    printer.addTextPosition(552);
-    printer.addText('┃');
-    printer.addTextDouble(false, false);
-    printer.addText('\n');
-    printer.addTextDouble(false, true);
-    printer.addText('┃');
-    printer.addTextDouble(false, true);
-    printer.addText('　');
-    printer.addText('HﾐﾆS 天玉');
-    printer.addTextDouble(false, true);
-    printer.addTextPosition(336);
-    printer.addText('│');
-    printer.addTextPosition(408);
-    printer.addText('│');
-    printer.addTextPosition(552);
-    printer.addText('┃');
-    printer.addText('\n');
-    printer.addTextDouble(false, false);
-    printer.addText('┃　　　　　　　　　　　　　│　　│　　　　　┃\n');
-    printer.addTextDouble(false, true);
-    printer.addText('┃');
-    printer.addTextDouble(false, false);
-    printer.addText(' ');
-    printer.addTextDouble(true, true);
-    printer.addText('天丼');
-    printer.addTextPosition(336);
-    printer.addTextDouble(false, true);
-    printer.addText('│');
-    printer.addTextDouble(true, true);
-    printer.addText(' 2');
-    printer.addTextDouble(false, true);
-    printer.addText('│');
-    printer.addText('　');
-    printer.addTextPosition(552);
-    printer.addText('┃');
-    printer.addTextDouble(false, false);
-    printer.addText('\n');
-    printer.addTextDouble(false, true);
-    printer.addText('┃');
-    printer.addTextDouble(false, true);
-    printer.addText('　');
-    printer.addText('HﾐﾆS 天玉');
-    printer.addTextDouble(false, true);
-    printer.addTextPosition(336);
-    printer.addText('│');
-    printer.addTextPosition(408);
-    printer.addText('│');
-    printer.addTextPosition(552);
-    printer.addText('┃');
-    printer.addText('\n');
+    Object.keys(mn_name_obj).forEach((key)=>{
+      printer.addTextDouble(false, true);
+      printer.addText('┃');
+      printer.addTextDouble(false, false);
+      printer.addText(' ');
+      printer.addTextDouble(true, true);
+      printer.addText(mn_name_obj[key]);
+      printer.addTextPosition(336);
+      printer.addTextDouble(false, true);
+      printer.addText('│');
+      printer.addTextDouble(true, true);
+      printer.addText(quant_list[key]);
+      printer.addTextDouble(false, true);
+      printer.addText('│');
+      printer.addText('　');
+      printer.addTextPosition(552);
+      printer.addText('┃');
+      printer.addTextDouble(false, false);
+      printer.addText('\n');
+      printer.addTextDouble(false, true);
+      printer.addText('┃');
+      printer.addTextDouble(false, true);
+      printer.addText('　');
+      printer.addText(opm_name_obj[key]);
+      printer.addTextDouble(false, true);
+      printer.addTextPosition(336);
+      printer.addText('│');
+      printer.addTextPosition(408);
+      printer.addText('│');
+      printer.addTextPosition(552);
+      printer.addText('┃');
+      printer.addText('\n');
+      printer.addTextDouble(false, false);
+      printer.addText('┃　　　　　　　　　　　　　│　　│　　　　　┃\n');
+    })
     printer.addTextDouble(false, true);
     printer.addText('┃　　　　　　　　　　　　　│　　│　　　　　┃\n');
     printer.addText('┃　　　　　　　　　　　　　│　　│　　　　　┃\n');
@@ -688,7 +648,7 @@ window.onbeforeunload = beforeUnload;
     printer.addTextAlign(printer.ALIGN_LEFT);
     printer.addText('\n');
     printer.addTextAlign(printer.ALIGN_CENTER);
-    printer.addBarcode('20221020001', printer.BARCODE_CODE39, printer.HRI_NONE, printer.FONT_A, 2, 64);
+    printer.addBarcode(`${order_number}`, printer.BARCODE_CODE39, printer.HRI_NONE, printer.FONT_A, 2, 64);
     printer.addTextAlign(printer.ALIGN_LEFT);
     printer.addText('\n');
     printer.addCut(printer.CUT_FEED);
@@ -697,8 +657,9 @@ window.onbeforeunload = beforeUnload;
     printer.addTextDouble(true, true);
     printer.addTextSize(1, 1);
     printer.send();
-  }
 }
+}
+
 
       // console.log(quant_list);
 
