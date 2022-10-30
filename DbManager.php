@@ -70,6 +70,27 @@ function ChangePrice($menu_id,$quant)
   return $price;
 }
 
+function ChangeTotalPrice($menu_id,$opm_ids,$quant){
+  $total_price = 0;
+  $pdo = getDb();
+  $sql = $pdo->prepare('SELECT mn_Price FROM `t_m_menu` WHERE mn_ID = ?; ');
+  $sql->execute(array($menu_id));
+  $mn_price = $sql->fetch(PDO::FETCH_ASSOC);
+  $total_price = $mn_price["mn_Price"];
+
+  foreach($opm_ids as $value){
+    if($value){
+      $sql = $pdo->prepare('SELECT opm_Price FROM `t_m_option_menu` WHERE opm_ID = ?; ');
+      $sql->execute(array($value));
+      $opm_price = $sql->fetch(PDO::FETCH_ASSOC);
+      $total_price = $total_price + $opm_price["opm_Price"];
+    }
+  }
+
+  $total_price = $total_price*$quant;
+  return $total_price;
+}
+
 function ChangeOptionID($option_name)
 {
   $pdo = getDb();

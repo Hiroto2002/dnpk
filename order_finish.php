@@ -1,9 +1,10 @@
 <?php
 
+
 // ブラウザでエラー確認が出来るようにします
 ini_set('display_errors', 1);
 // error_reporting(0);
-// session_start();
+session_start();
 require_once 'DbManager.php';
 
 
@@ -11,31 +12,12 @@ require_once 'DbManager.php';
 $mn_ids = json_decode($_GET["mn_IDs"]);
 $opm_ids = json_decode($_GET["opm_IDs"]);
 $quant_list = json_decode($_GET["quant_list"]);
-// print 
 
-// $mn_IDs = json_decode($_POST["mn_IDs"],true);
-// $opm_IDs = json_decode($_POST["opm_IDs"],true);
 
-// print($_POST["mn_IDs"]);
-// JSONデータを受信
-// print_r($_POST);
-// print("<br/>");
-// print($test);
 
-// $_SESSION["orders"]  = $mn_ids;
-// foreach($mn_ids as $value){
-    // echo $mn_ids;
-    
-    // echo $opm_ids;
-// }
-
-// exit();
-// print("<br/>");
-// print($opm_IDs);
-
-$order_num = $_SESSION['odh_No'];
-// $quantList = explode (",",$_POST["quant"]);
-
+if($_SESSION["odh_No"]){
+    $order_num = $_SESSION['odh_No'];
+}
 
 $count = 0;
 $year = date('y'); 
@@ -51,12 +33,14 @@ if($odhm_No <= $Max[0] && $Max[0]){
     $odhm_No = $Max[0] + 1;
 }
 
+
 $mn_IDs=[];
 $opm_IDs=[];
 $quant_List=[];
 // echo $opm_ids;
 // exit();
 // menu
+
 foreach($mn_ids as $value){
     if($value){
         array_push($mn_IDs,$value);
@@ -80,9 +64,22 @@ foreach($quant_list as $value){
         // array_push($quant_List,$quant_list[$i]);
     }
 }
+
+
+$total_price = 0;
+/**
+ * 値段計算
+ */
+
     while(count($mn_IDs) > $count){
-        
         if($mn_IDs[$count]){
+        if(empty($opm_IDs[$count])){
+            $price1 = ChangePrice($mn_IDs[$count],$quant_List[$count]);
+            $total_price = $total_price + $price1;    
+        }else{
+            $price2 = ChangeTotalPrice($mn_IDs[$count],$opm_IDs[$count],$quant_List[$count]);
+            $total_price = $total_price + $price2;
+        }        
             // price
             $price = ChangePrice($mn_IDs[$count],$quant_List[$count]);
             // if(!isset($_SESSION["update"])){
@@ -150,8 +147,8 @@ $stmt->execute(array(
 ));
 
 $_SESSION = array();
+    echo json_encode($total_price);
+    exit();    
 
-echo json_encode("success");
-exit();    
 // header('Location: order_con.php');
 ?>

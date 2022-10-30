@@ -92,12 +92,6 @@ window.onbeforeunload = beforeUnload;
       <p class="back"><a href="./order_con.php">
           < 戻る</a>
       </p>
-      <form method="post" action="cart.php">
-        <input type="hidden" value="<?php print $_SESSION["odh_No"]; ?>" name="odh_No">
-
-        <!-- カートへの遷移はなし -->
-        <!-- <input type="submit" value="カート確認" class="cart" style="position: absolute; left: 70%; top: 20%"> -->
-      </form>
     </div>
     <div class="swiper mySwiper">
       <div class="swiper-wrapper">
@@ -556,18 +550,20 @@ window.onbeforeunload = beforeUnload;
           printer.onreceive = 
           function (res) { 
               // alert(res.success); 
-              insertDB(quant_list);
+              location.href = "./order_con.php#tyumonmati"
           }; 
           printer.oncoveropen = function () {
               alert('coveropen'); 
           }; 
-          Print(); 
+          insertDB(quant_list);
+          // Print(); 
       } else { 
           alert(retcode); 
       }
   }
 
-  function Print() {
+
+  function Print(price) {
     printer.addTextLang('ja');
     printer.addTextSmooth(true);
     printer.addPageBegin();
@@ -606,7 +602,7 @@ window.onbeforeunload = beforeUnload;
       printer.addTextDouble(false, true);
       printer.addText('│');
       printer.addTextDouble(true, true);
-      printer.addText(quant_list[key]);
+      printer.addText(` ${quant_list[key]}`);
       printer.addTextDouble(false, true);
       printer.addText('│');
       printer.addText('　');
@@ -637,7 +633,7 @@ window.onbeforeunload = beforeUnload;
     printer.addText('┣━━━━━━━━━━┯━━┷━━┷━━━━━┫\n');
     printer.addTextDouble(false, true);
     printer.addText('┃　合　計　　　      │　　　　　　');
-    printer.addText('       700');
+    printer.addText(`  ${price.toLocaleString}  `);
     printer.addText('┃\n');
     printer.addTextDouble(false, false);
     printer.addText('┗━━━━━━━━━━┷━━━━━━━━━━━┛\n');
@@ -658,19 +654,7 @@ window.onbeforeunload = beforeUnload;
     printer.addTextSize(1, 1);
     printer.send();
 }
-}
-
-
-      // console.log(quant_list);
-
-      // console.log(mn_IDs);
-      // console.log(opm_IDs);
-
-      // fetch("order_finish.php",{
-      //   method:"POST",
-      //   body: JSON.stringify(opm_IDs)
-      // })
-      const insertDB = (quant_list)=> {
+const insertDB = (quant_list)=> {
         fetch(`order_finish.php?
         mn_IDs=${JSON.stringify(mn_IDs)}&
         opm_IDs=${JSON.stringify(opm_IDs)}&
@@ -687,15 +671,37 @@ window.onbeforeunload = beforeUnload;
           // });
 
           flg = 1
-          console.log(data);
+          Print(data)
+          // complete(()=>{
+
+          // })
+          // let total_price  = data
+          // return total_price
           // console.dir(data);
-          location.href = "./order_con.php#tyumonmati"
+          
         })
         .catch(error => {
           console.error("失敗しました", error);
         });
 
       }
+
+      // function complete(_callback){
+      //   _callback();
+      // }
+}
+
+
+      // console.log(quant_list);
+
+      // console.log(mn_IDs);
+      // console.log(opm_IDs);
+
+      // fetch("order_finish.php",{
+      //   method:"POST",
+      //   body: JSON.stringify(opm_IDs)
+      // })
+      
 
 
     // post_menu = JSON.stringify(mn_IDs);
