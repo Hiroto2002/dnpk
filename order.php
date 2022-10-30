@@ -633,7 +633,7 @@ window.onbeforeunload = beforeUnload;
     printer.addText('┣━━━━━━━━━━┯━━┷━━┷━━━━━┫\n');
     printer.addTextDouble(false, true);
     printer.addText('┃　合　計　　　      │　　　　　　');
-    printer.addText(`  ${price.toLocaleString}  `);
+    printer.addText(`  ${price}  `);
     printer.addText('┃\n');
     printer.addTextDouble(false, false);
     printer.addText('┗━━━━━━━━━━┷━━━━━━━━━━━┛\n');
@@ -671,7 +671,10 @@ const insertDB = (quant_list)=> {
           // });
 
           flg = 1
-          Print(data)
+          let price = data.toLocaleString('ja-JP')
+
+          price = price.padStart( 6 , " " ); // "00123"
+          Print(price)
           // complete(()=>{
 
           // })
