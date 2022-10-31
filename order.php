@@ -2,7 +2,7 @@
 // ブラウザでエラー確認が出来るようにします
 ini_set('display_errors', 0);
 error_reporting(E_ALL & ~E_NOTICE);
-session_start();
+// session_start();
 // 新しいIDに置き換える
 // session_regenerate_id();
 
@@ -563,7 +563,7 @@ window.onbeforeunload = beforeUnload;
   }
 
 
-  function Print(price) {
+  function Print(price,user_name) {
     printer.addTextLang('ja');
     printer.addTextSmooth(true);
     printer.addPageBegin();
@@ -574,7 +574,7 @@ window.onbeforeunload = beforeUnload;
     printer.addTextStyle(false, false, false, printer.COLOR_1);
     printer.addText('　ﾃｰﾌﾞﾙ\n\n');
     printer.addTextSize(2, 2);
-    printer.addText(`　${table_number}\n`);
+    printer.addText(`　${table_number + user_name}\n`);
     printer.addTextSize(1, 1);
     printer.addPageArea(288, 0, 288, 120);
     printer.addTextStyle(false, true, false, printer.COLOR_1);
@@ -672,9 +672,9 @@ const insertDB = (quant_list)=> {
 
           flg = 1
           let price = data.toLocaleString('ja-JP')
-
+          let user_name = <?php echo json_encode($_SESSION["user"]); ?>;
           price = price.padStart( 6 , " " ); // "00123"
-          Print(price)
+          Print(price,user_name)
           // complete(()=>{
 
           // })
