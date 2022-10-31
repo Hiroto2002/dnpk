@@ -4,7 +4,7 @@
 // ブラウザでエラー確認が出来るようにします
 ini_set('display_errors', 1);
 // error_reporting(0);
-session_start();
+// session_start();
 require_once 'DbManager.php';
 
 

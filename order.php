@@ -578,7 +578,7 @@ window.onbeforeunload = beforeUnload;
     printer.addTextSize(1, 1);
     printer.addPageArea(288, 0, 288, 120);
     printer.addTextStyle(false, true, false, printer.COLOR_1);
-    printer.addText('No. ');
+    printer.addText('　　　　No. ');
     printer.addText(order_number);
     printer.addText(' \n');
     printer.addTextStyle(false, false, false, printer.COLOR_1);
