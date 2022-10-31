@@ -102,11 +102,11 @@ window.onbeforeunload = beforeUnload;
         <div class="swiper-slide">そば[冷]</div>
         <div class="swiper-slide">そば[温]</div>
         <div class="swiper-slide">そば[冷・温]</div>
-        <div class="swiper-slide">セット・定食</div>
         <div class="swiper-slide">単品[天ぷら]</div>
         <div class="swiper-slide">単品[その他]</div>
         <div class="swiper-slide">ドリンク１</div>
         <div class="swiper-slide">ドリンク２</div>
+        <div class="swiper-slide">セット・定食</div>
       </div>
     </div>
   </header>
@@ -133,7 +133,8 @@ window.onbeforeunload = beforeUnload;
             $sql = 'SELECT mn_id,mn_Name_sub FROM t_m_menu where sec_CD_web=23 ORDER BY mn_Sort ASC';
             break;
           case 5:
-            $sql = 'SELECT mn_id,mn_Name_sub FROM t_m_menu where sec_CD_web=31 ORDER BY mn_Sort ASC';
+            $sql = 'SELECT mn_id,mn_Name_sub FROM t_m_menu where sec_CD_web=52 ORDER BY mn_Sort ASC';
+            // $sql = 'SELECT mn_id,mn_Name_sub FROM t_m_menu where sec_CD_web=31 ORDER BY mn_Sort ASC';
             break;
           case 6:
             $sql = 'SELECT mn_id,mn_Name_sub FROM t_m_menu where sec_CD_web=41 ORDER BY mn_Sort ASC';
@@ -145,7 +146,9 @@ window.onbeforeunload = beforeUnload;
             $sql = 'SELECT mn_id,mn_Name_sub FROM t_m_menu where sec_CD_web=51 ORDER BY mn_Sort ASC';
             break;
           case 9:
-            $sql = 'SELECT mn_id,mn_Name_sub FROM t_m_menu where sec_CD_web=52 ORDER BY mn_Sort ASC';
+            // $sql = 'SELECT mn_id,mn_Name_sub FROM t_m_menu where sec_CD_web=52 ORDER BY mn_Sort ASC';
+            $sql = 'SELECT mn_id,mn_Name_sub FROM t_m_menu where sec_CD_web=31 ORDER BY mn_Sort ASC';
+
             break;
         }
         // SQL文を実行
