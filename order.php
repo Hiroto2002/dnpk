@@ -1,8 +1,11 @@
 <?php
 // ブラウザでエラー確認が出来るようにします
 ini_set('display_errors', 0);
+
 error_reporting(E_ALL & ~E_NOTICE);
+
 // session_start();
+
 // 新しいIDに置き換える
 // session_regenerate_id();
 
@@ -227,20 +230,30 @@ window.onbeforeunload = beforeUnload;
           return response.json()
         })
         .then(data => {
-          // console.log(data);
-          for (let i = 0; data.length > i; i++) {
+          console.log(data);
+          if(data[0]["mn_Name_sub"]){
+            for (let i = 0; data.length > i; i++) {
+              option_buttons.insertAdjacentHTML(
+                "beforeend",
+                `<input type='checkbox' id="option_check${i}" style="display:none;" name="options" value="${data[i]["opm_Name"]}" data-name="${data[i]["opm_ID"]}">
+                  <label for="option_check${i}" id="option_button" >${data[i]["opm_Name"]}</label>
+                `);
+
+            }
+          
+            modal_title.innerHTML = data[0]["mn_Name_sub"];
             option_buttons.insertAdjacentHTML(
               "beforeend",
-              `<input type='checkbox' id="option_check${i}" style="display:none;" name="options" value="${data[i]["opm_Name"]}" data-name="${data[i]["opm_ID"]}">
-                <label for="option_check${i}" id="option_button" >${data[i]["opm_Name"]}</label>
-              `);
-
-          }
-          modal_title.innerHTML = data[0]["mn_Name_sub"];
+              `<input type="hidden" value="${data[0]["mn_ID"]}" name="mn_ID">`
+            );
+        }else{
+          modal_title.innerHTML = data;
           option_buttons.insertAdjacentHTML(
-            "beforeend",
-            `<input type="hidden" value="${data[0]["mn_ID"]}" name="mn_ID">`
-          );
+              "beforeend",
+              `<input type="hidden" value="${menuID}" name="mn_ID">`
+            );
+        }
+
           // }
         })
         .catch(error => {
@@ -488,6 +501,8 @@ window.onbeforeunload = beforeUnload;
         alert("注文がありません!")
         return;
       }
+        alert("印刷中です。少々お待ちください。");
+      
 
       let mn_name_obj = new Object();
       let opm_name_obj = new Object();
@@ -549,11 +564,12 @@ window.onbeforeunload = beforeUnload;
           printer.timeout = 60000; 
           printer.onreceive = 
           function (res) { 
-              // alert(res.success); 
+              // alert(res.success);
+              alert("印刷が完了しました！"); 
               location.href = "./order_con.php#tyumonmati"
           }; 
           printer.oncoveropen = function () {
-              alert('coveropen'); 
+              // alert('coveropen'); 
           }; 
           insertDB(quant_list);
           // Print(); 

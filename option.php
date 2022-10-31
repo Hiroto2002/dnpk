@@ -1,5 +1,8 @@
  <?php
 // session_start();
+
+
+
 // session_regenerate_id();
 // require_once "DbManager.php"; 
 
@@ -7,6 +10,8 @@
 $mn_id  = $_REQUEST["id"];
 
 require_once 'DbManager.php';
+
+    
             $pdo = getDb();
             $sql = "SELECT t_d_option_menu.*, t_m_option_menu.opm_Name, t_m_option_menu.opm_Price,t_m_menu.mn_Name_sub
             FROM t_d_option_menu INNER JOIN t_m_option_menu ON t_d_option_menu.opm_ID = t_m_option_menu.opm_ID
@@ -16,6 +21,13 @@ require_once 'DbManager.php';
             ";
             $products = fetch_all_query($pdo, $sql);
 
-            echo(json_encode($products));
+            $product_name = ChangeName($mn_id);
+            
+            if($products){
+                echo(json_encode($products));
+            }else{
+                echo(json_encode($product_name));
+            }
+
 
 exit();
