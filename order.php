@@ -161,14 +161,14 @@ window.onbeforeunload = beforeUnload;
 
               <a href="#modal-01" class="modal-button">
                 <div class="menu-img" id="<?php echo $product['mn_id']; ?>">
-                  <form method="post" action="option.php">
+                  <form method="post" action="option.php" class="menu_box" >
                     <!-- <input type="hidden" name="mn_id" value="<?php #echo $product['mn_id']; 
                                                                   ?>"> -->
                     <!-- <input type="hidden" name="mn_Name_sub" value="<?php # echo $product['mn_Name_sub']; 
                                                                         ?>"> -->
                     <!-- <input type="hidden" name="my_i" value="<?php # echo $product['my_i']; 
                                                                   ?>"> -->
-                    <img src="./img/<?php print $product['mn_id']; ?>.jpg" name="<?php print $product['mn_id']; ?>" />
+                    <!-- <img src="./img/<?php print $product['mn_id']; ?>.jpg" name="<?php print $product['mn_id']; ?>" /> -->
                     <div><?php echo $product['mn_Name_sub']; ?></div>
                   </form>
                 </div>
