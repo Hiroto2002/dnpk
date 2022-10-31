@@ -245,12 +245,12 @@
     /* box-shadow: 0 0 30px rgba(0, 0, 0, .4); */
     vertical-align: middle;
     border-radius: 30px;
-
+    left: 8%;
     height: 85%;
 }
 
 .modal-wrapper .modal-window .modal-content {
-    max-height: 80vh;
+    max-height: 69vh;
     overflow-y: auto;
     text-align: left
 }
