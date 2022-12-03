@@ -4,7 +4,7 @@ ini_set('display_errors', 0);
 
 error_reporting(E_ALL & ~E_NOTICE);
 
-// session_start();
+session_start();
 
 // 新しいIDに置き換える
 // session_regenerate_id();
@@ -489,6 +489,7 @@ window.onbeforeunload = beforeUnload;
     </div>
   </div>
   <script src="./test/epos-2.17.0.js"></script>
+  <!-- <script src="./test/API.js"></script> -->
 
   <script>
     let  table_number = String(document.querySelector(".table_number").textContent)
@@ -504,7 +505,7 @@ window.onbeforeunload = beforeUnload;
         alert("注文がありません!")
         return;
       }
-        alert("印刷中です。少々お待ちください。");
+        // alert("印刷中です。少々お待ちください。");
       
 
       let mn_name_obj = new Object();
@@ -545,7 +546,7 @@ window.onbeforeunload = beforeUnload;
 
       
       
-// print
+// // print
   let printer = null;
   let ePosDev = new epson.ePOSDevice();
 
@@ -575,7 +576,7 @@ window.onbeforeunload = beforeUnload;
               // alert('coveropen'); 
           }; 
           insertDB(quant_list);
-          // Print(); 
+          Print(); 
       } else { 
           alert(retcode); 
       }
@@ -593,7 +594,8 @@ window.onbeforeunload = beforeUnload;
     printer.addTextStyle(false, false, false, printer.COLOR_1);
     printer.addText('　ﾃｰﾌﾞﾙ\n\n');
     printer.addTextSize(2, 2);
-    printer.addText(`　${table_number + user_name}\n`);
+    // printer.addText(`　${table_number + user_name}\n`);
+    printer.addText(`　${table_number}\n`);
     printer.addTextSize(1, 1);
     printer.addPageArea(288, 0, 288, 120);
     printer.addTextStyle(false, true, false, printer.COLOR_1);
@@ -677,13 +679,15 @@ const insertDB = (quant_list)=> {
         fetch(`order_finish.php?
         mn_IDs=${JSON.stringify(mn_IDs)}&
         opm_IDs=${JSON.stringify(opm_IDs)}&
-        quant_list=${JSON.stringify(quant_list)}
+        quant_list=${JSON.stringify(quant_list)}&
+        order_num=${order_number}
         `)
         // 第一引数、Promise:成功か失敗か状態を表す
         .then(response => {
           return response.json()
         })
         .then(data => {
+          console.log(data);
           // Object.keys(data).forEach(function (key) {
           //   console.log('key:', key);
           //   console.log('json_parse:', data.family);
@@ -693,7 +697,7 @@ const insertDB = (quant_list)=> {
           let price = data.toLocaleString('ja-JP')
           let user_name = <?php echo json_encode($_SESSION["user"]); ?>;
           price = price.padStart( 6 , " " ); // "00123"
-          Print(price,user_name)
+          // Print(price,user_name)
           // complete(()=>{
 
           // })
@@ -711,6 +715,8 @@ const insertDB = (quant_list)=> {
       // function complete(_callback){
       //   _callback();
       // }
+          // insertDB(quant_list);
+
 }
 
 
