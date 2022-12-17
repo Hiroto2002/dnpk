@@ -23,12 +23,13 @@
     border: #DEAE34 5px solid;
     border-radius: 20px;
     transform: all 0.2s;
+    background: #ddd;
 }
 
 .widget label input:focus {
     outline: none;
     border: blue 5px solid;
-    box-shadow: 0 0 10px blue;
+    background-color: #fff;
 }
 
 button {
