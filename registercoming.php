@@ -91,7 +91,14 @@ error_reporting(E_ALL & ~E_NOTICE);
         ?>
         <div style="display: grid;grid-template-columns: 1fr 1fr;margin-top:50px">
             <label>座席<input type="text" placeholder="ボタンで入力" name="tableno" class="output" required readonly onclick="focusCheck()"></label>
-            <label>人数<input type="text" class="quantity" name="visitors" id="visitors" placeholder="ボタンで入力" required readonly onclick="focusCheck()"<?php if ($p == 2) echo 'value=' . $odh_Ninzu ?>></label>
+            <label>人数<input type="text" class="quantity" name="visitors" id="visitors"required readonly onclick="focusCheck()"<?php 
+            if ($p == 2) {
+                echo 'placeholder=' . $odh_Ninzu;
+            }else{
+                echo 'placeholder=' . "ボタンで入力";
+            }
+            ?>
+            ></label>
         </div>
         <div style="margin-top:150px">
             <button type="button" value="A" onClick="addNo(this.value)">A</button>
