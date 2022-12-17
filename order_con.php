@@ -14,6 +14,8 @@ $_SESSION["user"] = $user;
     <title>来店客状況</title>
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="css/order_con.css">
+    <script src="./js/JQuery.js" type="text/javascript"></script>
+
     <!-- 削除するか確認のダイアログを出す関数 -->
     <script>
         function MoveCheck($str) {
@@ -32,6 +34,11 @@ $_SESSION["user"] = $user;
                 return false;
             }
         }
+        $(function(){
+            $(".reload").on("click",function(){
+                location.reload()
+            })
+        })
     </script>
     <!-- 削除するか確認のダイアログを出す関数 -->
 </head>
@@ -53,13 +60,16 @@ $_SESSION["user"] = $user;
         }
         t = now;
     }, false);
+    setInterval(() => {
+        location.reload()
+    }, 60000);
 </script>
 
 <body>
     <header>
         <p class="title">来店客状況</p>
         <p class="back"><a href="./index.php">< 戻る</a></p>
-
+        <a href="registercoming.php?p=1" class="register">来店登録</a>
     </header>
     <div class="widget">
         <ol class="widget-list" id="teikyozumi">
@@ -157,8 +167,10 @@ $_SESSION["user"] = $user;
             <li class="widget-tab">
                 <a href="#tyumonmati" class="widget-tab-link">注文待ち</a>
         </ul>
+        <div class="reload">
+            <img src="./img/reload.svg" alt="再更新" />
+        </div>
     </div>
-
 </body>
 
 </html>
