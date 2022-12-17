@@ -84,7 +84,6 @@ if (isset($_POST["odh_No"])) {
     }
   });
 
-window.onbeforeunload = beforeUnload;
 </script>
 
 <body>
@@ -112,7 +111,7 @@ window.onbeforeunload = beforeUnload;
     </div>
   </header>
   <!--メイン-->
-  <div class="swiper mySwiper2">
+  <div class="swiper mySwiper2" id="swiper">
     <div class="swiper-wrapper">
 
       <?php
@@ -159,7 +158,7 @@ window.onbeforeunload = beforeUnload;
         $products = fetch_all_query($pdo, $sql);
       ?>
         <div class="swiper-slide">
-          <div class="menu">
+          <div class="menu" id="slide<?php print $i?>">
             <?php
             // セット・定食
             $my_i = $i . "01";
@@ -187,9 +186,9 @@ window.onbeforeunload = beforeUnload;
             print_r($menu_ids);
             if ($my_i % 2 == 0) {
               //奇数の場合>
-              echo "          <div class='menu-img modal-button' style='background-color:white;'>\n";
-              echo "              <img src='./img/null.jpg'>\n";
-              echo "          </div>\n";
+              // echo "          <div class='menu-img modal-button' style='background-color:white;'>\n";
+              // echo "              <img src='./img/null.jpg'>\n";
+              // echo "          </div>\n";
             }
 
             ?>
