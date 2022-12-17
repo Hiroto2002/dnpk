@@ -29,15 +29,16 @@
     padding: 20px;
     line-height: 70px;
 }
-/* #slide1 {
+#slide1 {
     background-color: rgb(255, 234, 165);
 }
 #slide2{
     background-color: rgb(150, 234, 241);
 }
 #slide3{
-    background-color: rgb(241, 150, 150); */
-/* } */
+    background-color: rgb(241, 150, 150);
+}
+
 /* .swiper-slide:nth-child(4n){
     background-color: #000;
 }
@@ -362,10 +363,12 @@
     border: none;
     border-radius: 20px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.243);
+    background-color:#fff;
 }
 
 input[type=checkbox]:checked+label {
-    box-shadow: 0 0 20px #DEAE34;
+    background-color: rgb(255, 206, 134);
+    color:#000
 }
 
 /* 
