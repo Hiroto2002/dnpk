@@ -40,8 +40,6 @@ if($odhm_No <= $Max[0] && $Max[0]){
 $mn_IDs=[];
 $opm_IDs=[];
 $quant_List=[];
-// echo $opm_ids;
-// exit();
 // menu
 
 foreach($mn_ids as $value){

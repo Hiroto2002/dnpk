@@ -505,7 +505,7 @@ window.onbeforeunload = beforeUnload;
         alert("注文がありません!")
         return;
       }
-        // alert("印刷中です。少々お待ちください。");
+        alert("印刷中です。少々お待ちください。");
       
 
       let mn_name_obj = new Object();
@@ -576,7 +576,7 @@ window.onbeforeunload = beforeUnload;
               // alert('coveropen'); 
           }; 
           insertDB(quant_list);
-          Print(); 
+          // Print(); 
       } else { 
           alert(retcode); 
       }
@@ -697,7 +697,7 @@ const insertDB = (quant_list)=> {
           let price = data.toLocaleString('ja-JP')
           let user_name = <?php echo json_encode($_SESSION["user"]); ?>;
           price = price.padStart( 6 , " " ); // "00123"
-          // Print(price,user_name)
+          Print(price,user_name)
           // complete(()=>{
 
           // })
