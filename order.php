@@ -106,6 +106,7 @@ window.onbeforeunload = beforeUnload;
         <div class="swiper-slide">単品[その他]</div>
         <div class="swiper-slide">ドリンク１</div>
         <div class="swiper-slide">ドリンク２</div>
+        <div class="swiper-slide">その他</div>
         <div class="swiper-slide">セット・定食</div>
       </div>
     </div>
@@ -118,7 +119,7 @@ window.onbeforeunload = beforeUnload;
       // データベース呼び出し
       require_once 'DbManager.php';
       $pdo = getDb();
-      for ($i = 1; $i <= 9; $i++) {
+      for ($i = 1; $i <= 10; $i++) {
         switch ($i) {
           case 1:
             $sql = 'SELECT mn_id,mn_Name_sub FROM t_m_menu where sec_CD_web=11 ORDER BY mn_Sort ASC';
@@ -133,22 +134,25 @@ window.onbeforeunload = beforeUnload;
             $sql = 'SELECT mn_id,mn_Name_sub FROM t_m_menu where sec_CD_web=23 ORDER BY mn_Sort ASC';
             break;
           case 5:
-            $sql = 'SELECT mn_id,mn_Name_sub FROM t_m_menu where sec_CD_web=52 ORDER BY mn_Sort ASC';
+            $sql = 'SELECT mn_id,mn_Name_sub FROM t_m_menu where sec_CD_web=41 ORDER BY mn_Sort ASC';
             // $sql = 'SELECT mn_id,mn_Name_sub FROM t_m_menu where sec_CD_web=31 ORDER BY mn_Sort ASC';
             break;
           case 6:
-            $sql = 'SELECT mn_id,mn_Name_sub FROM t_m_menu where sec_CD_web=41 ORDER BY mn_Sort ASC';
-            break;
-          case 7:
             $sql = 'SELECT mn_id,mn_Name_sub FROM t_m_menu where sec_CD_web=42 ORDER BY mn_Sort ASC';
             break;
-          case 8:
+          case 7:
             $sql = 'SELECT mn_id,mn_Name_sub FROM t_m_menu where sec_CD_web=51 ORDER BY mn_Sort ASC';
+            break;
+          case 8:
+            $sql = 'SELECT mn_id,mn_Name_sub FROM t_m_menu where sec_CD_web=52 ORDER BY mn_Sort ASC';
             break;
           case 9:
             // $sql = 'SELECT mn_id,mn_Name_sub FROM t_m_menu where sec_CD_web=52 ORDER BY mn_Sort ASC';
+            $sql = 'SELECT mn_id,mn_Name_sub FROM t_m_menu where sec_CD_web=0 ORDER BY mn_Sort ASC';
+            break;
+          case 10:
+            // $sql = 'SELECT mn_id,mn_Name_sub FROM t_m_menu where sec_CD_web=52 ORDER BY mn_Sort ASC';
             $sql = 'SELECT mn_id,mn_Name_sub FROM t_m_menu where sec_CD_web=31 ORDER BY mn_Sort ASC';
-
             break;
         }
         // SQL文を実行
@@ -373,7 +377,7 @@ window.onbeforeunload = beforeUnload;
       centeredSlides: true,
       loop: true,
       slideToClickedSlide: true,
-      loopedSlides: 9, //スライドの枚数と同じ値を指定
+      loopedSlides: 10, //スライドの枚数と同じ値を指定
       freemode: true,
 
     });
@@ -609,23 +613,24 @@ window.onbeforeunload = beforeUnload;
     printer.addTextSize(1, 1);
     printer.addPageEnd();
     printer.addTextLineSpace(24);
-    printer.addText('┏━━━━━━━━━━━━━┯━━┯━━━━━┓\n');
-    printer.addText('┃　　　品　　　　　名　　　│数量│　備　考　┃\n');
-    printer.addText('┠─────────────┼──┼─────┨\n');
+    printer.addText('┏━━┯━━━━━━━━━━━━━┯━━━━━┓\n');
+    printer.addText('┃数量│　　　品　　　　　名　　　│　備　考　┃\n');
+    printer.addText('┠──┼─────────────┼─────┨\n');
     Object.keys(mn_name_obj).forEach((key)=>{
+ 
       printer.addTextDouble(false, true);
       printer.addText('┃');
-      printer.addTextDouble(false, false);
-      printer.addText(' ');
-      printer.addTextDouble(true, true);
-      printer.addText(mn_name_obj[key]);
-      printer.addTextPosition(336);
-      printer.addTextDouble(false, true);
-      printer.addText('│');
       printer.addTextDouble(true, true);
       printer.addText(` ${quant_list[key]}`);
       printer.addTextDouble(false, true);
       printer.addText('│');
+      printer.addText(' ');
+      printer.addTextDouble(true, true);
+      printer.addText(mn_name_obj[key]);
+      printer.addTextPosition(408);
+      printer.addTextDouble(false, true);
+      printer.addText('│');
+      printer.addTextDouble(false, true);
       printer.addText('　');
       printer.addTextPosition(552);
       printer.addText('┃');
@@ -634,24 +639,56 @@ window.onbeforeunload = beforeUnload;
       printer.addTextDouble(false, true);
       printer.addText('┃');
       printer.addTextDouble(false, true);
+      printer.addTextPosition(72);
+      printer.addText('│');
+      printer.addTextDouble(false, true);
       printer.addText('　');
       printer.addText(opm_name_obj[key]);
-      printer.addTextDouble(false, true);
-      printer.addTextPosition(336);
-      printer.addText('│');
       printer.addTextPosition(408);
       printer.addText('│');
       printer.addTextPosition(552);
       printer.addText('┃');
       printer.addText('\n');
       printer.addTextDouble(false, false);
-      printer.addText('┃　　　　　　　　　　　　　│　　│　　　　　┃\n');
+      printer.addText('┃　　│　　　　　　　　　　　　　│　　　　　┃\n');
+      // printer.addTextDouble(false, true);
+      // printer.addText('┃');
+      // printer.addTextDouble(false, false);
+      // printer.addText(' ');
+      // printer.addTextDouble(true, true);
+      // printer.addText(mn_name_obj[key]);
+      // printer.addTextPosition(336);
+      // printer.addTextDouble(false, true);
+      // printer.addText('│');
+      // printer.addTextDouble(true, true);
+      // printer.addText(` ${quant_list[key]}`);
+      // printer.addTextDouble(false, true);
+      // printer.addText('│');
+      // printer.addText('　');
+      // printer.addTextPosition(552);
+      // printer.addText('┃');
+      // printer.addTextDouble(false, false);
+      // printer.addText('\n');
+      // printer.addTextDouble(false, true);
+      // printer.addText('┃');
+      // printer.addTextDouble(false, true);
+      // printer.addText('　');
+      // printer.addText(opm_name_obj[key]);
+      // printer.addTextDouble(false, true);
+      // printer.addTextPosition(336);
+      // printer.addText('│');
+      // printer.addTextPosition(408);
+      // printer.addText('│');
+      // printer.addTextPosition(552);
+      // printer.addText('┃');
+      // printer.addText('\n');
+      // printer.addTextDouble(false, false);
+      // printer.addText('┃　　　　　　　　　　　　　│　　│　　　　　┃\n');
     })
     printer.addTextDouble(false, true);
-    printer.addText('┃　　　　　　　　　　　　　│　　│　　　　　┃\n');
-    printer.addText('┃　　　　　　　　　　　　　│　　│　　　　　┃\n');
+    printer.addText('┃　　│　　　　　　　　　　　　　│　　　　　┃\n');
     printer.addTextDouble(false, false);
-    printer.addText('┣━━━━━━━━━━┯━━┷━━┷━━━━━┫\n');
+    printer.addText('┣━━┷━━━━━━━┯━━━━━┷━━━━━┫\n');
     printer.addTextDouble(false, true);
     printer.addText('┃　合　計　　　      │　　　　　　');
     printer.addText(`  ${price}  `);
