@@ -29,16 +29,36 @@
     padding: 20px;
     line-height: 70px;
 }
-#slide1 {
-    background-color: rgb(255, 234, 165);
+#slide1{
+    background-color: rgb(243, 239, 227);
 }
 #slide2{
-    background-color: rgb(150, 234, 241);
+    background-color: rgb(222, 245, 247);
 }
 #slide3{
-    background-color: rgb(241, 150, 150);
+    background-color: rgb(248, 227, 227);
 }
-
+#slide4{
+    background-color: rgb(248, 227, 227);
+}
+#slide5{
+    background-color: rgb(248, 227, 227);
+}
+#slide6{
+    background-color: rgb(248, 227, 227);
+}
+#slide7{
+    background-color: rgb(248, 227, 227);
+}
+#slide8{
+    background-color: rgb(248, 227, 227);
+}
+#slide9{
+    background-color: rgb(248, 227, 227);
+}
+#slide10{
+    background-color: rgb(248, 227, 227);
+}
 /* .swiper-slide:nth-child(4n){
     background-color: #000;
 }
