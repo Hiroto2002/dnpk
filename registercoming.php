@@ -85,6 +85,7 @@ error_reporting(E_ALL & ~E_NOTICE);
                     $odh_No = $_GET['odh_No'];
                     $odh_Ninzu = $_GET['odh_Ninzu'];
                     $odh_situation = $_GET['odh_situation'];
+                    $table_No = $_GET["table_No"];
                 }
                 // p=2は、変更の場合a
                 if ($p == 2) {
@@ -94,7 +95,15 @@ error_reporting(E_ALL & ~E_NOTICE);
                 }
             ?>
             <div style="display: grid;grid-template-columns: 1fr 1fr;margin-top:50px">
-                <label>座席<input type="text" placeholder="ボタンで入力" name="tableno" class="output" required readonly onclick="focusCheck()"></label>
+                <label>座席<input type="text" name="tableno" class="output" required readonly onclick="focusCheck()"
+                <?php
+                if ($p == 2) {
+                    echo 'placeholder=' . $table_No;
+                }else{
+                    echo 'placeholder=' . "ボタンで入力";
+                }
+                ?>
+                ></label>
                 <label>人数<input type="text" class="quantity" name="visitors" id="visitors"required readonly onclick="focusCheck()"<?php 
                 if ($p == 2) {
                     echo 'placeholder=' . $odh_Ninzu;
