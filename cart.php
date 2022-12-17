@@ -1,7 +1,7 @@
 <?php
 ini_set('display_errors', 0);
 error_reporting(E_ALL & ~E_NOTICE);
-// session_start();
+session_start();
 require_once "DbManager.php";
 
 // 複数のオプションを同じ配列に入れる

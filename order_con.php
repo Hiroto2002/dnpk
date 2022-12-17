@@ -14,6 +14,8 @@ $_SESSION["user"] = $user;
     <title>来店客状況</title>
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="css/order_con.css">
+    <script src="./js/JQuery.js" type="text/javascript"></script>
+
     <!-- 削除するか確認のダイアログを出す関数 -->
     <script>
         function MoveCheck($str) {
@@ -32,6 +34,11 @@ $_SESSION["user"] = $user;
                 return false;
             }
         }
+        $(function(){
+            $(".reload").on("click",function(){
+                location.reload()
+            })
+        })
     </script>
     <!-- 削除するか確認のダイアログを出す関数 -->
 </head>
@@ -53,13 +60,16 @@ $_SESSION["user"] = $user;
         }
         t = now;
     }, false);
+    setInterval(() => {
+        location.reload()
+    }, 60000);
 </script>
 
 <body>
     <header>
         <p class="title">来店客状況</p>
         <p class="back"><a href="./index.php">< 戻る</a></p>
-
+        <a href="registercoming.php?p=1" class="register">来店登録</a>
     </header>
     <div class="widget">
         <ol class="widget-list" id="teikyozumi">
@@ -77,11 +87,12 @@ $_SESSION["user"] = $user;
             $sql = 'SELECT * FROM t_d_order_handy where odh_situation=3';
             $products = fetch_all_query($pdo, $sql);
             foreach ($products as $product) {
-                echo "<li class='widget-list-link'>\n";
+                echo "<li>\n";
                 echo "<a class='widget-list-link1'>{$product['odh_Tbl_No']}</a>\n";
                 echo "<a class='widget-list-link1'>{$product['odh_Ninzu']}</a>\n";
-                echo "<a href='order.php' class='widget-list-link1'>注変更</a>\n";
-                echo "<a href='order.php' class='widget-list-link1 add'>追加</a>\n";
+                echo "<a href='registercoming.php?p=2&odh_No={$product['odh_No']}&odh_Ninzu={$product['odh_Ninzu']}&odh_situation=2&table_No={$product['odh_Tbl_No']}' class='widget-list-link2'>席変更</a>\n";
+                echo "<a href='cart.php?odh_No={$product['odh_No']}' class='widget-list-link2'>注変更</a>\n";
+                echo "<a href='order.php?odh_Tbl_No={$product['odh_Tbl_No']}&odh_No={$product['odh_No']}&odh_Ninzu={$product['odh_Ninzu']}&situ=add' class='widget-list-link2 add'>追加</a>\n";
                 echo "</li>\n";
                 echo "<hr>";
 
@@ -102,7 +113,7 @@ $_SESSION["user"] = $user;
                 echo "<li>\n";
                 echo "<a class='widget-list-link1'>{$product['odh_Tbl_No']}</a>\n";
                 echo "<a class='widget-list-link1'>{$product['odh_Ninzu']}</a>\n";
-                echo "<a href='registercoming.php?p=2&odh_No={$product['odh_No']}&odh_Ninzu={$product['odh_Ninzu']}&odh_situation=2' class='widget-list-link2'>席変更</a>\n";
+                echo "<a href='registercoming.php?p=2&odh_No={$product['odh_No']}&odh_Ninzu={$product['odh_Ninzu']}&odh_situation=2&table_No={$product['odh_Tbl_No']}' class='widget-list-link2' >席変更</a>\n";
                 echo "<a href='cart.php?odh_No={$product['odh_No']}' class='widget-list-link2'>注変更</a>\n";
                 echo "<a href='order.php?odh_Tbl_No={$product['odh_Tbl_No']}&odh_No={$product['odh_No']}&odh_Ninzu={$product['odh_Ninzu']}&situ=add' class='widget-list-link2 add'>追加</a>\n";
                 echo "</li>\n";
@@ -140,7 +151,7 @@ $_SESSION["user"] = $user;
                 echo "<a class='widget-list-link1'>{$product['odh_Tbl_No']}</a>\n";
                 echo "<a class='widget-list-link1'>{$product['odh_Ninzu']}</a>\n";
                 echo "<a href='order.php?odh_No={$product['odh_No']}&odh_Tbl_No={$product['odh_Tbl_No']}&odh_Ninzu={$product['odh_Ninzu']}&odh_situation=1#don' class='widget-list-link2'>注文</a>\n";
-                echo "<a href='registercoming.php?p=2&odh_No={$product['odh_No']}&odh_Ninzu={$product['odh_Ninzu']}&odh_situation=1' class='widget-list-link2'>席変更</a>\n";
+                echo "<a href='registercoming.php?p=2&odh_No={$product['odh_No']}&odh_Ninzu={$product['odh_Ninzu']}&odh_situation=1&table_No={$product['odh_Tbl_No']}' class='widget-list-link2'>席変更</a>\n";
                 echo "<a href='order_del.php?odh_No={$product['odh_No']}' onclick='return MoveCheck({$product['odh_No']})' class='widget-list-link2 delete'>削除</a>\n";
                 echo "</li>";
                 echo "<hr>";
@@ -156,8 +167,10 @@ $_SESSION["user"] = $user;
             <li class="widget-tab">
                 <a href="#tyumonmati" class="widget-tab-link">注文待ち</a>
         </ul>
+        <div class="reload">
+            <img src="./img/reload.svg" alt="再更新" />
+        </div>
     </div>
-
 </body>
 
 </html>

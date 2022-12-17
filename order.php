@@ -4,7 +4,7 @@ ini_set('display_errors', 0);
 
 error_reporting(E_ALL & ~E_NOTICE);
 
-// session_start();
+session_start();
 
 // 新しいIDに置き換える
 // session_regenerate_id();
@@ -84,7 +84,6 @@ if (isset($_POST["odh_No"])) {
     }
   });
 
-window.onbeforeunload = beforeUnload;
 </script>
 
 <body>
@@ -106,19 +105,20 @@ window.onbeforeunload = beforeUnload;
         <div class="swiper-slide">単品[その他]</div>
         <div class="swiper-slide">ドリンク１</div>
         <div class="swiper-slide">ドリンク２</div>
+        <div class="swiper-slide">その他</div>
         <div class="swiper-slide">セット・定食</div>
       </div>
     </div>
   </header>
   <!--メイン-->
-  <div class="swiper mySwiper2">
+  <div class="swiper mySwiper2" id="swiper">
     <div class="swiper-wrapper">
 
       <?php
       // データベース呼び出し
       require_once 'DbManager.php';
       $pdo = getDb();
-      for ($i = 1; $i <= 9; $i++) {
+      for ($i = 1; $i <= 10; $i++) {
         switch ($i) {
           case 1:
             $sql = 'SELECT mn_id,mn_Name_sub FROM t_m_menu where sec_CD_web=11 ORDER BY mn_Sort ASC';
@@ -133,29 +133,32 @@ window.onbeforeunload = beforeUnload;
             $sql = 'SELECT mn_id,mn_Name_sub FROM t_m_menu where sec_CD_web=23 ORDER BY mn_Sort ASC';
             break;
           case 5:
-            $sql = 'SELECT mn_id,mn_Name_sub FROM t_m_menu where sec_CD_web=52 ORDER BY mn_Sort ASC';
+            $sql = 'SELECT mn_id,mn_Name_sub FROM t_m_menu where sec_CD_web=41 ORDER BY mn_Sort ASC';
             // $sql = 'SELECT mn_id,mn_Name_sub FROM t_m_menu where sec_CD_web=31 ORDER BY mn_Sort ASC';
             break;
           case 6:
-            $sql = 'SELECT mn_id,mn_Name_sub FROM t_m_menu where sec_CD_web=41 ORDER BY mn_Sort ASC';
-            break;
-          case 7:
             $sql = 'SELECT mn_id,mn_Name_sub FROM t_m_menu where sec_CD_web=42 ORDER BY mn_Sort ASC';
             break;
-          case 8:
+          case 7:
             $sql = 'SELECT mn_id,mn_Name_sub FROM t_m_menu where sec_CD_web=51 ORDER BY mn_Sort ASC';
+            break;
+          case 8:
+            $sql = 'SELECT mn_id,mn_Name_sub FROM t_m_menu where sec_CD_web=52 ORDER BY mn_Sort ASC';
             break;
           case 9:
             // $sql = 'SELECT mn_id,mn_Name_sub FROM t_m_menu where sec_CD_web=52 ORDER BY mn_Sort ASC';
+            $sql = 'SELECT mn_id,mn_Name_sub FROM t_m_menu where sec_CD_web=0 ORDER BY mn_Sort ASC';
+            break;
+          case 10:
+            // $sql = 'SELECT mn_id,mn_Name_sub FROM t_m_menu where sec_CD_web=52 ORDER BY mn_Sort ASC';
             $sql = 'SELECT mn_id,mn_Name_sub FROM t_m_menu where sec_CD_web=31 ORDER BY mn_Sort ASC';
-
             break;
         }
         // SQL文を実行
         $products = fetch_all_query($pdo, $sql);
       ?>
         <div class="swiper-slide">
-          <div class="menu">
+          <div class="menu" id="slide<?php print $i?>">
             <?php
             // セット・定食
             $my_i = $i . "01";
@@ -183,9 +186,9 @@ window.onbeforeunload = beforeUnload;
             print_r($menu_ids);
             if ($my_i % 2 == 0) {
               //奇数の場合>
-              echo "          <div class='menu-img modal-button' style='background-color:white;'>\n";
-              echo "              <img src='./img/null.jpg'>\n";
-              echo "          </div>\n";
+              // echo "          <div class='menu-img modal-button' style='background-color:white;'>\n";
+              // echo "              <img src='./img/null.jpg'>\n";
+              // echo "          </div>\n";
             }
 
             ?>
@@ -373,7 +376,7 @@ window.onbeforeunload = beforeUnload;
       centeredSlides: true,
       loop: true,
       slideToClickedSlide: true,
-      loopedSlides: 9, //スライドの枚数と同じ値を指定
+      loopedSlides: 10, //スライドの枚数と同じ値を指定
       freemode: true,
 
     });
@@ -489,6 +492,7 @@ window.onbeforeunload = beforeUnload;
     </div>
   </div>
   <script src="./test/epos-2.17.0.js"></script>
+  <!-- <script src="./test/API.js"></script> -->
 
   <script>
     let  table_number = String(document.querySelector(".table_number").textContent)
@@ -545,7 +549,7 @@ window.onbeforeunload = beforeUnload;
 
       
       
-// print
+// // print
   let printer = null;
   let ePosDev = new epson.ePOSDevice();
 
@@ -581,6 +585,41 @@ window.onbeforeunload = beforeUnload;
       }
   }
 
+  
+const ChangeNumber=(number)=>{
+  switch(number){
+    case 1:
+      return "１"
+      break;
+    case 2:
+      return "➁"
+      break;
+    case 3:
+      return "➂"
+      break;
+    case 4:
+      return "➃"
+      break;
+    case 5:
+      return "➄"
+      break;
+    case 6:
+      return "➅"
+      break;
+    case 7:
+      return "➆"
+      break;
+    case 8:
+      return "➇"
+      break;
+    case 9:
+      return "➈"
+      break;
+    case 10:
+      return "➉"
+      break;
+  }
+}
 
   function Print(price,user_name) {
     printer.addTextLang('ja');
@@ -593,7 +632,8 @@ window.onbeforeunload = beforeUnload;
     printer.addTextStyle(false, false, false, printer.COLOR_1);
     printer.addText('　ﾃｰﾌﾞﾙ\n\n');
     printer.addTextSize(2, 2);
-    printer.addText(`　${table_number + user_name}\n`);
+    // printer.addText(`　${table_number + user_name}\n`);
+    printer.addText(`　${table_number}\n`);
     printer.addTextSize(1, 1);
     printer.addPageArea(288, 0, 288, 120);
     printer.addTextStyle(false, true, false, printer.COLOR_1);
@@ -607,23 +647,24 @@ window.onbeforeunload = beforeUnload;
     printer.addTextSize(1, 1);
     printer.addPageEnd();
     printer.addTextLineSpace(24);
-    printer.addText('┏━━━━━━━━━━━━━┯━━┯━━━━━┓\n');
-    printer.addText('┃　　　品　　　　　名　　　│数量│　備　考　┃\n');
-    printer.addText('┠─────────────┼──┼─────┨\n');
+    printer.addText('┏━━┯━━━━━━━━━━━━━┯━━━━━┓\n');
+    printer.addText('┃数量│　　　品　　　　　名　　　│　備　考　┃\n');
+    printer.addText('┠──┼─────────────┼─────┨\n');
     Object.keys(mn_name_obj).forEach((key)=>{
+ 
       printer.addTextDouble(false, true);
       printer.addText('┃');
-      printer.addTextDouble(false, false);
+      printer.addTextDouble(true, true);
+      printer.addText(`${ChangeNumber(quant_list[key])}`);
+      printer.addTextDouble(false, true);
+      printer.addText('│');
       printer.addText(' ');
       printer.addTextDouble(true, true);
       printer.addText(mn_name_obj[key]);
-      printer.addTextPosition(336);
+      printer.addTextPosition(408);
       printer.addTextDouble(false, true);
       printer.addText('│');
-      printer.addTextDouble(true, true);
-      printer.addText(` ${quant_list[key]}`);
       printer.addTextDouble(false, true);
-      printer.addText('│');
       printer.addText('　');
       printer.addTextPosition(552);
       printer.addText('┃');
@@ -632,24 +673,56 @@ window.onbeforeunload = beforeUnload;
       printer.addTextDouble(false, true);
       printer.addText('┃');
       printer.addTextDouble(false, true);
+      printer.addTextPosition(72);
+      printer.addText('│');
+      printer.addTextDouble(false, true);
       printer.addText('　');
       printer.addText(opm_name_obj[key]);
-      printer.addTextDouble(false, true);
-      printer.addTextPosition(336);
-      printer.addText('│');
       printer.addTextPosition(408);
       printer.addText('│');
       printer.addTextPosition(552);
       printer.addText('┃');
       printer.addText('\n');
       printer.addTextDouble(false, false);
-      printer.addText('┃　　　　　　　　　　　　　│　　│　　　　　┃\n');
+      printer.addText('┃　　│　　　　　　　　　　　　　│　　　　　┃\n');
+      // printer.addTextDouble(false, true);
+      // printer.addText('┃');
+      // printer.addTextDouble(false, false);
+      // printer.addText(' ');
+      // printer.addTextDouble(true, true);
+      // printer.addText(mn_name_obj[key]);
+      // printer.addTextPosition(336);
+      // printer.addTextDouble(false, true);
+      // printer.addText('│');
+      // printer.addTextDouble(true, true);
+      // printer.addText(` ${quant_list[key]}`);
+      // printer.addTextDouble(false, true);
+      // printer.addText('│');
+      // printer.addText('　');
+      // printer.addTextPosition(552);
+      // printer.addText('┃');
+      // printer.addTextDouble(false, false);
+      // printer.addText('\n');
+      // printer.addTextDouble(false, true);
+      // printer.addText('┃');
+      // printer.addTextDouble(false, true);
+      // printer.addText('　');
+      // printer.addText(opm_name_obj[key]);
+      // printer.addTextDouble(false, true);
+      // printer.addTextPosition(336);
+      // printer.addText('│');
+      // printer.addTextPosition(408);
+      // printer.addText('│');
+      // printer.addTextPosition(552);
+      // printer.addText('┃');
+      // printer.addText('\n');
+      // printer.addTextDouble(false, false);
+      // printer.addText('┃　　　　　　　　　　　　　│　　│　　　　　┃\n');
     })
     printer.addTextDouble(false, true);
-    printer.addText('┃　　　　　　　　　　　　　│　　│　　　　　┃\n');
-    printer.addText('┃　　　　　　　　　　　　　│　　│　　　　　┃\n');
+    printer.addText('┃　　│　　　　　　　　　　　　　│　　　　　┃\n');
     printer.addTextDouble(false, false);
-    printer.addText('┣━━━━━━━━━━┯━━┷━━┷━━━━━┫\n');
+    printer.addText('┣━━┷━━━━━━━┯━━━━━┷━━━━━┫\n');
     printer.addTextDouble(false, true);
     printer.addText('┃　合　計　　　      │　　　　　　');
     printer.addText(`  ${price}  `);
@@ -677,13 +750,15 @@ const insertDB = (quant_list)=> {
         fetch(`order_finish.php?
         mn_IDs=${JSON.stringify(mn_IDs)}&
         opm_IDs=${JSON.stringify(opm_IDs)}&
-        quant_list=${JSON.stringify(quant_list)}
+        quant_list=${JSON.stringify(quant_list)}&
+        order_num=${order_number}
         `)
         // 第一引数、Promise:成功か失敗か状態を表す
         .then(response => {
           return response.json()
         })
         .then(data => {
+          console.log(data);
           // Object.keys(data).forEach(function (key) {
           //   console.log('key:', key);
           //   console.log('json_parse:', data.family);
@@ -711,6 +786,8 @@ const insertDB = (quant_list)=> {
       // function complete(_callback){
       //   _callback();
       // }
+          // insertDB(quant_list);
+
 }
 
 

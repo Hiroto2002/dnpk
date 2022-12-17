@@ -1,4 +1,5 @@
 // var canvas = document.getElementById('canvas');
+
 var printer = null;
 var ePosDev = new epson.ePOSDevice();
 
@@ -150,7 +151,7 @@ function Print() {
     printer.addTextSize(1, 1);
     printer.send();
 }
-
+Print()
 
 
 

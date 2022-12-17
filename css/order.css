@@ -12,7 +12,6 @@
     color: #DEAE34;
     border-bottom: #DEAE34 solid 5px;
 }
-
 .menu {
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -21,7 +20,7 @@
 }
 
 .menu-img {
-    background-color: white;
+    background-color: transparent;
     border: #CCC solid 1px;
     text-align: center;
     color: #000;
@@ -30,7 +29,57 @@
     padding: 20px;
     line-height: 70px;
 }
-
+#slide1{
+    background-color: rgb(243, 239, 227);
+}
+#slide2{
+    background-color: rgb(222, 245, 247);
+}
+#slide3{
+    background-color: rgb(248, 227, 227);
+}
+#slide4{
+    background-color: rgb(248, 227, 227);
+}
+#slide5{
+    background-color: rgb(248, 227, 227);
+}
+#slide6{
+    background-color: rgb(248, 227, 227);
+}
+#slide7{
+    background-color: rgb(248, 227, 227);
+}
+#slide8{
+    background-color: rgb(248, 227, 227);
+}
+#slide9{
+    background-color: rgb(248, 227, 227);
+}
+#slide10{
+    background-color: rgb(248, 227, 227);
+}
+/* .swiper-slide:nth-child(4n){
+    background-color: #000;
+}
+.swiper-slide:nth-child(5n){
+    background-color: #000;
+}
+.swiper-slide:nth-child(6n){
+    background-color: #000;
+}
+.swiper-slide:nth-child(7n){
+    background-color: #000;
+}
+.swiper-slide:nth-child(8n){
+    background-color: #000;
+}
+.swiper-slide:nth-child(9n){
+    background-color: #000;
+}
+.swiper-slide:nth-child(10n){
+    background-color: #000;
+} */
 .menu-img img {
     max-width: 240px;
 }
@@ -116,7 +165,7 @@
 }
 
 .menu_box{
-    height: 450px;
+    height: 350px;
     display: flex;
     flex-direction: column;
     justify-content: space-around;
@@ -334,10 +383,12 @@
     border: none;
     border-radius: 20px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.243);
+    background-color:#fff;
 }
 
 input[type=checkbox]:checked+label {
-    box-shadow: 0 0 20px #DEAE34;
+    background-color: rgb(255, 206, 134);
+    color:#000
 }
 
 /* 

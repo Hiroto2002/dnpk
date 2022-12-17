@@ -2,8 +2,9 @@
 
 
 // ブラウザでエラー確認が出来るようにします
-ini_set('display_errors', 1);
-// error_reporting(0);
+// ini_set('display_errors', 1);
+error_reporting(0);
+
 // session_start();
 require_once 'DbManager.php';
 
@@ -12,12 +13,13 @@ require_once 'DbManager.php';
 $mn_ids = json_decode($_GET["mn_IDs"]);
 $opm_ids = json_decode($_GET["opm_IDs"]);
 $quant_list = json_decode($_GET["quant_list"]);
+$order_num = $_GET["order_num"];
 
 
 
-if($_SESSION["odh_No"]){
-    $order_num = $_SESSION['odh_No'];
-}
+
+
+
 
 $count = 0;
 $year = date('y'); 
@@ -34,11 +36,10 @@ if($odhm_No <= $Max[0] && $Max[0]){
 }
 
 
+
 $mn_IDs=[];
 $opm_IDs=[];
 $quant_List=[];
-// echo $opm_ids;
-// exit();
 // menu
 
 foreach($mn_ids as $value){
@@ -83,6 +84,9 @@ $total_price = 0;
             // price
             $price = ChangePrice($mn_IDs[$count],$quant_List[$count]);
             // if(!isset($_SESSION["update"])){
+        
+            $array = [$order_num,$mn_IDs[$count],$quant_List[$count],$price];
+       
             $stmt= $pdo->prepare("INSERT INTO t_d_morder_handy (odhm_No,odh_No,mn_ID,odhm_Quant,odhm_Amount,Edittime) VALUES(?,?,?,?,?,NOW())");
             $stmt->execute(array(
                 $odhm_No,
@@ -92,7 +96,8 @@ $total_price = 0;
                 $price,
             ));
         }
-    
+        
+        
  
         // }else{
             // $stmt=$pdo->prepare("SELECT odhm_No FROM t_d_morder_handy WHERE odh_No=?");
@@ -146,7 +151,7 @@ $stmt->execute(array(
     $order_num
 ));
 
-$_SESSION = array();
+// $_SESSION = array();
     echo json_encode($total_price);
     exit();    
 
