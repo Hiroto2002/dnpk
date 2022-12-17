@@ -585,6 +585,41 @@ if (isset($_POST["odh_No"])) {
       }
   }
 
+  
+const ChangeNumber=(number)=>{
+  switch(number){
+    case 1:
+      return "１"
+      break;
+    case 2:
+      return "➁"
+      break;
+    case 3:
+      return "➂"
+      break;
+    case 4:
+      return "➃"
+      break;
+    case 5:
+      return "➄"
+      break;
+    case 6:
+      return "➅"
+      break;
+    case 7:
+      return "➆"
+      break;
+    case 8:
+      return "➇"
+      break;
+    case 9:
+      return "➈"
+      break;
+    case 10:
+      return "➉"
+      break;
+  }
+}
 
   function Print(price,user_name) {
     printer.addTextLang('ja');
@@ -620,7 +655,7 @@ if (isset($_POST["odh_No"])) {
       printer.addTextDouble(false, true);
       printer.addText('┃');
       printer.addTextDouble(true, true);
-      printer.addText(` ${quant_list[key]}`);
+      printer.addText(`${ChangeNumber(quant_list[key])}`);
       printer.addTextDouble(false, true);
       printer.addText('│');
       printer.addText(' ');
