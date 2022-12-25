@@ -30,34 +30,34 @@
     line-height: 70px;
 }
 #slide1{
-    background-color: rgb(243, 239, 227);
+    background-color: #fff4f4;
 }
 #slide2{
-    background-color: rgb(222, 245, 247);
+    background-color: #fff4ff;
 }
 #slide3{
-    background-color: rgb(248, 227, 227);
+    background-color: #f4f4ff;
 }
 #slide4{
-    background-color: rgb(248, 227, 227);
+    background-color: #f4f9ff;
 }
 #slide5{
-    background-color: rgb(248, 227, 227);
+    background-color: #f4ffff;
 }
 #slide6{
-    background-color: rgb(248, 227, 227);
+    background-color: #f4fff9;
 }
 #slide7{
-    background-color: rgb(248, 227, 227);
+    background-color: #f4fff4;
 }
 #slide8{
-    background-color: rgb(248, 227, 227);
+    background-color: #f9fff4;
 }
 #slide9{
-    background-color: rgb(248, 227, 227);
+    background-color: #fffff4;
 }
 #slide10{
-    background-color: rgb(248, 227, 227);
+    background-color: #fff9f4;
 }
 /* .swiper-slide:nth-child(4n){
     background-color: #000;
