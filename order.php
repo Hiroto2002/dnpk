@@ -412,6 +412,7 @@ window.addEventListener('beforeunload', function(event) {
             <dl>
                 人数
             </dl>
+
             <dt class="people_number"><?php print $_SESSION['odh_Ninzu']; ?></dt>
         </div>
         <div>
@@ -584,7 +585,6 @@ window.addEventListener('beforeunload', function(event) {
                     printer.oncoveropen = function() {
                         // alert('coveropen'); 
                     };
-                    insertDB(quant_list);
                     // Print(); 
                 } else {
                     alert(retcode);
@@ -790,6 +790,7 @@ window.addEventListener('beforeunload', function(event) {
                     });
 
             }
+            insertDB(quant_list);
 
             // function complete(_callback){
             //   _callback();
