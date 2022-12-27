@@ -14,6 +14,8 @@ $mn_ids = json_decode($_GET["mn_IDs"]);
 $opm_ids = json_decode($_GET["opm_IDs"]);
 $quant_list = json_decode($_GET["quant_list"]);
 $order_num = $_GET["order_num"];
+$read = [];
+
 
 
 
@@ -66,6 +68,19 @@ foreach($quant_list as $value){
     }
 }
 
+// 読み上げ用
+for($i=0;count($mn_IDs)>$i;$i++){
+    
+    array_push($read,ChangeName($mn_IDs[$i]));
+    
+    foreach($opm_IDs[$i] as $value){
+        array_push($read,ChangeOptionName($value));
+    }
+    array_push($read,$quant_List[$i]);
+}
+$read = json_parse($read);
+echo (`${$read}`);
+exit();
 
 $total_price = 0;
 /**
