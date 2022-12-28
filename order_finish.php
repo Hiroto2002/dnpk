@@ -77,10 +77,16 @@ for($i=0;count($mn_IDs)>$i;$i++){
         array_push($read,ChangeOptionName($value));
     }
     array_push($read,$quant_List[$i]);
+    array_push($read," ");
 }
-$read = json_parse($read);
-echo (`${$read}`);
-exit();
+$readval = implode($read);
+
+$to = "";
+$title = "";
+$message = $readval;
+$headers = "From: order_dn@dnpk.jp";
+
+mb_send_mail($to, $title, $message, $headers);
 
 $total_price = 0;
 /**

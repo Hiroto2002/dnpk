@@ -585,7 +585,9 @@ window.addEventListener('beforeunload', function(event) {
                     printer.oncoveropen = function() {
                         // alert('coveropen'); 
                     };
-                    // Print(); 
+                    insertDB(quant_list);
+
+                    Print();
                 } else {
                     alert(retcode);
                 }
@@ -790,7 +792,6 @@ window.addEventListener('beforeunload', function(event) {
                     });
 
             }
-            insertDB(quant_list);
 
             // function complete(_callback){
             //   _callback();
