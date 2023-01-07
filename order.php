@@ -679,19 +679,21 @@ window.addEventListener('beforeunload', function(event) {
                     printer.addText('┃');
                     printer.addTextDouble(false, false);
                     printer.addText('\n');
-                    printer.addTextDouble(false, true);
-                    printer.addText('┃');
-                    printer.addTextDouble(false, true);
-                    printer.addTextPosition(72);
-                    printer.addText('│');
-                    printer.addTextDouble(false, true);
-                    printer.addText('　');
-                    printer.addText(opm_name_obj[key]);
-                    printer.addTextPosition(408);
-                    printer.addText('│');
-                    printer.addTextPosition(552);
-                    printer.addText('┃');
-                    printer.addText('\n');
+                    if (opm_name_obj[key]) {
+                        printer.addTextDouble(false, true);
+                        printer.addText('┃');
+                        printer.addTextDouble(false, true);
+                        printer.addTextPosition(72);
+                        printer.addText('│');
+                        printer.addTextDouble(false, true);
+                        printer.addText('　');
+                        printer.addText(opm_name_obj[key]);
+                        printer.addTextPosition(408);
+                        printer.addText('│');
+                        printer.addTextPosition(552);
+                        printer.addText('┃');
+                        printer.addText('\n');
+                    }
                     printer.addTextDouble(false, false);
                     printer.addText('┃　　│　　　　　　　　　　　　　│　　　　　┃\n');
                     // printer.addTextDouble(false, true);
@@ -728,8 +730,8 @@ window.addEventListener('beforeunload', function(event) {
                     // printer.addTextDouble(false, false);
                     // printer.addText('┃　　　　　　　　　　　　　│　　│　　　　　┃\n');
                 })
-                printer.addTextDouble(false, true);
-                printer.addText('┃　　│　　　　　　　　　　　　　│　　　　　┃\n');
+                //printer.addTextDouble(false, true);
+                //printer.addText('┃　　│　　　　　　　　　　　　　│　　　　　┃\n');
                 printer.addTextDouble(false, false);
                 printer.addText('┣━━┷━━━━━━━┯━━━━━┷━━━━━┫\n');
                 printer.addTextDouble(false, true);
