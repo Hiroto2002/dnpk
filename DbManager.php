@@ -112,3 +112,12 @@ function ChangeOptionName($option_ID)
 
   return $option_Name;
 }
+
+function getAllStaff($day){
+  $pdo = getDb();
+  $sql = $pdo->prepare('SELECT DISTINCT stf_Name,stf_ID FROM t_stf_mst WHERE Edittime > ?');
+  $sql->execute(array($day));
+  $staffs = $sql->fetchAll();
+
+  return $staffs;
+}

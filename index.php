@@ -5,6 +5,8 @@ session_start();
 ini_set("session.gc_maxlifetime",14400000);
 ini_set("session.cookie_lifetime",8640);
 
+require_once 'DbManager.php';
+
 // ユーザーを追加する
 if (isset($_POST["user"])) {
     $_SESSION["user"] =  $_POST["user"];
@@ -21,7 +23,14 @@ if (isset($_GET["logout"])) {
     // print("<br/><br/><br/><br/><br/><br/><br/><br/>");
     // print$_GET["logout"];
 }
-
+$day = date("Y-m-d");
+try{
+    $staffs = getAllStaff($day);
+    // print_r($staffs);
+    // exit;
+}catch(PDOException $e){
+    exit($e->getMessage());
+}
 
 
 ?>
@@ -108,9 +117,11 @@ document.documentElement.addEventListener('touchend', function(e) {
     </div>
     <form action="" method="post" class="user">
         <select name="user">
-            <option value="a">a</option>
-            <option value="b">b</option>
-            <option value="c">c</option>
+            <?php foreach($staffs as $value):?>
+            <option value="<?php print_r($value["stf_Name"]);?>"><?php print_r($value["stf_Name"])?></option>
+            <?php 
+            endforeach;
+            ?>
         </select>
         <input type="submit" value="送信" />
     </form>
