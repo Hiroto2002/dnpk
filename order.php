@@ -48,7 +48,7 @@ if (isset($_POST["odh_No"])) {
     <meta charset="UTF-8">
     <title>注文画面</title>
     <link rel="stylesheet" href="css/style.css">
-    <link rel="stylesheet" href="css/order.css">
+    <link rel="stylesheet" href="./css/order.css">
     <link rel="stylesheet" href="css/bottomsheet.css">
     <link rel="stylesheet" href="https://unpkg.com/swiper@7/swiper-bundle.min.css" />
     <!-- <script type="text/javascript" src="./js/spinner.js"></script> -->
@@ -86,6 +86,9 @@ window.addEventListener('beforeunload', function(event) {
 </script>
 
 <body>
+    <div class="print_overlay">
+        <p>印刷中です。しばらくお待ち下さい。</p>
+    </div>
     <header style="height:300px">
         <div class="information">
             <p class="title">来店客状況</p>
@@ -502,6 +505,9 @@ window.addEventListener('beforeunload', function(event) {
     // console.log(quant_list);
 
     const order_finish = () => {
+        const overlay = document.querySelector(".print_overlay")
+        console.log(overlay);
+        overlay.style.display = ("flex");
 
         const result = window.confirm("注文を確定しますか？")
 
@@ -514,7 +520,6 @@ window.addEventListener('beforeunload', function(event) {
                 alert("注文がありません!")
                 return;
             }
-            alert("印刷中です。少々お待ちください。");
 
 
             let mn_name_obj = new Object();
