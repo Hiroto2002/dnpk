@@ -600,31 +600,31 @@ window.addEventListener('beforeunload', function(event) {
                         return "１"
                         break;
                     case 2:
-                        return "➁"
+                        return "②"
                         break;
                     case 3:
-                        return "➂"
+                        return "③"
                         break;
                     case 4:
-                        return "➃"
+                        return "④"
                         break;
                     case 5:
-                        return "➄"
+                        return "⑤"
                         break;
                     case 6:
-                        return "➅"
+                        return "⑥"
                         break;
                     case 7:
-                        return "➆"
+                        return "⑦"
                         break;
                     case 8:
-                        return "➇"
+                        return "⑧"
                         break;
                     case 9:
-                        return "➈"
+                        return "⑨"
                         break;
                     case 10:
-                        return "➉"
+                        return "⑩"
                         break;
                 }
             }
@@ -664,7 +664,7 @@ window.addEventListener('beforeunload', function(event) {
                     printer.addTextDouble(false, true);
                     printer.addText('┃');
                     printer.addTextDouble(true, true);
-                    printer.addText(`${ChangeNumber(Number(quant_list[key]))}`);
+                    // printer.addText(`${ChangeNumber(Number(quant_list[key]))}`);
                     printer.addTextDouble(false, true);
                     printer.addText('│');
                     printer.addText(' ');
