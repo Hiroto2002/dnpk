@@ -587,7 +587,6 @@ window.addEventListener('beforeunload', function(event) {
                     };
                     insertDB(quant_list);
 
-                    Print();
                 } else {
                     alert(retcode);
                 }
@@ -664,7 +663,7 @@ window.addEventListener('beforeunload', function(event) {
                     printer.addTextDouble(false, true);
                     printer.addText('┃');
                     printer.addTextDouble(true, true);
-                    // printer.addText(`${ChangeNumber(Number(quant_list[key]))}`);
+                    printer.addText(`${ChangeNumber(Number(quant_list[key]))}`);
                     printer.addTextDouble(false, true);
                     printer.addText('│');
                     printer.addText(' ');
@@ -780,7 +779,7 @@ window.addEventListener('beforeunload', function(event) {
                         let price = data.toLocaleString('ja-JP')
                         let user_name = <?php echo json_encode($_SESSION["user"]); ?>;
                         price = price.padStart(6, " "); // "00123"
-                        // Print(price,user_name)
+                        Print(price, user_name)
                         // complete(()=>{
 
                         // })
