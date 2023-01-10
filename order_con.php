@@ -18,58 +18,62 @@ $_SESSION["user"] = $user;
 
     <!-- 削除するか確認のダイアログを出す関数 -->
     <script>
-        function MoveCheck($str) {
-            var res = confirm("オーダー番号" + $str + "を削除しますか？");
+    function MoveCheck($str) {
+        var res = confirm("オーダー番号" + $str + "を削除しますか？");
+        if (res == true) {
+            // 再度確認
+            var res = confirm("本当に削除しますか？");
             if (res == true) {
-                // 再度確認
-                var res = confirm("本当に削除しますか？");
-                if (res == true) {
-                    //OKなら削除処理に進む
-                } else {
-                    // キャンセルなら処理を中断する
-                    return false;
-                }
+                //OKなら削除処理に進む
             } else {
                 // キャンセルなら処理を中断する
                 return false;
             }
+        } else {
+            // キャンセルなら処理を中断する
+            return false;
         }
-        $(function(){
-            $(".reload").on("click",function(){
-                location.reload()
-            })
+    }
+    $(function() {
+        $(".reload").on("click", function() {
+            location.reload()
         })
+    })
     </script>
     <!-- 削除するか確認のダイアログを出す関数 -->
 </head>
 <script>
-    /* ピッチインピッチアウトによる拡大縮小を禁止 */
-    document.documentElement.addEventListener('touchstart', function(e) {
-        if (e.touches.length >= 2) {
-            e.preventDefault();
-        }
-    }, {
-        passive: false
-    });
-    /* ダブルタップによる拡大を禁止 */
-    var t = 0;
-    document.documentElement.addEventListener('touchend', function(e) {
-        var now = new Date().getTime();
-        if ((now - t) < 350) {
-            e.preventDefault();
-        }
-        t = now;
-    }, false);
-    setInterval(() => {
-        location.reload()
-    }, 60000);
+/* ピッチインピッチアウトによる拡大縮小を禁止 */
+document.documentElement.addEventListener('touchstart', function(e) {
+    if (e.touches.length >= 2) {
+        e.preventDefault();
+    }
+}, {
+    passive: false
+});
+/* ダブルタップによる拡大を禁止 */
+var t = 0;
+document.documentElement.addEventListener('touchend', function(e) {
+    var now = new Date().getTime();
+    if ((now - t) < 350) {
+        e.preventDefault();
+    }
+    t = now;
+}, false);
+setInterval(() => {
+    location.reload()
+}, 60000);
 </script>
 
 <body>
     <header>
         <p class="title">来店客状況</p>
-        <p class="back"><a href="./index.php">< 戻る</a></p>
-        <a href="registercoming.php?p=1" class="register">来店登録</a>
+        <p class="back"><a href="./index.php">
+                < 戻る</a>
+        </p>
+        <p class="register">
+            <a href="registercoming.php?p=1">来店登録</a>
+        </p>
     </header>
     <div class="widget">
         <ol class="widget-list" id="teikyozumi">
