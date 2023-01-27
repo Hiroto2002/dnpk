@@ -505,15 +505,15 @@ window.addEventListener('beforeunload', function(event) {
     // console.log(quant_list);
 
     const order_finish = () => {
-        const overlay = document.querySelector(".print_overlay")
-        console.log(overlay);
-        overlay.style.display = ("flex");
+
 
         const result = window.confirm("注文を確定しますか？")
 
         if (result) {
             // 別のページに飛ぶ、などの操作
-
+            const overlay = document.querySelector(".print_overlay")
+            // console.log(overlay);
+            overlay.style.display = ("flex");
 
             // 注文がない場合
             if (!Object.keys(mn_IDs).length) {
@@ -573,7 +573,11 @@ window.addEventListener('beforeunload', function(event) {
                         'buffer': false
                     }, cbCreateDevice_printer);
                 } else {
-                    alert(data);
+                    const overlay = document.querySelector(".print_overlay")
+
+                    alert("エラーが発生しました。再読込されます。");
+                    location.href = "./order.php"
+
                 }
             }
 
