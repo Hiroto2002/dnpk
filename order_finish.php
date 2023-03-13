@@ -14,6 +14,7 @@ $mn_ids = json_decode($_GET["mn_IDs"]);
 $opm_ids = json_decode($_GET["opm_IDs"]);
 $quant_list = json_decode($_GET["quant_list"]);
 $order_num = $_GET["order_num"];
+$stf_ID = $_GET["stf_ID"];
 $read = [];
 
 
@@ -108,13 +109,14 @@ $total_price = 0;
         
             $array = [$order_num,$mn_IDs[$count],$quant_List[$count],$price];
        
-            $stmt= $pdo->prepare("INSERT INTO t_d_morder_handy (odhm_No,odh_No,mn_ID,odhm_Quant,odhm_Amount,Edittime) VALUES(?,?,?,?,?,NOW())");
+            $stmt= $pdo->prepare("INSERT INTO t_d_morder_handy (odhm_No,odh_No,mn_ID,odhm_Quant,odhm_Amount,Edittime,stf_ID) VALUES(?,?,?,?,?,NOW(),?)");
             $stmt->execute(array(
                 $odhm_No,
                 $order_num,
                 $mn_IDs[$count],
                 $quant_List[$count],
                 $price,
+                $stf_ID
             ));
         }
         

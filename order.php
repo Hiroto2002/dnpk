@@ -526,6 +526,8 @@ window.addEventListener('beforeunload', function(event) {
             let opm_name_obj = new Object();
             let mn_names = document.querySelectorAll(".menu_name")
             let opm_names = document.querySelectorAll(".option_name")
+            const user = <?php echo json_encode($_SESSION["user"]); ?>;
+
 
             // 表示されていない番号を取得
             // console.log("消された番号：" + delete_list);     
@@ -639,6 +641,9 @@ window.addEventListener('beforeunload', function(event) {
             // console.log(ChangeNumber(2)); 
 
             function Print(price, user_name) {
+                const time = new Date()
+
+
                 printer.addTextLang('ja');
                 printer.addTextSmooth(true);
                 printer.addPageBegin();
@@ -771,7 +776,8 @@ window.addEventListener('beforeunload', function(event) {
         mn_IDs=${JSON.stringify(mn_IDs)}&
         opm_IDs=${JSON.stringify(opm_IDs)}&
         quant_list=${JSON.stringify(quant_list)}&
-        order_num=${order_number}
+        order_num=${order_number}&
+        stf_ID=${user}
         `)
                     // 第一引数、Promise:成功か失敗か状態を表す
                     .then(response => {
