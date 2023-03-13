@@ -117,6 +117,7 @@ document.documentElement.addEventListener('touchend', function(e) {
     </div>
     <form action="" method="post" class="user">
         <select name="user">
+            <option value="前田">前田</option>
             <?php foreach($staffs as $value):?>
             <option value="<?php print_r($value["stf_Name"]);?>"><?php print_r($value["stf_Name"])?></option>
             <?php 
