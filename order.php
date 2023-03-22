@@ -333,7 +333,7 @@ window.addEventListener('beforeunload', function(event) {
 
             string_options = options.join("、");
         } else {
-            string_options = "　";
+            string_options = "";
             console.log("ありません");
             opm_IDs[menu_ID] = null;
         }
