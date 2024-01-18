@@ -68,6 +68,7 @@ foreach($quant_list as $value){
         // array_push($quant_List,$quant_list[$i]);
     }
 }
+/**
 
 // 読み上げ用
 for($i=0;count($mn_IDs)>$i;$i++){
@@ -88,6 +89,7 @@ $message = $readval;
 $headers = "From: order_dn@dnpk.jp";
 
 mb_send_mail($to, $title, $message, $headers);
+ */
 
 $total_price = 0;
 /**

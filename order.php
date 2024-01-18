@@ -596,7 +596,7 @@ window.addEventListener('beforeunload', function(event) {
                     printer.oncoveropen = function() {
                         // alert('coveropen'); 
                     };
-                    insertDB(quant_list);
+                    // insertDB(quant_list);
 
                 } else {
                     alert(retcode);
@@ -794,7 +794,7 @@ window.addEventListener('beforeunload', function(event) {
                         let price = data.toLocaleString('ja-JP')
                         let user_name = <?php echo json_encode($_SESSION["user"]); ?>;
                         price = price.padStart(6, " "); // "00123"
-                        Print(price, user_name)
+                        // Print(price, user_name)
                         // complete(()=>{
 
                         // })
@@ -812,7 +812,7 @@ window.addEventListener('beforeunload', function(event) {
             // function complete(_callback){
             //   _callback();
             // }
-            // insertDB(quant_list);
+            insertDB(quant_list);
         } else {
             // そのページにとどまる、などの操作
         }

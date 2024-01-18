@@ -2,7 +2,7 @@
 error_reporting(0);
 session_start();
 //sessionとcookieの有効期限を一日に 
-ini_set("session.gc_maxlifetime",14400000);
+ini_set("session.gc_maxlifetime",18000);
 ini_set("session.cookie_lifetime",8640);
 
 require_once 'DbManager.php';
@@ -15,7 +15,7 @@ if (isset($_POST["user"])) {
 // ログアウト
 if (isset($_GET["logout"])) {
     $_SESSION =  array();
-    $url = 'http://localhost/%E3%81%A9%E3%82%93%E3%81%B7%E3%81%8F/index.php?logout=1';
+    $url = 'http://192.168.15.20/dnpk/index.php?logout=1';
     // $url = 'https://dnpk.jp/test/index.php?logout=1';
     $url = strtok($url, '?');
     header("Location: $url");
