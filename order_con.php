@@ -1,9 +1,13 @@
 <?php
-ini_set('display_errors', 0);
-session_start();
-$user = $_SESSION["user"];
-$_SESSION = array();
-$_SESSION["user"] = $user;
+    require_once 'DbManager.php';
+    ini_set('display_errors', 0);
+    session_start();
+    $user = $_SESSION["user"];;
+    $_SESSION = array();
+    $_SESSION["user"] = $user;
+    $pdo = getDb();
+    $sql = 'SELECT * FROM t_d_order_handy where odh_situation=3';
+    $products = fetch_all_query($pdo, $sql);
 ?>
 
 <!DOCTYPE html>
@@ -14,86 +18,9 @@ $_SESSION["user"] = $user;
     <title>来店客状況</title>
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="css/order_con.css">
-    <script src="./js/JQuery.js" type="text/javascript"></script>
-    <script src="./js/orderCon/orderCon.js"></script>
-
-    <!-- 削除するか確認のダイアログを出す関数 -->
-    <script>
-    function MoveCheck($str) {
-        var res = confirm("オーダー番号" + $str + "を削除しますか？");
-        if (res == true) {
-            // 再度確認
-            var res = confirm("本当に削除しますか？");
-            if (res == true) {
-                //OKなら削除処理に進む
-            } else {
-                // キャンセルなら処理を中断する
-                return false;
-            }
-        } else {
-            // キャンセルなら処理を中断する
-            return false;
-        }
-    }
-    $(function() {
-        $(".reload").on("click", function() {
-            location.reload()
-        })
-    })
-    $(function() {
-        $(".widget-list-link2").on("click", async function(e) {
-            e.preventDefault();
-            const odhNo = $(this).attr("data-id")
-            // alert("ぐるぐるで更新してください")
-            const situNo = $(this).attr("id")
-            const url = $(this).attr("href")
-            await fetch(`./api/checkSituation.php?odhNo=${odhNo}&situNo=${situNo}`)
-                .then(res => {
-                    if (!res.ok) {
-                        throw new Error('サーバーエラーが発生しました');
-                    }
-                    return res.json();
-                })
-                .then(data => {
-                    if (data === false) {
-                        alert("ぐるぐるで更新してください");
-                        location.reload();
-                    } else {
-                        location.href = url
-                    }
-                    // 他のデータ処理をここに追加
-                })
-                .catch(error => {
-                    console.error('エラー:', error);
-                    alert("エラーが発生しました");
-                });
-        })
-    })
-    </script>
-    <!-- 削除するか確認のダイアログを出す関数 -->
+    <script src="./frontend/public/js/JQuery.js" type="text/javascript"></script>
+    <script src="./frontend/public/js/page/orderCon/orderCon.js"></script>
 </head>
-<script>
-/* ピッチインピッチアウトによる拡大縮小を禁止 */
-document.documentElement.addEventListener('touchstart', function(e) {
-    if (e.touches.length >= 2) {
-        e.preventDefault();
-    }
-}, {
-    passive: false
-});
-/* ダブルタップによる拡大を禁止 */
-var t = 0;
-document.documentElement.addEventListener('touchend', function(e) {
-    var now = new Date().getTime();
-    if ((now - t) < 350) {
-        e.preventDefault();
-    }
-    t = now;
-}, false);
-setInterval(() => {
-    location.reload()
-}, 60000);
-</script>
 
 <body>
     <header>
@@ -113,13 +40,7 @@ setInterval(() => {
             </li>
             <hr size="3px" color="#888">
             <?php
-            // ブラウザでエラー確認が出来るようにします
-            ini_set('display_errors', 1);
-            error_reporting(E_ALL);
-            require_once 'DbManager.php';
-            $pdo = getDb();
-            $sql = 'SELECT * FROM t_d_order_handy where odh_situation=3';
-            $products = fetch_all_query($pdo, $sql);
+            
             foreach ($products as $product) {
                 echo "<li>\n";
                 echo "<a class='widget-list-link1'>{$product['odh_Tbl_No']}</a>\n";
@@ -129,7 +50,6 @@ setInterval(() => {
                 echo "<a href='order.php?odh_Tbl_No={$product['odh_Tbl_No']}&odh_No={$product['odh_No']}&odh_Ninzu={$product['odh_Ninzu']}&situ=add' class='widget-list-link2 add' id='3' data-id={$product['odh_No']}>追加</a>\n";
                 echo "</li>\n";
                 echo "<hr>";
-
             }
             ?>
         </ol>

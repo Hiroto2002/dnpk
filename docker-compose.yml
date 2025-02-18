@@ -11,6 +11,7 @@ services:
       - mysql
     networks:
       - app_network
+    env_file: .env # ← 追加
 
   mysql:
     image: mysql:8.0

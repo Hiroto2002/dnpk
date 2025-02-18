@@ -51,7 +51,7 @@ if (isset($_POST["odh_No"])) {
     <link rel="stylesheet" href="./css/order.css">
     <link rel="stylesheet" href="css/bottomsheet.css">
     <link rel="stylesheet" href="https://unpkg.com/swiper@7/swiper-bundle.min.css" />
-    <!-- <script type="text/javascript" src="./js/spinner.js"></script> -->
+    <!-- <script type="text/javascript" src="./frontend/public/js/page/spinner.js"></script> -->
 
 
 </head>
@@ -199,7 +199,7 @@ window.addEventListener('beforeunload', function(event) {
             <?php } ?>
         </div>
     </div>
-    <script src="./js/JQuery.js" type="text/javascript"></script>
+    <script src="./frontend/public/js/JQuery.js" type="text/javascript"></script>
 
     <script src="https://unpkg.com/swiper@7/swiper-bundle.min.js"></script>
     <script>

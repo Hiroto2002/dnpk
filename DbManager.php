@@ -1,23 +1,17 @@
 <?php
 function getDb(): PDO
 {
-  // $dsn = 'mysql:dbname=dnpk_dnpk_oes; host=127.0.0.1; charset=utf8';
-  // $user = 'root';
-  // $password = '';
+  $host = getenv('MYSQL_HOST') ?: 'mysql';
+  $dbname = getenv('MYSQL_DATABASE') ?: 'dnpk_dnpk_oes';
+  $user = getenv('MYSQL_USER') ?: 'root';
+  $password = getenv('MYSQL_PASSWORD') ?: '';
 
-  $dsn = 'mysql:dbname=dnpk_dnpk_oes; host=127.0.0.1; charset=utf8';
-
-  $user = 'root';
-  $password = '';
-
+  // $dsn = 'mysql:dbname=dnpk_dnpk_oes;host=127.0.0.1;charset=utf8';
+  $dsn = getenv('MYSQL_DSN') ?: 'mysql:host=localhost;dbname=dnpk_dnpk_oes;charset=utf8;port=8888", "root", "root"';
 
   try {
-    // DB接続
     $db = new PDO($dsn, $user, $password); //ここ戻したら動くYO
-    // $db = new PDO("mysql:host=localhost;dbname=dnpk_dnpk_oes;charset=utf8;port=8888", "root", "root"); // 中尾
-
     $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-    // $db = new PDO($dsn, $usr, $passwd, [PDO::ATTR_PERSISTENT => true]);
   } catch (PDOException $e) {
     exit('接続できませんでした。理由：' . $e->getMessage());
   }

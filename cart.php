@@ -173,7 +173,7 @@ if (isset($_SESSION['options'])) {
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="css/cart.css">
 </head>
-<script src="./js/JQuery.js"></script>
+<script src="./frontend/public/js/JQuery.js"></script>
 <script>
     /* ピッチインピッチアウトによる拡大縮小を禁止 */
     document.documentElement.addEventListener('touchstart', function(e) {
