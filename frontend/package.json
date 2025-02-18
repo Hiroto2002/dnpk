@@ -1,0 +1,13 @@
+{
+  "name": "php-mysql-ts",
+  "version": "1.0.0",
+  "description": "PHP + MySQL + TypeScript",
+  "scripts": {
+    "build": "tsc",
+    "watch": "tsc --watch"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "typescript": "^5.4.0"
+  }
+}

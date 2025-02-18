@@ -15,6 +15,7 @@ $_SESSION["user"] = $user;
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="css/order_con.css">
     <script src="./js/JQuery.js" type="text/javascript"></script>
+    <script src="./js/orderCon/orderCon.js"></script>
 
     <!-- 削除するか確認のダイアログを出す関数 -->
     <script>
@@ -57,7 +58,7 @@ $_SESSION["user"] = $user;
                     if (data === false) {
                         alert("ぐるぐるで更新してください");
                         location.reload();
-                    }else{
+                    } else {
                         location.href = url
                     }
                     // 他のデータ処理をここに追加
@@ -66,10 +67,8 @@ $_SESSION["user"] = $user;
                     console.error('エラー:', error);
                     alert("エラーが発生しました");
                 });
-                    })
-                })
-
-
+        })
+    })
     </script>
     <!-- 削除するか確認のダイアログを出す関数 -->
 </head>

@@ -1,19 +1,19 @@
-# サーバー起動時に TypeScript のウォッチモードも同時に開始
+# サーバーと TypeScript を同時に起動
 up:
 	docker-compose up -d --build
-	docker-compose run -d --rm node tsc --watch
+	docker-compose run -d --rm node npm run watch --prefix /usr/src/app/frontend
+
+# TypeScript の手動ビルド
+ts-build:
+	docker-compose run --rm node npm run build --prefix /usr/src/app/frontend
+
+# TypeScript の監視モード開始（手動実行用）
+ts-watch:
+	docker-compose run --rm node npm run watch --prefix /usr/src/app/frontend
 
 # サーバーと TypeScript ビルドの監視を停止
 down:
 	docker-compose down
-
-# TypeScript の手動ビルド
-ts-build:
-	docker-compose run --rm node tsc
-
-# TypeScript の監視モード開始（単独実行用）
-ts-watch:
-	docker-compose run --rm node tsc --watch
 
 # ログ確認
 logs:
