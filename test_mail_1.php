@@ -1,13 +1,13 @@
-ï»¿<html>
+<html>
 <head>
   <meta charset="utf-8" />
 </head>
 <body>
-  <form action="./test_mail.php" method="post">
-    <p>é€ã‚Šå…ˆ</p><input type="text" name="to">
-    <p>ä»¶å</p><input type="text" name="title">
-    <p>ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸</p><textarea name="content" cols="60" rows="10"></textarea>
-    <p><input type="submit" name="send" value="é€ä¿¡"></p>
+  <form action="test_mail.php" method="post">
+    <p>‘—‚èæ</p><input type="text" name="to">
+    <p>Œ–¼</p><input type="text" name="title">
+    <p>ƒƒbƒZ[ƒW</p><textarea name="content" cols="60" rows="10"></textarea>
+    <p><input type="submit" name="send" value="‘—M"></p>
   </form>
 </body>
 </html>

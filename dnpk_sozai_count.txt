@@ -1,0 +1,11 @@
+SELECT date_Format(`Pay_Time`,'%y%m%d') AS Mydate, t_d_payment.Pay_DorN, T_m_Sozai_Count.SozaiName, Sum(`Amount`*`odhm_Quant`) AS Mykazu
+FROM T_m_Sozai_Count INNER JOIN ((t_m_menu INNER JOIN (t_d_payment INNER JOIN t_d_morder_payment ON t_d_payment.Pay_No = t_d_morder_payment.Pay_No) ON t_m_menu.mn_ID = t_d_morder_payment.mn_ID) INNER JOIN T_Sozai_Count ON t_m_menu.mn_ID = T_Sozai_Count.mn_ID) ON T_m_Sozai_Count.SozaiNo = T_Sozai_Count.SozaiNo
+GROUP BY date_Format(`Pay_Time`,'%y%m%d') , t_d_payment.Pay_DorN, T_m_Sozai_Count.SozaiName
+HAVING (((date_Format(`Pay_Time`,'%y%m%d'))=221113));
+
+
+
+SELECT date_Format(`Pay_Time`,'%y%m%d') AS Mydate, t_d_payment.Pay_DorN, T_m_Sozai_Count.SozaiName, Sum(`Amount`*`odhm_Quant`) AS Mykazu 
+FROM T_m_Sozai_Count INNER JOIN ((t_m_menu INNER JOIN (t_d_payment INNER JOIN t_d_morder_payment ON t_d_payment.Pay_No = t_d_morder_payment.Pay_No) ON t_m_menu.mn_ID = t_d_morder_payment.mn_ID) INNER JOIN T_Sozai_Count ON t_m_menu.mn_ID = T_Sozai_Count.mn_ID) ON T_m_Sozai_Count.SozaiNo = T_Sozai_Count.SozaiNo 
+GROUP BY date_Format(`Pay_Time`,'%y%m%d') , t_d_payment.Pay_DorN, T_m_Sozai_Count.SozaiName 
+HAVING Mydate=221113;

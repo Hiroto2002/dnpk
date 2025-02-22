@@ -114,26 +114,22 @@ error_reporting(E_ALL & ~E_NOTICE);
                 ></label>
             </div>
             <div style="margin-top:150px">
-                <button type="button" value="A" onClick="addNo(this.value)">A</button>
-                <button type="button" value="B" onClick="addNo(this.value)">B</button>
-                <button type="button" value="C" onClick="addNo(this.value)">C</button>
-                <button type="button" value="D" onClick="addNo(this.value)">D</button>
-                <button type="button" value="~" onClick="addNo(this.value)">~</button><br>
                 <button type="button" value="1" onClick="addNo(this.value)">1</button>
                 <button type="button" value="2" onClick="addNo(this.value)">2</button>
                 <button type="button" value="3" onClick="addNo(this.value)">3</button>
-                <button type="button" value="4" onClick="addNo(this.value)">4</button>
-                <button type="button" value="5" onClick="addNo(this.value)">5</button><br>
+                <button type="button" value="4" onClick="addNo(this.value)">4</button><br>
+                <button type="button" value="5" onClick="addNo(this.value)">5</button>
                 <button type="button" value="6" onClick="addNo(this.value)">6</button>
                 <button type="button" value="7" onClick="addNo(this.value)">7</button>
-                <button type="button" value="8" onClick="addNo(this.value)">8</button>
-                <button type="button" value="9" onClick="addNo(this.value)">9</button>
+                <button type="button" value="8" onClick="addNo(this.value)">8</button><br>
+                <button type="button" value="C1" onClick="addNo(this.value)">C1</button>
+                <button type="button" value="C2" onClick="addNo(this.value)">C2</button>
+                <button type="button" value="C3" onClick="addNo(this.value)">C3</button>
+                <button type="button" value="C4" onClick="addNo(this.value)">C4</button><br>
+                <button type="button" value="C5" onClick="addNo(this.value)">C5</button>
+                <button type="button" value="~" onClick="addNo(this.value)">~</button>
+                <button type="button" value="," onClick="addNo(this.value)">,</button>
                 <button type="button" value="0" onClick="addNo(this.value)">0</button><br>
-                <button type="button" value="1,2" onClick="addNo(this.value)">1,2</button>
-                <button type="button" value="3,4" onClick="addNo(this.value)">3,4</button>
-                <button type="button" value="4,5" onClick="addNo(this.value)">4,5</button>
-                <button type="button" value="6,7" onClick="addNo(this.value)">6,7</button>
-                <button type="button" value="9,10" onClick="addNo(this.value)">9,10</button><br>
             </div>
             <div style="display: grid;grid-template-columns: 1fr 1fr;justify-items:center;align-items:center">
                 <input type="reset" class="underbtn reset">

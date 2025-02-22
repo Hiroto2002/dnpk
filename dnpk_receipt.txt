@@ -1,0 +1,123 @@
+<epos-print xmlns="http://www.epson-pos.com/schemas/2011/03/epos-print">
+<text lang="ja"/>
+<text smooth="true"/>
+<page>
+<direction dir="left_to_right"/>
+<area x="0" y="0" width="288" height="120"/>
+<text reverse="false" ul="true" em="false" color="color_1"/>
+<text>　　　　　　　　　　　　&#10;</text>
+<text reverse="false" ul="false" em="false" color="color_1"/>
+<text>　ﾃｰﾌﾞﾙ&#10;&#10;</text>
+<text width="2" height="2"/>
+<text>　D1～2&#10;</text>
+<text width="1" height="1"/>
+<area x="288" y="0" width="288" height="120"/>
+<text reverse="false" ul="true" em="false" color="color_1"/>
+<text>　　　　No. </text>
+<text>20221020001</text>
+<text> &#10;</text>
+<text reverse="false" ul="false" em="false" color="color_1"/>
+<text>人数&#10;&#10;</text>
+<text width="1" height="2"/>
+<text>3&#10;</text>
+<text width="1" height="1"/>
+</page>
+<text linespc="24"/>
+<text>┏━━━━━━━━━━━━━┯━━┯━━━━━┓&#10;</text>
+<text>┃　　　品　　　　　名　　　│数量│　備　考　┃&#10;</text>
+<text>┠─────────────┼──┼─────┨&#10;</text>
+
+<text dw="false" dh="true"/>
+<text>┃</text>
+<text dw="false" dh="false"/>
+<text> </text>
+<text dw="true" dh="true"/>
+<text>天丼</text>
+<text x="336"/>
+<text dw="false" dh="true"/>
+<text>│</text>
+<text dw="true" dh="true"/>
+<text> 2</text>
+<text dw="false" dh="true"/>
+<text>│</text>
+<text>　</text>
+<text x="552"/>
+<text>┃</text>
+<text dw="false" dh="false"/>
+<text>&#10;</text>
+<text dw="false" dh="true"/>
+<text>┃</text>
+<text dw="false" dh="true"/>
+<text>　</text>
+<text>HﾐﾆS 天玉</text>
+<text dw="false" dh="true"/>
+<text x="336"/>
+<text>│</text>
+<text x="408"/>
+<text>│</text>
+<text x="552"/>
+<text>┃</text>
+<text>&#10;</text>
+
+<text dw="false" dh="false"/>
+<text>┃　　　　　　　　　　　　　│　　│　　　　　┃&#10;</text>
+
+<text dw="false" dh="true"/>
+<text>┃</text>
+<text dw="false" dh="false"/>
+<text> </text>
+<text dw="true" dh="true"/>
+<text>天丼</text>
+<text x="336"/>
+<text dw="false" dh="true"/>
+<text>│</text>
+<text dw="true" dh="true"/>
+<text> 2</text>
+<text dw="false" dh="true"/>
+<text>│</text>
+<text>　</text>
+<text x="552"/>
+<text>┃</text>
+<text dw="false" dh="false"/>
+<text>&#10;</text>
+<text dw="false" dh="true"/>
+<text>┃</text>
+<text dw="false" dh="true"/>
+<text>　</text>
+<text>HﾐﾆS 天玉</text>
+<text dw="false" dh="true"/>
+<text x="336"/>
+<text>│</text>
+<text x="408"/>
+<text>│</text>
+<text x="552"/>
+<text>┃</text>
+<text>&#10;</text>
+
+<text dw="false" dh="true"/>
+<text>┃　　　　　　　　　　　　　│　　│　　　　　┃&#10;</text>
+<text>┃　　　　　　　　　　　　　│　　│　　　　　┃&#10;</text>
+<text dw="false" dh="false"/>
+<text>┣━━━━━━━━━━┯━━┷━━┷━━━━━┫&#10;</text>
+<text dw="false" dh="true"/>
+<text>┃　合　計　　　      │　　　　　　</text>
+<text>       700</text>
+<text>┃&#10;</text>
+<text dw="false" dh="false"/>
+<text>┗━━━━━━━━━━┷━━━━━━━━━━━┛&#10;</text>
+<text linespc="30"/>
+<text align="center"/>
+<text>毎度ありがとうございます&#10;</text>
+<text>またのご来店をお待ちしております&#10;</text>
+<text align="left"/>
+<text>&#10;</text>
+<text align="center"/>
+<barcode type="code39" hri="none" font="font_a" width="2" height="64">20221020001</barcode>
+<text align="left"/>
+<text>&#10;</text>
+<cut type="feed"/>
+<text width="1" height="1"/>
+<text reverse="false" ul="false" em="false" color="color_1"/>
+<text dw="true" dh="true"/>
+<text width="1" height="1"/>
+</epos-print>

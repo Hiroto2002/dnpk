@@ -50,7 +50,7 @@ if (isset($_POST["odh_No"])) {
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="./css/order.css">
     <link rel="stylesheet" href="css/bottomsheet.css">
-    <link rel="stylesheet" href="https://unpkg.com/swiper@7/swiper-bundle.min.css" />
+    <link rel="stylesheet" href="css/swiper-bundle.min.css" />
     <!-- <script type="text/javascript" src="./js/spinner.js"></script> -->
 
 
@@ -201,7 +201,7 @@ window.addEventListener('beforeunload', function(event) {
     </div>
     <script src="./js/JQuery.js" type="text/javascript"></script>
 
-    <script src="https://unpkg.com/swiper@7/swiper-bundle.min.js"></script>
+    <script src="js/swiper-bundle.min.js"></script>
     <script>
     let menu_ID = 1
 
@@ -342,7 +342,7 @@ window.addEventListener('beforeunload', function(event) {
         cart_body.insertAdjacentHTML(
             "beforeend",
             `<div class="incart" id="menu_ID${menu_ID}">
-        <button class="delete" onclick="cart_delete(${menu_ID})">✕</button>
+        <button class="delete" onclick="cart_delete(${menu_ID})">?</button>
           <div>
             <dl>
               <dt class="menu_name">${menu_name}</dt>
@@ -528,7 +528,6 @@ window.addEventListener('beforeunload', function(event) {
             let opm_names = document.querySelectorAll(".option_name")
             const user = <?php echo json_encode($_SESSION["user"]); ?>;
 
-
             // 表示されていない番号を取得
             // console.log("消された番号：" + delete_list);     
             let quant_list = new Object();
@@ -596,7 +595,7 @@ window.addEventListener('beforeunload', function(event) {
                     printer.oncoveropen = function() {
                         // alert('coveropen'); 
                     };
-                    // insertDB(quant_list);
+                    insertDB(quant_list);
 
                 } else {
                     alert(retcode);
@@ -641,31 +640,28 @@ window.addEventListener('beforeunload', function(event) {
             // console.log(ChangeNumber(2)); 
 
             function Print(price, user_name) {
-                const time = new Date()
-
-
                 printer.addTextLang('ja');
                 printer.addTextSmooth(true);
                 printer.addPageBegin();
                 printer.addPageDirection(printer.DIRECTION_LEFT_TO_RIGHT);
                 printer.addPageArea(0, 0, 288, 120);
                 printer.addTextStyle(false, true, false, printer.COLOR_1);
-                printer.addText('　　　　　　　　　　　　\n');
+                printer.addText('　No. ');
+                printer.addText(order_number);
+                printer.addText('　　　　\n');
                 printer.addTextStyle(false, false, false, printer.COLOR_1);
                 printer.addText('　ﾃｰﾌﾞﾙ\n\n');
                 printer.addTextSize(2, 2);
-                // printer.addText(`　${table_number + user_name}\n`);
-                printer.addText(`　${table_number}\n`);
+                printer.addText(`　${table_number}　\n`);
                 printer.addTextSize(1, 1);
                 printer.addPageArea(288, 0, 288, 120);
                 printer.addTextStyle(false, true, false, printer.COLOR_1);
-                printer.addText('　　　　No. ');
-                printer.addText(order_number);
-                printer.addText(' \n');
+                printer.addText(`　　　　　　　　　${user_name}　\n`);
                 printer.addTextStyle(false, false, false, printer.COLOR_1);
                 printer.addText('人数\n\n');
-                printer.addTextSize(1, 2);
-                printer.addText(`${people_number}\n`);
+                printer.addTextStyle(false, false, false, printer.COLOR_1);
+                printer.addTextSize(2, 2);
+                printer.addText(`${people_number}　　　\n`);
                 printer.addTextSize(1, 1);
                 printer.addPageEnd();
                 printer.addTextLineSpace(24);
@@ -794,7 +790,7 @@ window.addEventListener('beforeunload', function(event) {
                         let price = data.toLocaleString('ja-JP')
                         let user_name = <?php echo json_encode($_SESSION["user"]); ?>;
                         price = price.padStart(6, " "); // "00123"
-                        // Print(price, user_name)
+                        Print(price, user_name)
                         // complete(()=>{
 
                         // })
@@ -812,7 +808,7 @@ window.addEventListener('beforeunload', function(event) {
             // function complete(_callback){
             //   _callback();
             // }
-            insertDB(quant_list);
+            // insertDB(quant_list);
         } else {
             // そのページにとどまる、などの操作
         }

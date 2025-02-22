@@ -39,37 +39,6 @@ $_SESSION["user"] = $user;
             location.reload()
         })
     })
-    $(function() {
-        $(".widget-list-link2").on("click", async function(e) {
-            e.preventDefault();
-            const odhNo = $(this).attr("data-id")
-            // alert("ぐるぐるで更新してください")
-            const situNo = $(this).attr("id")
-            const url = $(this).attr("href")
-            await fetch(`./api/checkSituation.php?odhNo=${odhNo}&situNo=${situNo}`)
-                .then(res => {
-                    if (!res.ok) {
-                        throw new Error('サーバーエラーが発生しました');
-                    }
-                    return res.json();
-                })
-                .then(data => {
-                    if (data === false) {
-                        alert("ぐるぐるで更新してください");
-                        location.reload();
-                    }else{
-                        location.href = url
-                    }
-                    // 他のデータ処理をここに追加
-                })
-                .catch(error => {
-                    console.error('エラー:', error);
-                    alert("エラーが発生しました");
-                });
-                    })
-                })
-
-
     </script>
     <!-- 削除するか確認のダイアログを出す関数 -->
 </head>
@@ -125,9 +94,9 @@ setInterval(() => {
                 echo "<li>\n";
                 echo "<a class='widget-list-link1'>{$product['odh_Tbl_No']}</a>\n";
                 echo "<a class='widget-list-link1'>{$product['odh_Ninzu']}</a>\n";
-                echo "<a href='registercoming.php?p=2&odh_No={$product['odh_No']}&odh_Ninzu={$product['odh_Ninzu']}&odh_situation=2&table_No={$product['odh_Tbl_No']}' class='widget-list-link2' id='3' data-id={$product['odh_No']}>席変更</a>\n";
-                echo "<a href='cart.php?odh_No={$product['odh_No']}' class='widget-list-link2' id='3' data-id={$product['odh_No']}>注変更</a>\n";
-                echo "<a href='order.php?odh_Tbl_No={$product['odh_Tbl_No']}&odh_No={$product['odh_No']}&odh_Ninzu={$product['odh_Ninzu']}&situ=add' class='widget-list-link2 add' id='3' data-id={$product['odh_No']}>追加</a>\n";
+                echo "<a href='registercoming.php?p=2&odh_No={$product['odh_No']}&odh_Ninzu={$product['odh_Ninzu']}&odh_situation=2&table_No={$product['odh_Tbl_No']}' class='widget-list-link2'>席変更</a>\n";
+                echo "<a href='cart.php?odh_No={$product['odh_No']}' class='widget-list-link2'>注変更</a>\n";
+                echo "<a href='order.php?odh_Tbl_No={$product['odh_Tbl_No']}&odh_No={$product['odh_No']}&odh_Ninzu={$product['odh_Ninzu']}&situ=add' class='widget-list-link2 add'>追加</a>\n";
                 echo "</li>\n";
                 echo "<hr>";
 
@@ -148,9 +117,9 @@ setInterval(() => {
                 echo "<li>\n";
                 echo "<a class='widget-list-link1'>{$product['odh_Tbl_No']}</a>\n";
                 echo "<a class='widget-list-link1'>{$product['odh_Ninzu']}</a>\n";
-                echo "<a href='registercoming.php?p=2&odh_No={$product['odh_No']}&odh_Ninzu={$product['odh_Ninzu']}&odh_situation=2&table_No={$product['odh_Tbl_No']}' class='widget-list-link2'  id='2' data-id={$product['odh_No']}>席変更</a>\n";
-                echo "<a href='cart.php?odh_No={$product['odh_No']}' class='widget-list-link2' id='2' data-id={$product['odh_No']}>注変更</a>\n";
-                echo "<a href='order.php?odh_Tbl_No={$product['odh_Tbl_No']}&odh_No={$product['odh_No']}&odh_Ninzu={$product['odh_Ninzu']}&situ=add' class='widget-list-link2 add' id='2' data-id={$product['odh_No']}>追加</a>\n";
+                echo "<a href='registercoming.php?p=2&odh_No={$product['odh_No']}&odh_Ninzu={$product['odh_Ninzu']}&odh_situation=2&table_No={$product['odh_Tbl_No']}' class='widget-list-link2' >席変更</a>\n";
+                echo "<a href='cart.php?odh_No={$product['odh_No']}' class='widget-list-link2'>注変更</a>\n";
+                echo "<a href='order.php?odh_Tbl_No={$product['odh_Tbl_No']}&odh_No={$product['odh_No']}&odh_Ninzu={$product['odh_Ninzu']}&situ=add' class='widget-list-link2 add'>追加</a>\n";
                 echo "</li>\n";
                 echo "<hr>";
 
@@ -185,9 +154,9 @@ setInterval(() => {
                 echo "<li>\n";
                 echo "<a class='widget-list-link1'>{$product['odh_Tbl_No']}</a>\n";
                 echo "<a class='widget-list-link1'>{$product['odh_Ninzu']}</a>\n";
-                echo "<a href='order.php?odh_No={$product['odh_No']}&odh_Tbl_No={$product['odh_Tbl_No']}&odh_Ninzu={$product['odh_Ninzu']}&odh_situation=1#don' class='widget-list-link2' id='1' data-id={$product['odh_No']}>注文</a>\n";
-                echo "<a href='registercoming.php?p=2&odh_No={$product['odh_No']}&odh_Ninzu={$product['odh_Ninzu']}&odh_situation=1&table_No={$product['odh_Tbl_No']}' class='widget-list-link2' id='1' data-id={$product['odh_No']}>席変更</a>\n";
-                echo "<a href='order_del.php?odh_No={$product['odh_No']}' onclick='return MoveCheck({$product['odh_No']})' class='widget-list-link2 delete' id='1' data-id={$product['odh_No']}>削除</a>\n";
+                echo "<a href='order.php?odh_No={$product['odh_No']}&odh_Tbl_No={$product['odh_Tbl_No']}&odh_Ninzu={$product['odh_Ninzu']}&odh_situation=1#don' class='widget-list-link2'>注文</a>\n";
+                echo "<a href='registercoming.php?p=2&odh_No={$product['odh_No']}&odh_Ninzu={$product['odh_Ninzu']}&odh_situation=1&table_No={$product['odh_Tbl_No']}' class='widget-list-link2'>席変更</a>\n";
+                echo "<a href='order_del.php?odh_No={$product['odh_No']}' onclick='return MoveCheck({$product['odh_No']})' class='widget-list-link2 delete'>削除</a>\n";
                 echo "</li>";
                 echo "<hr>";
 

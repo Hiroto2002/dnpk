@@ -1,9 +1,5 @@
 <?php
-
 require_once 'DbManager.php';
-$odh_No=$_GET["odh_No"];
-
-
 try {
 
     //データベース名、ユーザー名、パスワード
