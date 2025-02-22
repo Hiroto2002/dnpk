@@ -10,7 +10,7 @@ error_reporting(E_ALL & ~E_NOTICE);
     <title>入店登録</title>
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="css/registercoming.css">    
-    <script src="./js/JQuery.js"></script>
+    <script src="./frontend/public/js/JQuery.js"></script>
     <script type="text/javascript">
         function addTF(str) {
             document.mySheet.tableno.value += str;
