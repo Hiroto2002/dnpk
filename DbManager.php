@@ -5,7 +5,15 @@ function getDb(): PDO
   $host = getenv('MYSQL_HOST') ?: 'mysql';
   $dbname = getenv('MYSQL_DATABASE') ?: 'dnpk_dnpk_oes';
   $user = getenv('MYSQL_USER') ?: 'root';
-  $password = getenv('MYSQL_PASSWORD') ?: '4rfvbgt5';
+  // $password = getenv('MYSQL_PASSWORD') ?: '';
+    $password = getenv('MYSQL_PASSWORD');
+    if ($password === false) {
+        // .env ファイルがない場合（環境変数が未定義）
+        $password = '4rfvbgt5';
+    } elseif ($password === "") {
+        // .env に MYSQL_PASSWORD= がある場合（空文字）
+        $password = "";
+    }
 
   $dsn = getenv('MYSQL_DSN') ?: "mysql:dbname=dnpk_dnpk_oes; host=127.0.0.1; charset=utf8";
 

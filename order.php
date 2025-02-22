@@ -201,7 +201,7 @@ window.addEventListener('beforeunload', function(event) {
     </div>
     <script src="./frontend/public/js/JQuery.js" type="text/javascript"></script>
 
-    <script src="js/swiper-bundle.min.js"></script>
+    <script src="./frontend/public/js/swiper-bundle.min.js"></script>
     <script>
     let menu_ID = 1
 
@@ -342,7 +342,7 @@ window.addEventListener('beforeunload', function(event) {
         cart_body.insertAdjacentHTML(
             "beforeend",
             `<div class="incart" id="menu_ID${menu_ID}">
-        <button class="delete" onclick="cart_delete(${menu_ID})">?</button>
+        <button class="delete" onclick="cart_delete(${menu_ID})">×</button>
           <div>
             <dl>
               <dt class="menu_name">${menu_name}</dt>
