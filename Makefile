@@ -23,6 +23,9 @@ logs:
 php:
 	docker exec -it php-apache bash
 
+test/php:
+	docker exec -it php-apache bash -c "composer dump-autoload && ./vendor/bin/phpunit"
+
 # MySQL コンテナに接続
 mysql:
 	docker exec -it mysql mysql -u root -p

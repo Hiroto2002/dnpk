@@ -18,12 +18,6 @@ $stf_ID = $_GET["stf_ID"];
 $read = [];
 
 
-
-
-
-
-
-
 $count = 0;
 $year = date('y'); 
 $month  = date('m');
@@ -69,26 +63,26 @@ foreach($quant_list as $value){
     }
 }
 /**
+ * 
+* 読み上げ用
+* for($i=0;count($mn_IDs)>$i;$i++){
+*    
+*    array_push($read,ChangeName($mn_IDs[$i]));
+*    
+*    foreach($opm_IDs[$i] as $value){
+*        array_push($read,ChangeOptionName($value));
+*    }
+*    array_push($read,$quant_List[$i]);
+*    array_push($read," ");
+* }
+* $readval = implode($read);
 
-// 読み上げ用
-for($i=0;count($mn_IDs)>$i;$i++){
-    
-    array_push($read,ChangeName($mn_IDs[$i]));
-    
-    foreach($opm_IDs[$i] as $value){
-        array_push($read,ChangeOptionName($value));
-    }
-    array_push($read,$quant_List[$i]);
-    array_push($read," ");
-}
-$readval = implode($read);
+* $to = "";
+* $title = "";
+* $message = $readval;
+* $headers = "From: order_dn@dnpk.jp";
 
-$to = "";
-$title = "";
-$message = $readval;
-$headers = "From: order_dn@dnpk.jp";
-
-mb_send_mail($to, $title, $message, $headers);
+* mb_send_mail($to, $title, $message, $headers);
  */
 
 $total_price = 0;
