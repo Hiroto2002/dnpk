@@ -56,6 +56,10 @@ $(function () {
     const situNo = $(this).attr("id");
     const url = $(this).attr("href");
     if (odhNo === undefined || situNo === undefined || url === undefined) {
+      console.log(odhNo);
+      console.log(situNo);
+      console.log(url);
+
       alert("エラーが発生しました");
       return;
     }

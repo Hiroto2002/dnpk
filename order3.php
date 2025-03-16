@@ -206,8 +206,8 @@ window.addEventListener('beforeunload', function(event) {
     let menu_ID = 1
 
     function menuID(menuID) {
-        const option_buttons = document.querySelector(".modal_options")
-        const modal_title = document.querySelector(".modal_title")
+        const option_buttons = document.querySelector(".modal-options")
+        const modal-title = document.querySelector(".modal-title")
         // アンカーからモーダルの判定
         if (location.hash === "#!") {
             // optionをリセット
@@ -249,13 +249,13 @@ window.addEventListener('beforeunload', function(event) {
 
                     }
 
-                    modal_title.innerHTML = data[0]["mn_Name_sub"];
+                    modal-title.innerHTML = data[0]["mn_Name_sub"];
                     option_buttons.insertAdjacentHTML(
                         "beforeend",
                         `<input type="hidden" value="${data[0]["mn_ID"]}" name="mn_ID">`
                     );
                 } else {
-                    modal_title.innerHTML = data;
+                    modal-title.innerHTML = data;
                     option_buttons.insertAdjacentHTML(
                         "beforeend",
                         `<input type="hidden" value="${menuID}" name="mn_ID">`
@@ -299,10 +299,10 @@ window.addEventListener('beforeunload', function(event) {
     const mn_IDs = new Object()
     const opm_IDs = new Object()
 
-    function add_cart() {
-        let menu_name = document.querySelector(".modal_title").textContent
+    function add-cart() {
+        let menu_name = document.querySelector(".modal-title").textContent
         let checkbox = document.querySelectorAll("input[name=options]:checked");
-        let cart_body = document.querySelector("#cart_body");
+        let cart-body = document.querySelector("#cart-body");
         let menu_count = document.querySelectorAll(".incart");
 
         // カートのメニューに番号をつける
@@ -339,7 +339,7 @@ window.addEventListener('beforeunload', function(event) {
         }
 
         // カートに追加
-        cart_body.insertAdjacentHTML(
+        cart-body.insertAdjacentHTML(
             "beforeend",
             `<div class="incart" id="menu_ID${menu_ID}">
         <button class="delete" onclick="cart_delete(${menu_ID})">✕</button>
@@ -451,7 +451,7 @@ window.addEventListener('beforeunload', function(event) {
                 <button class="close-sheet" type="button" title="Close the sheet">&times;</button>
             </div>
             <!-- Body of the sheet -->
-            <main class="body fill column" id="cart_body">
+            <main class="body fill column" id="cart-body">
                 <div class="user">
 
                     <div>
@@ -951,8 +951,8 @@ window.addEventListener('beforeunload', function(event) {
         <a href="#!" class="modal-overlay"></a>
         <div class="modal-window">
             <div class="modal-content">
-                <p class="modal_title">海老天</p>
-                <div class="modal_options">
+                <p class="modal-title">海老天</p>
+                <div class="modal-options">
 
                     <?php
           // ブラウザでエラー確認が出来るようにします
@@ -978,7 +978,7 @@ window.addEventListener('beforeunload', function(event) {
 
                 <div class="u">
                     <button class="return_cart .modal-close" onclick="location.href='#!'">戻る</button>
-                    <button class="add_cart" onclick="add_cart()">カートに追加</button>
+                    <button class="add-cart" onclick="add-cart()">カートに追加</button>
                 </div>
 
             </div>

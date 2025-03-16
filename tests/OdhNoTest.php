@@ -1,7 +1,7 @@
 <?php
 
 use PHPUnit\Framework\TestCase;
-use Domain\Models\Order\OdhNo;
+use Domain\Models\Customer\OdhNo;
 
 class OdhNoTest extends TestCase {
     /**

@@ -1,22 +1,15 @@
 <?php
 
-
-// ブラウザでエラー確認が出来るようにします
-// ini_set('display_errors', 1);
 error_reporting(0);
 
-// session_start();
 require_once 'DbManager.php';
 
-
-// $mn_ids = file_get_contents('php://input');
 $mn_ids = json_decode($_GET["mn_IDs"]);
 $opm_ids = json_decode($_GET["opm_IDs"]);
 $quant_list = json_decode($_GET["quant_list"]);
 $order_num = $_GET["order_num"];
 $stf_ID = $_GET["stf_ID"];
 $read = [];
-
 
 $count = 0;
 $year = date('y'); 
@@ -27,17 +20,15 @@ $odhm_No = $date ."001";
 $pdo = getDb();
 $stmt = $pdo->query("SELECT MAX(odhm_No) FROM t_d_morder_handy");
 $Max  =$stmt->fetch();
+
 // 今日の日付である場合
 if($odhm_No <= $Max[0] && $Max[0]){
     $odhm_No = $Max[0] + 1;
 }
 
-
-
 $mn_IDs=[];
 $opm_IDs=[];
 $quant_List=[];
-// menu
 
 foreach($mn_ids as $value){
     if($value){
@@ -49,19 +40,16 @@ foreach($mn_ids as $value){
 
 // option
 foreach($opm_ids as $value){
-        array_push($opm_IDs,$value);
-        // array_push($opm_IDs,$opm_ids[$i]);
-        // array_push($quant_List,$quant_list[$i]);
+    array_push($opm_IDs,$value);
 }
 
 //quant
 foreach($quant_list as $value){
     if($value){
         array_push($quant_List,$value);
-        // array_push($opm_IDs,$opm_ids[$i]);
-        // array_push($quant_List,$quant_list[$i]);
     }
 }
+
 /**
  * 
 * 読み上げ用

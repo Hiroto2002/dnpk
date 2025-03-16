@@ -1,6 +1,6 @@
 <?php
 
-namespace Domain\Models\Order;
+namespace Domain\Models\Customer;
 
 use Domain\Models\ValueObject;
 use InvalidArgumentException;
