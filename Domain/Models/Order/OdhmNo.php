@@ -1,5 +1,4 @@
 <?php
-
 namespace Domain\Models\Order;
 
 use Domain\Models\ValueObject;
