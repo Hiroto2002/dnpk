@@ -1,4 +1,9 @@
-ï»¿<?php
+<html>
+<head>
+  <meta charset="utf-8" />
+</head>
+<body>
+<?php
   mb_language("Japanese");
   mb_internal_encoding("UTF-8");
 
@@ -9,10 +14,12 @@
 
   if(mb_send_mail($to, $title, $message, $headers))
   {
-    echo "ãƒ¡ãƒ¼ãƒ«é€ä¿¡æˆåŠŸã§ã™";
+    echo "ƒ[ƒ‹‘—M¬Œ÷‚Å‚·";
   }
   else
   {
-    echo "ãƒ¡ãƒ¼ãƒ«é€ä¿¡å¤±æ•—ã§ã™";
+    echo "ƒ[ƒ‹‘—MŽ¸”s‚Å‚·";
   }
  ?>
+</body>
+</html>

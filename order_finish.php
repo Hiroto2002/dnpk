@@ -1,184 +1,88 @@
 <?php
-
-
-// ブラウザでエラー確認が出来るようにします
-// ini_set('display_errors', 1);
-error_reporting(0);
-
-// session_start();
 require_once 'DbManager.php';
+require_once './Domain/Models/ValueObject.php';
+require_once './Domain/Models/Order/OdhmNo.php';
+
+use Domain\Models\Order\OdhmNo;
 
 
-// $mn_ids = file_get_contents('php://input');
-$mn_ids = json_decode($_GET["mn_IDs"]);
-$opm_ids = json_decode($_GET["opm_IDs"]);
-$quant_list = json_decode($_GET["quant_list"]);
-$order_num = $_GET["order_num"];
-$stf_ID = $_GET["stf_ID"];
-$read = [];
+// JSON形式で送られたリクエストボディを取得
+$rawData = file_get_contents("php://input");
 
-
-
-
+// JSONを連想配列としてデコード
+$data = json_decode($rawData, true);
 
 
 
 
-$count = 0;
-$year = date('y'); 
-$month  = date('m');
-$day =  date('d');
-$date = $year.$month.$day;
-$odhm_No = $date ."001"; 
+$request_cart = $data['cart'];
+$odh_no = $data["odh_no"];
+
+$filtered_cart = array_filter($request_cart, function($item) {
+    return !is_null($item);
+});
+
+$cart = array_values($filtered_cart);
+
+$stf_ID = $data["user"];
+
 $pdo = getDb();
 $stmt = $pdo->query("SELECT MAX(odhm_No) FROM t_d_morder_handy");
-$Max  =$stmt->fetch();
-// 今日の日付である場合
-if($odhm_No <= $Max[0] && $Max[0]){
-    $odhm_No = $Max[0] + 1;
-}
+$max_array  =$stmt->fetch();
+$odhm_No =  (string)OdhmNo::generate($max_array[0]); 
 
-
-
-$mn_IDs=[];
-$opm_IDs=[];
-$quant_List=[];
-// menu
-
-foreach($mn_ids as $value){
-    if($value){
-        array_push($mn_IDs,$value);
-        // array_push($opm_IDs,$opm_ids[$i]);
-        // array_push($quant_List,$quant_list[$i]);
-    }
-}
-
-// option
-foreach($opm_ids as $value){
-        array_push($opm_IDs,$value);
-        // array_push($opm_IDs,$opm_ids[$i]);
-        // array_push($quant_List,$quant_list[$i]);
-}
-
-//quant
-foreach($quant_list as $value){
-    if($value){
-        array_push($quant_List,$value);
-        // array_push($opm_IDs,$opm_ids[$i]);
-        // array_push($quant_List,$quant_list[$i]);
-    }
-}
-/**
-
-// 読み上げ用
-for($i=0;count($mn_IDs)>$i;$i++){
-    
-    array_push($read,ChangeName($mn_IDs[$i]));
-    
-    foreach($opm_IDs[$i] as $value){
-        array_push($read,ChangeOptionName($value));
-    }
-    array_push($read,$quant_List[$i]);
-    array_push($read," ");
-}
-$readval = implode($read);
-
-$to = "";
-$title = "";
-$message = $readval;
-$headers = "From: order_dn@dnpk.jp";
-
-mb_send_mail($to, $title, $message, $headers);
- */
 
 $total_price = 0;
-/**
- * 値段計算
- */
 
-    while(count($mn_IDs) > $count){
-        if($mn_IDs[$count]){
-        if(empty($opm_IDs[$count])){
-            $price1 = ChangePrice($mn_IDs[$count],$quant_List[$count]);
-            $total_price = $total_price + $price1;    
-        }else{
-            $price2 = ChangeTotalPrice($mn_IDs[$count],$opm_IDs[$count],$quant_List[$count]);
-            $total_price = $total_price + $price2;
-        }        
-            // price
-            $price = ChangePrice($mn_IDs[$count],$quant_List[$count]);
-            // if(!isset($_SESSION["update"])){
-        
-            $array = [$order_num,$mn_IDs[$count],$quant_List[$count],$price];
-       
-            $stmt= $pdo->prepare("INSERT INTO t_d_morder_handy (odhm_No,odh_No,mn_ID,odhm_Quant,odhm_Amount,Edittime,stf_ID) VALUES(?,?,?,?,?,NOW(),?)");
+foreach($cart as $value){
+    if(!$cart){
+        echo json_encode("カートが空です");
+        exit();
+    }
+
+    $menu_price = ChangePrice($value["menuId"],$value["quant"]);    
+    $option_total_price = 0;    
+    $offered_time = date('Y-m-d H:i:s');
+    $end_flg = pack('C', 0);
+
+    if (!empty($value["options"])) {
+        foreach ($value["options"] as $option) {
+            $option_total_price += $option["optionPrice"];
+        }
+    }
+    $stmt= $pdo->prepare("INSERT INTO t_d_morder_handy (odhm_No,odh_No,mn_ID,odhm_Quant,odhm_Amount,Edittime,stf_ID,odh_Offered_time,End_FLG) VALUES(?,?,?,?,?,NOW(),?,?,?)");
+    $stmt->bindValue(1, $odhm_No);
+    $stmt->bindValue(2, $odh_no);
+    $stmt->bindValue(3, $value["menuId"]);
+    $stmt->bindValue(4, $value["quant"]);
+    $stmt->bindValue(5, $menu_price + $option_total_price);
+    $stmt->bindValue(6, $stf_ID);
+    $stmt->bindValue(7, $offered_time);
+    $stmt->bindValue(8, $end_flg, PDO::PARAM_LOB); // ← ビット列として渡す！
+
+    $stmt->execute();
+
+    $total_price += $menu_price + $option_total_price;
+    if(!empty($value["options"])){
+        foreach($value["options"] as $option){
+            $stmt= $pdo->prepare("INSERT INTO t_d_morder_option (odhm_No,opm_ID,odh_No,odhm_LineNo) VALUES(?,?,?,?)");
             $stmt->execute(array(
                 $odhm_No,
-                $order_num,
-                $mn_IDs[$count],
-                $quant_List[$count],
-                $price,
-                $stf_ID
+                $option["optionId"],
+                $odh_no,
+                0
             ));
         }
-        
-        
- 
-        // }else{
-            // $stmt=$pdo->prepare("SELECT odhm_No FROM t_d_morder_handy WHERE odh_No=?");
-            // $stmt->execute(array(
-            //     $_SESSION["odh_No"]
-            // ));
-            // while($odh_Nos = $stmt->fetch(PDO::FETCH_ASSOC)){
-            //     print_r($odh_Nos["odhm_No"]);
-            //     print("<br/>");
-                // print_r($_SESSION["orders"]);
-                // $statement= $pdo->prepare("UPDATE t_d_morder_handy SET odh_No=?,mn_ID=?,odhm_Quant=?,odhm_Amount=?,Edittime=NOW() WHERE odh_No=?");
-                // $statement->execute(array(
-                //     $order_num,
-                //     $_SESSION["orders"][$count],
-                //     $quantList[$count],
-                //     $price,
-                    // $odh_Nos["odhm_No"]
-                //     $_SESSION["odh_No"]
-                // ));
-            // }
-            // exit();
-        // }
-
-              
-        // option
-        if($opm_IDs[$count]){
-            foreach($opm_IDs[$count] as $val){
-                // if(!isset($_SESSION["update"])){              
-                $stmt= $pdo->prepare("INSERT INTO t_d_morder_option (odhm_No,opm_ID,odh_No) VALUES(?,?,?)");
-                // }else{
-                //     $stmt= $pdo->prepare("UPDATE t_d_morder_option SET odhm_No=?,opm_ID=?,odh_No=?");
-                // }
-                $stmt->execute(array(
-                    $odhm_No,
-                    $val,
-                    $order_num,
-                ));
-            }
-        }
-        $odhm_No++;
-        $count++;
     }
-    
-
-        // $odhm_No++;
-    // }
-
+    $odhm_No++;
+}
 
 $stmt = $pdo->prepare("UPDATE t_d_order_handy SET odh_situation=2 WHERE odh_No=?;");
 $stmt->execute(array(
-    $order_num
+    $odh_no
 ));
 
-// $_SESSION = array();
-    echo json_encode($total_price);
-    exit();    
+echo json_encode($total_price);
+exit();    
 
-// header('Location: order_con.php');
 ?>

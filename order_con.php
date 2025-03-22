@@ -1,9 +1,16 @@
 <?php
-ini_set('display_errors', 0);
-session_start();
-$user = $_SESSION["user"];
-$_SESSION = array();
-$_SESSION["user"] = $user;
+    require_once 'DbManager.php';
+    ini_set('display_errors', 0);
+    session_start();
+    $user = $_SESSION["user"];;
+    $_SESSION = array();
+    $_SESSION["user"] = $user;
+    $pdo = getDb();
+    $sql = 'SELECT * FROM t_d_order_handy where odh_situation=3';
+    $customers = fetch_all_query($pdo, $sql);
+    $delivered_situ_number = 3;
+    $ordered_situ_number = 2;
+    $order_situ_number = 1;
 ?>
 
 <!DOCTYPE html>
@@ -14,87 +21,9 @@ $_SESSION["user"] = $user;
     <title>来店客状況</title>
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="css/order_con.css">
-    <script src="./js/JQuery.js" type="text/javascript"></script>
-
-    <!-- 削除するか確認のダイアログを出す関数 -->
-    <script>
-    function MoveCheck($str) {
-        var res = confirm("オーダー番号" + $str + "を削除しますか？");
-        if (res == true) {
-            // 再度確認
-            var res = confirm("本当に削除しますか？");
-            if (res == true) {
-                //OKなら削除処理に進む
-            } else {
-                // キャンセルなら処理を中断する
-                return false;
-            }
-        } else {
-            // キャンセルなら処理を中断する
-            return false;
-        }
-    }
-    $(function() {
-        $(".reload").on("click", function() {
-            location.reload()
-        })
-    })
-    $(function() {
-        $(".widget-list-link2").on("click", async function(e) {
-            e.preventDefault();
-            const odhNo = $(this).attr("data-id")
-            // alert("ぐるぐるで更新してください")
-            const situNo = $(this).attr("id")
-            const url = $(this).attr("href")
-            await fetch(`./api/checkSituation.php?odhNo=${odhNo}&situNo=${situNo}`)
-                .then(res => {
-                    if (!res.ok) {
-                        throw new Error('サーバーエラーが発生しました');
-                    }
-                    return res.json();
-                })
-                .then(data => {
-                    if (data === false) {
-                        alert("ぐるぐるで更新してください");
-                        location.reload();
-                    }else{
-                        location.href = url
-                    }
-                    // 他のデータ処理をここに追加
-                })
-                .catch(error => {
-                    console.error('エラー:', error);
-                    alert("エラーが発生しました");
-                });
-                    })
-                })
-
-
-    </script>
-    <!-- 削除するか確認のダイアログを出す関数 -->
+    <script src="./frontend/public/js/JQuery.js" type="text/javascript"></script>
+    <script src="./frontend/public/js/page/orderCon.js"></script>
 </head>
-<script>
-/* ピッチインピッチアウトによる拡大縮小を禁止 */
-document.documentElement.addEventListener('touchstart', function(e) {
-    if (e.touches.length >= 2) {
-        e.preventDefault();
-    }
-}, {
-    passive: false
-});
-/* ダブルタップによる拡大を禁止 */
-var t = 0;
-document.documentElement.addEventListener('touchend', function(e) {
-    var now = new Date().getTime();
-    if ((now - t) < 350) {
-        e.preventDefault();
-    }
-    t = now;
-}, false);
-setInterval(() => {
-    location.reload()
-}, 60000);
-</script>
 
 <body>
     <header>
@@ -107,6 +36,7 @@ setInterval(() => {
         </p>
     </header>
     <div class="widget">
+        <!-- 提供済み -->
         <ol class="widget-list" id="teikyozumi">
             <li style="text-align: left;">
                 <div class="midashi">席番</div>
@@ -114,26 +44,19 @@ setInterval(() => {
             </li>
             <hr size="3px" color="#888">
             <?php
-            // ブラウザでエラー確認が出来るようにします
-            ini_set('display_errors', 1);
-            error_reporting(E_ALL);
-            require_once 'DbManager.php';
-            $pdo = getDb();
-            $sql = 'SELECT * FROM t_d_order_handy where odh_situation=3';
-            $products = fetch_all_query($pdo, $sql);
-            foreach ($products as $product) {
-                echo "<li>\n";
-                echo "<a class='widget-list-link1'>{$product['odh_Tbl_No']}</a>\n";
-                echo "<a class='widget-list-link1'>{$product['odh_Ninzu']}</a>\n";
-                echo "<a href='registercoming.php?p=2&odh_No={$product['odh_No']}&odh_Ninzu={$product['odh_Ninzu']}&odh_situation=2&table_No={$product['odh_Tbl_No']}' class='widget-list-link2' id='3' data-id={$product['odh_No']}>席変更</a>\n";
-                echo "<a href='cart.php?odh_No={$product['odh_No']}' class='widget-list-link2' id='3' data-id={$product['odh_No']}>注変更</a>\n";
-                echo "<a href='order.php?odh_Tbl_No={$product['odh_Tbl_No']}&odh_No={$product['odh_No']}&odh_Ninzu={$product['odh_Ninzu']}&situ=add' class='widget-list-link2 add' id='3' data-id={$product['odh_No']}>追加</a>\n";
-                echo "</li>\n";
-                echo "<hr>";
-
-            }
+                foreach ($customers as $customer) {
+                    echo "<li>\n";
+                        echo "<a class='widget-list-link1'>{$customer['odh_Tbl_No']}</a>\n";
+                        echo "<a class='widget-list-link1'>{$customer['odh_Ninzu']}</a>\n";
+                        echo "<a href='registercoming.php?p=2&odh_No={c}&odh_Ninzu={$customer['odh_Ninzu']}&odh_situation=2&table_No={$customer['odh_Tbl_No']}' class='widget-list-link2' id={$delivered_situ_number} data-id={$customer['odh_No']}>席変更</a>\n";
+                        echo "<a href='cart.php?odh_No={$customer['odh_No']}' class='widget-list-link2' id={$delivered_situ_number} data-id={$customer['odh_No']}>注変更</a>\n";
+                        echo "<a href='order.php?odh_Tbl_No={$customer['odh_Tbl_No']}&odh_No={$customer['odh_No']}&odh_Ninzu={$customer['odh_Ninzu']}&situ=add' class='widget-list-link2 add' id={$delivered_situ_number} data-id={$customer['odh_No']}>追加</a>\n";
+                    echo "</li>\n";
+                    echo "<hr>";
+                }
             ?>
         </ol>
+        <!-- 注文ずみ -->
         <ol class="widget-list" id="tyumonzumi">
             <li style="text-align: left;">
                 <div class="midashi">席番</div>
@@ -142,32 +65,32 @@ setInterval(() => {
             <hr size="3px" color="#888">
 
             <?php
-            $sql = 'SELECT DISTINCT o.* FROM t_d_order_handy as o INNER JOIN t_d_morder_handy as m ON o.odh_No = m.odh_No WHERE o.odh_situation=2 ';
-            $products = fetch_all_query($pdo, $sql);
-            foreach ($products as $product) {
-                echo "<li>\n";
-                echo "<a class='widget-list-link1'>{$product['odh_Tbl_No']}</a>\n";
-                echo "<a class='widget-list-link1'>{$product['odh_Ninzu']}</a>\n";
-                echo "<a href='registercoming.php?p=2&odh_No={$product['odh_No']}&odh_Ninzu={$product['odh_Ninzu']}&odh_situation=2&table_No={$product['odh_Tbl_No']}' class='widget-list-link2'  id='2' data-id={$product['odh_No']}>席変更</a>\n";
-                echo "<a href='cart.php?odh_No={$product['odh_No']}' class='widget-list-link2' id='2' data-id={$product['odh_No']}>注変更</a>\n";
-                echo "<a href='order.php?odh_Tbl_No={$product['odh_Tbl_No']}&odh_No={$product['odh_No']}&odh_Ninzu={$product['odh_Ninzu']}&situ=add' class='widget-list-link2 add' id='2' data-id={$product['odh_No']}>追加</a>\n";
-                echo "</li>\n";
-                echo "<hr>";
+                $sql = 'SELECT DISTINCT o.* FROM t_d_order_handy as o INNER JOIN t_d_morder_handy as m ON o.odh_No = m.odh_No WHERE o.odh_situation=2 ';
+                $customers = fetch_all_query($pdo, $sql);
+                foreach ($customers as $customer) {
+                    echo "<li>\n";
+                        echo "<a class='widget-list-link1'>{$customer['odh_Tbl_No']}</a>\n";
+                        echo "<a class='widget-list-link1'>{$customer['odh_Ninzu']}</a>\n";
+                        echo "<a href='registercoming.php?p=2&odh_No={$customer['odh_No']}&odh_Ninzu={$customer['odh_Ninzu']}&odh_situation=2&table_No={$customer['odh_Tbl_No']}' class='widget-list-link2' id={$ordered_situ_number} data-id={$customer['odh_No']}>席変更</a>\n";
+                        echo "<a href='cart.php?odh_No={$customer['odh_No']}' class='widget-list-link2' id={$ordered_situ_number} data-id={$customer['odh_No']}>注変更</a>\n";
+                        echo "<a href='order.php?odh_Tbl_No={$customer['odh_Tbl_No']}&odh_No={$customer['odh_No']}&odh_Ninzu={$customer['odh_Ninzu']}&situ=add' class='widget-list-link2 add' id={$ordered_situ_number} data-id={$customer['odh_No']}>追加</a>\n";
+                    echo "</li>\n";
+                    echo "<hr>";
 
-            }
-
-            if (isset($_POST["back"])) {
-
-                $check  = $pdo->prepare("SELECT odhm_No FROM t_d_morder_handy WHERE odh_No = ?");
-                $check->execute(array($_POST["back"]));
-                if ($odh_Nos = $check->fetch(PDO::FETCH_ASSOC)) {
-                } else {
-                    $update = $pdo->prepare("UPDATE t_d_order_handy SET odh_situation=1 WHERE odh_No=?;");
-                    $update->execute(array(
-                        $_POST["back"]
-                    ));
                 }
-            }
+
+                if (isset($_POST["back"])) {
+
+                    $check  = $pdo->prepare("SELECT odhm_No FROM t_d_morder_handy WHERE odh_No = ?");
+                    $check->execute(array($_POST["back"]));
+                    if ($odh_Nos = $check->fetch(PDO::FETCH_ASSOC)) {
+                    } else {
+                        $update = $pdo->prepare("UPDATE t_d_order_handy SET odh_situation=1 WHERE odh_No=?;");
+                        $update->execute(array(
+                            $_POST["back"]
+                        ));
+                    }
+                }
             ?>
         </ol>
 
@@ -177,21 +100,20 @@ setInterval(() => {
                 <div class="midashi">人数</div>
             </li>
             <hr size="3px" color="#888">
-
+            <!-- 注文 -->
             <?php
-            $sql = 'SELECT * FROM t_d_order_handy where odh_situation=1';
-            $products = fetch_all_query($pdo, $sql);
-            foreach ($products as $product) {
-                echo "<li>\n";
-                echo "<a class='widget-list-link1'>{$product['odh_Tbl_No']}</a>\n";
-                echo "<a class='widget-list-link1'>{$product['odh_Ninzu']}</a>\n";
-                echo "<a href='order.php?odh_No={$product['odh_No']}&odh_Tbl_No={$product['odh_Tbl_No']}&odh_Ninzu={$product['odh_Ninzu']}&odh_situation=1#don' class='widget-list-link2' id='1' data-id={$product['odh_No']}>注文</a>\n";
-                echo "<a href='registercoming.php?p=2&odh_No={$product['odh_No']}&odh_Ninzu={$product['odh_Ninzu']}&odh_situation=1&table_No={$product['odh_Tbl_No']}' class='widget-list-link2' id='1' data-id={$product['odh_No']}>席変更</a>\n";
-                echo "<a href='order_del.php?odh_No={$product['odh_No']}' onclick='return MoveCheck({$product['odh_No']})' class='widget-list-link2 delete' id='1' data-id={$product['odh_No']}>削除</a>\n";
-                echo "</li>";
-                echo "<hr>";
-
-            }
+                $sql = 'SELECT * FROM t_d_order_handy where odh_situation=1';
+                $customers = fetch_all_query($pdo, $sql);
+                foreach ($customers as $customer) {
+                    echo "<li>\n";
+                        echo "<a class='widget-list-link1'>{$customer['odh_Tbl_No']}</a>\n";
+                        echo "<a class='widget-list-link1'>{$customer['odh_Ninzu']}</a>\n";
+                        echo "<a href='order.php?odh_No={$customer['odh_No']}&odh_Tbl_No={$customer['odh_Tbl_No']}&odh_Ninzu={$customer['odh_Ninzu']}&odh_situation=1#don' class='widget-list-link2' id={$order_situ_number} data-id={$customer['odh_No']}>注文</a>\n";
+                        echo "<a href='registercoming.php?p=2&odh_No={$customer['odh_No']}&odh_Ninzu={$customer['odh_Ninzu']}&odh_situation=1&table_No={$customer['odh_Tbl_No']}' class='widget-list-link2' id={$order_situ_number} data-id={$customer['odh_No']}>席変更</a>\n";
+                        echo "<a href='order_del.php?odh_No={$customer['odh_No']}' onclick='return MoveCheck({$customer['odh_No']})' class='widget-list-link2 delete' id={$order_situ_number} data-id={$customer['odh_No']}>削除</a>\n";
+                    echo "</li>";
+                    echo "<hr>";
+                }
             ?>
         </ol>
         <ul class="widget-tabs">
@@ -203,7 +125,7 @@ setInterval(() => {
                 <a href="#tyumonmati" class="widget-tab-link">注文待ち</a>
         </ul>
         <div class="reload">
-            <img src="./img/reload.svg" alt="再更新" />
+            <img src="./frontend/public/imgs/reload.svg" alt="再更新" />
         </div>
     </div>
 </body>

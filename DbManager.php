@@ -1,23 +1,25 @@
 <?php
 function getDb(): PDO
 {
-  // $dsn = 'mysql:dbname=dnpk_dnpk_oes; host=127.0.0.1; charset=utf8';
-  // $user = 'root';
-  // $password = '';
 
-  $dsn = 'mysql:dbname=dnpk_dnpk_oes; host=127.0.0.1; charset=utf8';
+  $host = getenv('MYSQL_HOST') ?: 'mysql';
+  $dbname = getenv('MYSQL_DATABASE') ?: 'dnpk_dnpk_oes';
+  $user = getenv('MYSQL_USER') ?: 'root';
+  // $password = getenv('MYSQL_PASSWORD') ?: '';
+    $password = getenv('MYSQL_PASSWORD');
+    if ($password === false) {
+        // .env ファイルがない場合（環境変数が未定義）
+        $password = '4rfvbgt5';
+    } elseif ($password === "") {
+        // .env に MYSQL_PASSWORD= がある場合（空文字）
+        $password = "";
+    }
 
-  $user = 'root';
-  $password = '';
-
+  $dsn = getenv('MYSQL_DSN') ?: "mysql:dbname=dnpk_dnpk_oes; host=127.0.0.1; charset=utf8";
 
   try {
-    // DB接続
     $db = new PDO($dsn, $user, $password); //ここ戻したら動くYO
-    // $db = new PDO("mysql:host=localhost;dbname=dnpk_dnpk_oes;charset=utf8;port=8888", "root", "root"); // 中尾
-
     $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-    // $db = new PDO($dsn, $usr, $passwd, [PDO::ATTR_PERSISTENT => true]);
   } catch (PDOException $e) {
     exit('接続できませんでした。理由：' . $e->getMessage());
   }
@@ -120,15 +122,4 @@ function getAllStaff($day){
   $staffs = $sql->fetchAll();
 
   return $staffs;
-}
-
-
-function checkSituation($odh_No){
-  $pdo = getDb();
-  $sql = $pdo->prepare('SELECT * FROM t_d_order_handy where odh_No= ?');
-  $sql->execute(array($odh_No));
-  $situations = $sql->fetch(PDO::FETCH_ASSOC);
-  $situation = $situations["odh_situation"];
-
-  return $situation;
 }

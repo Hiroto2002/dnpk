@@ -18,7 +18,7 @@ if(isset($_GET['p'])) {
         $date = $year.$month.$day;
         $date1 = $year."/".$month."/".$day;
 
-        $sql = $pdo->prepare('SELECT * FROM t_d_order_handy where CAST(odh_Time AS DATE )=?  ORDER BY odh_No ASC');
+        $sql = $pdo->prepare('SELECT * FROM t_d_order_handy where CAST(odh_In_time AS DATE )=?  ORDER BY odh_No ASC');
         $sql->bindValue(1, $date1, PDO::PARAM_STR);
         $sql->execute();
         $data = $sql->fetchAll();

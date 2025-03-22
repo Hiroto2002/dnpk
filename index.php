@@ -2,7 +2,7 @@
 error_reporting(0);
 session_start();
 //sessionとcookieの有効期限を一日に 
-ini_set("session.gc_maxlifetime",18000);
+ini_set("session.gc_maxlifetime",14400000);
 ini_set("session.cookie_lifetime",8640);
 
 require_once 'DbManager.php';
@@ -128,7 +128,7 @@ document.documentElement.addEventListener('touchend', function(e) {
     </form>
     <?php endif; ?>
     <!-- <footer style="text-align:center; font-size:20px; line-height: 0.5;">
-        <p style="color: rgb(255, 255, 255);">Copyright © DNPK.JP All Rights Reserved.</p>
+        <p style="color: rgb(255, 255, 255);">Copyright c DNPK.JP All Rights Reserved.</p>
     </footer> -->
 </body>
 
