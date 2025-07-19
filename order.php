@@ -249,11 +249,12 @@
                 </div>
 
                 <div class="cart_under">
-
                     <button class="return">戻る</button>
-                    <button class="decide" onclick="order_finish('<?php echo $_SESSION['user']; ?>')">注文決定</button>
+                    <button id="order-decide-button" class="decide"
+                        data-user="<?php echo htmlspecialchars($_SESSION['user'], ENT_QUOTES, 'UTF-8'); ?>">
+                        注文決定
+                    </button>
                 </div>
-
             </main>
             <div id="canvas"></div>
         </div>
@@ -262,7 +263,8 @@
     <script src="./frontend/public/js/JQuery.js" type="text/javascript"></script>
     <script src="./frontend/public/js/swiper-bundle.min.js" type="text/javascript"></script>
     <script src="./test/epos-2.17.0.js"></script>
-    <script src="./frontend/public/js/page/order.js" type="text/javascript"></script>
+    <script src="./frontend/public/js/page/printer.js" type="module"></script>
+    <script src="./frontend/public/js/page/order.js" type="module"></script>
     <script>
     const $ = document.querySelector.bind(document)
     const sheet = $("#sheet")

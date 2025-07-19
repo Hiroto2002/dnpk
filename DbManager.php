@@ -2,11 +2,9 @@
 function getDb(): PDO
 {
 
-  $host = getenv('MYSQL_HOST') ?: 'mysql';
-  $dbname = getenv('MYSQL_DATABASE') ?: 'dnpk_dnpk_oes';
   $user = getenv('MYSQL_USER') ?: 'root';
   // $password = getenv('MYSQL_PASSWORD') ?: '';
-    $password = getenv('MYSQL_PASSWORD');
+    $password = getenv('MYSQL_ROOT_PASSWORD');
     if ($password === false) {
         // .env ファイルがない場合（環境変数が未定義）
         $password = '4rfvbgt5';

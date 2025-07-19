@@ -4,10 +4,15 @@
   "description": "PHP + MySQL + TypeScript",
   "scripts": {
     "build": "tsc",
-    "watch": "tsc --watch"
+    "watch": "tsc --watch",
+    "test": "jest"
   },
   "devDependencies": {
+    "@types/jest": "^30.0.0",
     "@types/jquery": "^3.5.32",
+    "@types/pretty-format": "^20.0.1",
+    "jest": "^30.0.4",
+    "ts-jest": "^29.4.0",
     "typescript": "^5.4.0"
   }
 }

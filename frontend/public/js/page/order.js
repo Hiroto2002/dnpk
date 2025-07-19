@@ -1,4 +1,3 @@
-"use strict";
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
@@ -8,6 +7,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
+import { Printer } from "./printer.js";
 const cart = [];
 document.addEventListener("DOMContentLoaded", () => {
     var _a, _b, _c;
@@ -21,6 +21,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const sheetElement = document.querySelector("#sheet");
     menuButtons.forEach((button) => {
         button.addEventListener("click", function () {
+            console.log("Menu button clicked");
             const menuId = this.dataset.id || "";
             const menuName = this.dataset.name || "";
             const options = this.dataset.options
@@ -229,6 +230,22 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     });
 });
+const decideButton = document.getElementById("order-decide-button");
+if (decideButton) {
+    decideButton.addEventListener("click", function () {
+        // data-user属性からユーザー名を取得
+        const userName = this.dataset.user;
+        // ユーザー名が存在すれば order_finish を呼び出す
+        if (userName) {
+            order_finish(userName);
+        }
+        else {
+            // ユーザー名が取得できなかった場合の処理
+            console.error("ユーザー名が取得できませんでした。");
+            order_finish("ゲスト"); // もしくはゲストとして処理
+        }
+    });
+}
 const order_finish = (user_name) => {
     const table_number_element = document.querySelector(".table_number");
     const people_number_element = document.querySelector(".people_number");
@@ -247,165 +264,14 @@ const order_finish = (user_name) => {
     // print ui
     const overlay = document.querySelector(".print_overlay");
     overlay.style.display = "flex";
-    let printer = null;
-    let ePosDev = new epson.ePOSDevice();
-    ePosDev.connect("192.168.15.21", 8008, cbConnect);
-    function cbConnect(data) {
-        if (data == "OK" || data == "SSL_CONNECT_OK") {
-            ePosDev.createDevice("local_printer", ePosDev.DEVICE_TYPE_PRINTER, {
-                crypto: false,
-                buffer: false,
-            }, cbCreateDevice_printer);
-        }
-        else {
-            const overlay = document.querySelector(".print_overlay");
-            alert("エラーが発生しました");
-        }
-    }
-    function cbCreateDevice_printer(devobj, retcode) {
-        if (retcode == "OK") {
-            printer = devobj;
-            printer.timeout = 60000;
-            printer.onreceive = function (res) {
-                // alert(res.success);
-                alert("印刷が完了しました！");
-                location.href = "./order_con.php#tyumonmati";
-            };
-            printer.oncoveropen = function () {
-                // alert('coveropen');
-            };
-            insertDB(cart);
-        }
-        else {
-            alert(retcode);
-        }
-    }
-    const ChangeNumber = (number) => {
-        switch (number) {
-            case 1:
-                return "１";
-                break;
-            case 2:
-                return "②";
-                break;
-            case 3:
-                return "③";
-                break;
-            case 4:
-                return "④";
-                break;
-            case 5:
-                return "⑤";
-                break;
-            case 6:
-                return "⑥";
-                break;
-            case 7:
-                return "⑦";
-                break;
-            case 8:
-                return "⑧";
-                break;
-            case 9:
-                return "⑨";
-                break;
-            case 10:
-                return "⑩";
-                break;
-        }
-    };
-    function Print(price, user_name) {
-        printer.addTextLang("ja");
-        printer.addTextSmooth(true);
-        printer.addPageBegin();
-        printer.addPageDirection(printer.DIRECTION_LEFT_TO_RIGHT);
-        printer.addPageArea(0, 0, 288, 120);
-        printer.addTextStyle(false, true, false, printer.COLOR_1);
-        printer.addText("　No. ");
-        printer.addText(order_number);
-        printer.addText("　　　　\n");
-        printer.addTextStyle(false, false, false, printer.COLOR_1);
-        printer.addText("　ﾃｰﾌﾞﾙ\n\n");
-        printer.addTextSize(2, 2);
-        printer.addText(`　${table_number}　\n`);
-        printer.addTextSize(1, 1);
-        printer.addPageArea(288, 0, 288, 120);
-        printer.addTextStyle(false, true, false, printer.COLOR_1);
-        printer.addText(`　　　　　　　　　${user_name}　\n`);
-        printer.addTextStyle(false, false, false, printer.COLOR_1);
-        printer.addText("人数\n\n");
-        printer.addTextStyle(false, false, false, printer.COLOR_1);
-        printer.addTextSize(2, 2);
-        printer.addText(`${people_number}　　　\n`);
-        printer.addTextSize(1, 1);
-        printer.addPageEnd();
-        printer.addTextLineSpace(24);
-        printer.addText("┏━━┯━━━━━━━━━━━━━┯━━━━━┓\n");
-        printer.addText("┃数量│　　　品　　　　　名　　　│　備　考　┃\n");
-        printer.addText("┠──┼─────────────┼─────┨\n");
-        cart.forEach((item) => {
-            printer.addTextDouble(false, true);
-            printer.addText("┃");
-            printer.addTextDouble(true, true);
-            printer.addText(`${ChangeNumber(Number(item === null || item === void 0 ? void 0 : item.quant))}`);
-            printer.addTextDouble(false, true);
-            printer.addText("│");
-            printer.addText(" ");
-            printer.addTextDouble(true, true);
-            printer.addText(`${item === null || item === void 0 ? void 0 : item.menuName}`);
-            printer.addTextPosition(408);
-            printer.addTextDouble(false, true);
-            printer.addText("│");
-            printer.addTextDouble(false, true);
-            printer.addText("　");
-            printer.addTextPosition(552);
-            printer.addText("┃");
-            printer.addTextDouble(false, false);
-            printer.addText("\n");
-            if ((item === null || item === void 0 ? void 0 : item.options) && (item === null || item === void 0 ? void 0 : item.options.length) > 0) {
-                printer.addTextDouble(false, true);
-                printer.addText("┃");
-                printer.addTextDouble(false, true);
-                printer.addTextPosition(72);
-                printer.addText("│");
-                printer.addTextDouble(false, true);
-                printer.addText("　");
-                printer.addText(item === null || item === void 0 ? void 0 : item.options.map((option) => option.optionName).join("、"));
-                printer.addTextPosition(408);
-                printer.addText("│");
-                printer.addTextPosition(552);
-                printer.addText("┃");
-                printer.addText("\n");
-            }
-            printer.addTextDouble(false, false);
-            printer.addText("┃　　│　　　　　　　　　　　　　│　　　　　┃\n");
-        });
-        printer.addTextDouble(false, false);
-        printer.addText("┣━━┷━━━━━━━┯━━━━━┷━━━━━┫\n");
-        printer.addTextDouble(false, true);
-        printer.addText("┃　合　計　　　      │　　　　　　");
-        printer.addText(`  ${price}  `);
-        printer.addText("┃\n");
-        printer.addTextDouble(false, false);
-        printer.addText("┗━━━━━━━━━━┷━━━━━━━━━━━┛\n");
-        printer.addTextLineSpace(30);
-        printer.addTextAlign(printer.ALIGN_CENTER);
-        printer.addText("毎度ありがとうございます\n");
-        printer.addText("またのご来店をお待ちしております\n");
-        printer.addTextAlign(printer.ALIGN_LEFT);
-        printer.addText("\n");
-        printer.addTextAlign(printer.ALIGN_CENTER);
-        printer.addBarcode(`${order_number}`, printer.BARCODE_CODE39, printer.HRI_NONE, printer.FONT_A, 2, 64);
-        printer.addTextAlign(printer.ALIGN_LEFT);
-        printer.addText("\n");
-        printer.addCut(printer.CUT_FEED);
-        printer.addTextSize(1, 1);
-        printer.addTextStyle(false, false, false, printer.COLOR_1);
-        printer.addTextDouble(true, true);
-        printer.addTextSize(1, 1);
-        printer.send();
-    }
+    const ipAddress = "192.168.15.21";
+    const port = 8008;
+    const PrinterClass = new Printer(ipAddress, port);
     const insertDB = (cart) => __awaiter(void 0, void 0, void 0, function* () {
+        if (!order_number || !table_number || !people_number) {
+            alert("注文情報が不足しています");
+            return;
+        }
         const res = yield fetch("./order_finish.php", {
             method: "POST",
             headers: {
@@ -424,8 +290,16 @@ const order_finish = (user_name) => {
         const data = yield res.json();
         flg = 1;
         const price = data.toLocaleString("ja-JP").padStart(6, " ");
-        //   Print(price, user_name);
-        location.href = "./order_con.php#tyumonmati";
+        try {
+            yield PrinterClass.ready;
+            // 準備完了後にprintメソッドを呼び出す
+            PrinterClass.print(Number(order_number), price, user_name, table_number, Number(people_number), cart);
+        }
+        catch (error) {
+            console.error("プリンターの準備に失敗しました:", error);
+            alert("プリンターエラーが発生しました。");
+            // 必要ならオーバーレイを非表示にするなどの処理
+        }
     });
     insertDB(cart);
     let flg = 0;
