@@ -48,7 +48,7 @@
                     echo "<li>\n";
                         echo "<a class='widget-list-link1'>{$customer['odh_Tbl_No']}</a>\n";
                         echo "<a class='widget-list-link1'>{$customer['odh_Ninzu']}</a>\n";
-                        echo "<a href='registercoming.php?p=2&odh_No={c}&odh_Ninzu={$customer['odh_Ninzu']}&odh_situation=2&table_No={$customer['odh_Tbl_No']}' class='widget-list-link2' id={$delivered_situ_number} data-id={$customer['odh_No']}>席変更</a>\n";
+                        echo "<a href='registercoming.php?p=2&odh_No={c}&odh_Ninzu={$customer['odh_Ninzu']}&situ=2&table_No={$customer['odh_Tbl_No']}' class='widget-list-link2' id={$delivered_situ_number} data-id={$customer['odh_No']}>席変更</a>\n";
                         echo "<a href='cart.php?odh_No={$customer['odh_No']}' class='widget-list-link2' id={$delivered_situ_number} data-id={$customer['odh_No']}>注変更</a>\n";
                         echo "<a href='order.php?odh_Tbl_No={$customer['odh_Tbl_No']}&odh_No={$customer['odh_No']}&odh_Ninzu={$customer['odh_Ninzu']}&situ=add' class='widget-list-link2 add' id={$delivered_situ_number} data-id={$customer['odh_No']}>追加</a>\n";
                     echo "</li>\n";
@@ -108,8 +108,8 @@
                     echo "<li>\n";
                         echo "<a class='widget-list-link1'>{$customer['odh_Tbl_No']}</a>\n";
                         echo "<a class='widget-list-link1'>{$customer['odh_Ninzu']}</a>\n";
-                        echo "<a href='order.php?odh_No={$customer['odh_No']}&odh_Tbl_No={$customer['odh_Tbl_No']}&odh_Ninzu={$customer['odh_Ninzu']}&odh_situation=1#don' class='widget-list-link2' id={$order_situ_number} data-id={$customer['odh_No']}>注文</a>\n";
-                        echo "<a href='registercoming.php?p=2&odh_No={$customer['odh_No']}&odh_Ninzu={$customer['odh_Ninzu']}&odh_situation=1&table_No={$customer['odh_Tbl_No']}' class='widget-list-link2' id={$order_situ_number} data-id={$customer['odh_No']}>席変更</a>\n";
+                        echo "<a href='order.php?odh_No={$customer['odh_No']}&odh_Tbl_No={$customer['odh_Tbl_No']}&odh_Ninzu={$customer['odh_Ninzu']}&situ=1#don' class='widget-list-link2' id={$order_situ_number} data-id={$customer['odh_No']}>注文</a>\n";
+                        echo "<a href='registercoming.php?p=2&odh_No={$customer['odh_No']}&odh_Ninzu={$customer['odh_Ninzu']}&situ=1&table_No={$customer['odh_Tbl_No']}' class='widget-list-link2' id={$order_situ_number} data-id={$customer['odh_No']}>席変更</a>\n";
                         echo "<a href='order_del.php?odh_No={$customer['odh_No']}' onclick='return MoveCheck({$customer['odh_No']})' class='widget-list-link2 delete' id={$order_situ_number} data-id={$customer['odh_No']}>削除</a>\n";
                     echo "</li>";
                     echo "<hr>";
