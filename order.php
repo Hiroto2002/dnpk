@@ -6,7 +6,7 @@
     if(!isset($_GET["odh_No"]) || 
         !isset($_GET["odh_Tbl_No"]) || 
         !isset($_GET["odh_Ninzu"]) || 
-        !isset($_GET["odh_situation"]) 
+        !isset($_GET["situ"]) 
     ){
         header("Location: order_con.php");
         return ; 
@@ -19,7 +19,7 @@
         $odh_No = $_GET['odh_No'];
         $odh_Tbl_No = $_GET['odh_Tbl_No'];
         $odh_Ninzu = $_GET['odh_Ninzu'];
-        $odh_situation = $_GET['odh_situation'];
+        $odh_situation = $_GET['situ'];
         
     //もし、sessionにodh_Noがなかったら
     if (!isset($_SESSION['odh_No'][$odh_No])) {
