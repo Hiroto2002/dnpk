@@ -8,12 +8,12 @@ abstract class ValueObject {
  */
 protected $value;
 
-    public function __construct(mixed $value) {
+    public function __construct($value) {
         $this->validate($value);
         $this->value = $value;
     }
 
-    abstract protected function validate(mixed $value): void;
+    abstract protected function validate($value): void;
 
     public function getValue(): mixed {
         return $this->value;

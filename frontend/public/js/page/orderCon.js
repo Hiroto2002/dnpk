@@ -28,24 +28,30 @@ document.documentElement.addEventListener("touchend", function (e) {
 setInterval(() => {
     location.reload();
 }, 60000);
-function MoveCheck($str) {
-    var res = confirm("オーダー番号" + $str + "を削除しますか？");
-    if (res == true) {
-        // 再度確認
-        var res = confirm("本当に削除しますか？");
-        if (res == true) {
-            //OKなら削除処理に進む
-        }
-        else {
-            // キャンセルなら処理を中断する
-            return false;
-        }
-    }
-    else {
-        // キャンセルなら処理を中断する
-        return false;
-    }
-}
+document.addEventListener("DOMContentLoaded", () => {
+    const deleteLinks = document.querySelectorAll(".delete");
+    deleteLinks.forEach((link) => {
+        link.addEventListener("click", (event) => {
+            event.preventDefault();
+            if (!event.currentTarget) {
+                console.error("No data-id attribute found on the clicked element.");
+                return;
+            }
+            const orderId = event.currentTarget.dataset.id;
+            const res1 = confirm(`オーダー番号${orderId}を削除しますか？`);
+            console.log(`Order ID: ${orderId}`);
+            if (res1) {
+                const res2 = confirm("本当に削除しますか？");
+                if (res2) {
+                    window.location.href = "order_del.php?odh_No=" + orderId;
+                }
+            }
+            else {
+                console.log("削除がキャンセルされました");
+            }
+        });
+    });
+});
 $(function () {
     $(".reload").on("click", function () {
         location.reload();
@@ -59,10 +65,6 @@ $(function () {
             const situNo = $(this).attr("id");
             const url = $(this).attr("href");
             if (odhNo === undefined || situNo === undefined || url === undefined) {
-                console.log(odhNo);
-                console.log(situNo);
-                console.log(url);
-                alert("エラーが発生しました");
                 return;
             }
             yield fetch(`./api/checkSituation.php?odhNo=${odhNo}&situNo=${situNo}`)
@@ -80,7 +82,6 @@ $(function () {
                 else {
                     location.href = url;
                 }
-                // 他のデータ処理をここに追加
             })
                 .catch((error) => {
                 console.error("エラー:", error);

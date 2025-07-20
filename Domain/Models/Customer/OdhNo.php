@@ -6,7 +6,7 @@ use Domain\Models\ValueObject;
 use InvalidArgumentException;
 
 class OdhNo extends ValueObject {
-    protected function validate(mixed $value): void {
+    protected function validate($value): void {
         if (!preg_match('/^\d{6}\d{3}$/', $value)) {
             throw new InvalidArgumentException("Invalid OdhNo format: $value");
         }

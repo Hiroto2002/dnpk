@@ -43,18 +43,26 @@
                 <div class="midashi">人数</div>
             </li>
             <hr size="3px" color="#888">
-            <?php
-                foreach ($customers as $customer) {
-                    echo "<li>\n";
-                        echo "<a class='widget-list-link1'>{$customer['odh_Tbl_No']}</a>\n";
-                        echo "<a class='widget-list-link1'>{$customer['odh_Ninzu']}</a>\n";
-                        echo "<a href='registercoming.php?p=2&odh_No={c}&odh_Ninzu={$customer['odh_Ninzu']}&situ=2&table_No={$customer['odh_Tbl_No']}' class='widget-list-link2' id={$delivered_situ_number} data-id={$customer['odh_No']}>席変更</a>\n";
-                        echo "<a href='cart.php?odh_No={$customer['odh_No']}' class='widget-list-link2' id={$delivered_situ_number} data-id={$customer['odh_No']}>注変更</a>\n";
-                        echo "<a href='order.php?odh_Tbl_No={$customer['odh_Tbl_No']}&odh_No={$customer['odh_No']}&odh_Ninzu={$customer['odh_Ninzu']}&situ=add' class='widget-list-link2 add' id={$delivered_situ_number} data-id={$customer['odh_No']}>追加</a>\n";
-                    echo "</li>\n";
-                    echo "<hr>";
-                }
+            <?php foreach ($customers as $customer): 
+                $odh_No = htmlspecialchars($customer['odh_No'], ENT_QUOTES, 'UTF-8');
+                $odh_Tbl_No = htmlspecialchars($customer['odh_Tbl_No'], ENT_QUOTES, 'UTF-8');
+                $odh_Ninzu = htmlspecialchars($customer['odh_Ninzu'], ENT_QUOTES, 'UTF-8');
             ?>
+            <li>
+                <span class="widget-list-link1"><?= $odh_Tbl_No ?></span>
+                <span class="widget-list-link1"><?= $odh_Ninzu ?></span>
+
+                <a href="registercoming.php?p=2&odh_No=<?= $odh_No ?>&odh_Ninzu=<?= $odh_Ninzu ?>&odh_situation=2&table_No=<?= $odh_Tbl_No ?>"
+                    class="widget-list-link2" data-id="<?= $odh_No ?>" id="<?= $delivered_situ_number?>">席変更</a>
+
+                <a href="cart.php?odh_No=<?= $odh_No ?>" class="widget-list-link2" id="<?= $delivered_situ_number?>"
+                    data-id="<?= $odh_No ?>">注変更</a>
+
+                <a href="order.php?odh_Tbl_No=<?= $odh_Tbl_No ?>&odh_No=<?= $odh_No ?>&odh_Ninzu=<?= $odh_Ninzu ?>&situ=add"
+                    class="widget-list-link2 add" data-id="<?= $odh_No ?>" id="<?= $delivered_situ_number?>">追加</a>
+            </li>
+            <hr>
+            <?php endforeach; ?>
         </ol>
         <!-- 注文ずみ -->
         <ol class="widget-list" id="tyumonzumi">
@@ -67,30 +75,39 @@
             <?php
                 $sql = 'SELECT DISTINCT o.* FROM t_d_order_handy as o INNER JOIN t_d_morder_handy as m ON o.odh_No = m.odh_No WHERE o.odh_situation=2 ';
                 $customers = fetch_all_query($pdo, $sql);
-                foreach ($customers as $customer) {
-                    echo "<li>\n";
-                        echo "<a class='widget-list-link1'>{$customer['odh_Tbl_No']}</a>\n";
-                        echo "<a class='widget-list-link1'>{$customer['odh_Ninzu']}</a>\n";
-                        echo "<a href='registercoming.php?p=2&odh_No={$customer['odh_No']}&odh_Ninzu={$customer['odh_Ninzu']}&odh_situation=2&table_No={$customer['odh_Tbl_No']}' class='widget-list-link2' id={$ordered_situ_number} data-id={$customer['odh_No']}>席変更</a>\n";
-                        echo "<a href='cart.php?odh_No={$customer['odh_No']}' class='widget-list-link2' id={$ordered_situ_number} data-id={$customer['odh_No']}>注変更</a>\n";
-                        echo "<a href='order.php?odh_Tbl_No={$customer['odh_Tbl_No']}&odh_No={$customer['odh_No']}&odh_Ninzu={$customer['odh_Ninzu']}&situ=add' class='widget-list-link2 add' id={$ordered_situ_number} data-id={$customer['odh_No']}>追加</a>\n";
-                    echo "</li>\n";
-                    echo "<hr>";
+                foreach ($customers as $customer):
+                    $odh_No = htmlspecialchars($customer['odh_No'], ENT_QUOTES, 'UTF-8');
+                    $odh_Tbl_No = htmlspecialchars($customer['odh_Tbl_No'], ENT_QUOTES, 'UTF-8');
+                    $odh_Ninzu = htmlspecialchars($customer['odh_Ninzu'], ENT_QUOTES, 'UTF-8');
+            ?>
+            <li>
+                <span class="widget-list-link1"><?= $odh_Tbl_No ?></span>
+                <span class="widget-list-link1"><?= $odh_Ninzu ?></span>
 
-                }
+                <a href="registercoming.php?p=2&odh_No=<?= $odh_No ?>&odh_Ninzu=<?= $odh_Ninzu ?>&odh_situation=2&table_No=<?= $odh_Tbl_No ?>"
+                    class="widget-list-link2" data-id="<?= $odh_No ?>" id="<?= $ordered_situ_number?>">席変更</a>
 
-                if (isset($_POST["back"])) {
+                <a href="cart.php?odh_No=<?= $odh_No ?>" class="widget-list-link2" data-id="<?= $odh_No ?>"
+                    id="<?= $ordered_situ_number?>">注変更</a>
 
-                    $check  = $pdo->prepare("SELECT odhm_No FROM t_d_morder_handy WHERE odh_No = ?");
-                    $check->execute(array($_POST["back"]));
-                    if ($odh_Nos = $check->fetch(PDO::FETCH_ASSOC)) {
-                    } else {
-                        $update = $pdo->prepare("UPDATE t_d_order_handy SET odh_situation=1 WHERE odh_No=?;");
-                        $update->execute(array(
-                            $_POST["back"]
-                        ));
-                    }
-                }
+                <a href="order.php?odh_Tbl_No=<?= $odh_Tbl_No ?>&odh_No=<?= $odh_No ?>&odh_Ninzu=<?= $odh_Ninzu ?>&situ=add"
+                    class="widget-list-link2 add" data-id="<?= $odh_No ?>" id="<?= $ordered_situ_number?>">追加</a>
+            </li>
+            <hr>
+            <?php endforeach; 
+
+            if (isset($_POST["back"])) {
+
+            $check = $pdo->prepare("SELECT odhm_No FROM t_d_morder_handy WHERE odh_No = ?");
+            $check->execute(array($_POST["back"]));
+            if ($odh_Nos = $check->fetch(PDO::FETCH_ASSOC)) {
+            } else {
+            $update = $pdo->prepare("UPDATE t_d_order_handy SET odh_situation=1 WHERE odh_No=?;");
+            $update->execute(array(
+            $_POST["back"]
+            ));
+            }
+            }
             ?>
         </ol>
 
@@ -104,17 +121,27 @@
             <?php
                 $sql = 'SELECT * FROM t_d_order_handy where odh_situation=1';
                 $customers = fetch_all_query($pdo, $sql);
-                foreach ($customers as $customer) {
-                    echo "<li>\n";
-                        echo "<a class='widget-list-link1'>{$customer['odh_Tbl_No']}</a>\n";
-                        echo "<a class='widget-list-link1'>{$customer['odh_Ninzu']}</a>\n";
-                        echo "<a href='order.php?odh_No={$customer['odh_No']}&odh_Tbl_No={$customer['odh_Tbl_No']}&odh_Ninzu={$customer['odh_Ninzu']}&situ=1#don' class='widget-list-link2' id={$order_situ_number} data-id={$customer['odh_No']}>注文</a>\n";
-                        echo "<a href='registercoming.php?p=2&odh_No={$customer['odh_No']}&odh_Ninzu={$customer['odh_Ninzu']}&situ=1&table_No={$customer['odh_Tbl_No']}' class='widget-list-link2' id={$order_situ_number} data-id={$customer['odh_No']}>席変更</a>\n";
-                        echo "<a href='order_del.php?odh_No={$customer['odh_No']}' onclick='return MoveCheck({$customer['odh_No']})' class='widget-list-link2 delete' id={$order_situ_number} data-id={$customer['odh_No']}>削除</a>\n";
-                    echo "</li>";
-                    echo "<hr>";
-                }
+                foreach ($customers as $customer): 
+                    $odh_No = htmlspecialchars($customer['odh_No'], ENT_QUOTES, 'UTF-8');
+                    $odh_Tbl_No = htmlspecialchars($customer['odh_Tbl_No'], ENT_QUOTES, 'UTF-8');
+                    $odh_Ninzu = htmlspecialchars($customer['odh_Ninzu'], ENT_QUOTES, 'UTF-8');
             ?>
+            <li>
+                <span class="widget-list-link1"><?= $odh_Tbl_No ?></span>
+                <span class="widget-list-link1"><?= $odh_Ninzu ?></span>
+
+                <a href="order.php?odh_No=<?= $odh_No ?>&odh_Tbl_No=<?= $odh_Tbl_No ?>&odh_Ninzu=<?= $odh_Ninzu ?>&situ=order&odh_situation=1#don"
+                    class="widget-list-link2" data-id="<?= $odh_No ?>" data-situ="order"
+                    id="<?= $order_situ_number?>">注文</a>
+
+                <a href="registercoming.php?p=2&odh_No=<?= $odh_No ?>&odh_Ninzu=<?= $odh_Ninzu ?>&odh_situation=1&table_No=<?= $odh_Tbl_No ?>"
+                    class="widget-list-link2" data-id="<?= $odh_No ?>" id="<?= $order_situ_number?>">席変更</a>
+
+                <div class="widget-list-link2 delete" data-id="<?= $odh_No ?>" id="<?= $order_situ_number?>">削除</div>
+            </li>
+            <hr>
+            <?php endforeach; ?>
+
         </ol>
         <ul class="widget-tabs">
             <li class="widget-tab">

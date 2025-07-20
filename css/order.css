@@ -423,6 +423,11 @@ button {
   justify-content: space-around;
 }
 
+#modal-order-count form {
+  display: flex;
+  justify-content: space-between;
+}
+
 #modal-order-count p {
   margin: 0;
 }
@@ -434,7 +439,7 @@ button {
 #modal-order-count label {
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.243);
   cursor: pointer;
-  padding: 25px 40px;
+  padding: 0px 40px;
   margin: 0 10px;
   border-radius: 20px;
 }

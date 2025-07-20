@@ -1,10 +1,23 @@
-# PHP 8.2 + Apacheの公式イメージを使用
-FROM php:8.2-apache
+FROM php:7.3.5-apache
 
 # 必要なPHP拡張をインストール
 RUN docker-php-ext-install pdo pdo_mysql
 
-RUN apt-get update && apt-get install -y zip unzip git
+# 1. aptの参照先をアーカイブに変更し、不要な行を削除
+RUN sed -i 's/deb.debian.org/archive.debian.org/g' /etc/apt/sources.list && \
+    sed -i 's/security.debian.org/archive.debian.org/g' /etc/apt/sources.list && \
+    sed -i '/stretch-updates/d' /etc/apt/sources.list
+
+# 2. 競合する可能性のあるBuster等の設定ファイルを削除
+RUN rm -f /etc/apt/sources.list.d/*
+
+# 3. GPGキーの検証を無視してパッケージをインストール
+RUN apt-get update -o Acquire::Check-Valid-Until=false -o Acquire::Check-Date=false && \
+    apt-get install -y --no-install-recommends --allow-unauthenticated \
+      zip \
+      unzip \
+      git \
+    && apt-get clean && rm -rf /var/lib/apt/lists/*
 
 # Apacheのmod_rewriteを有効化
 RUN a2enmod rewrite
