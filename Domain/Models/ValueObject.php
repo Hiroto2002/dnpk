@@ -3,7 +3,10 @@
 namespace Domain\Models;
 
 abstract class ValueObject {
-    protected mixed $value;
+/**
+ * @var mixed
+ */
+protected $value;
 
     public function __construct(mixed $value) {
         $this->validate($value);
