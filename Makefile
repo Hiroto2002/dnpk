@@ -3,6 +3,10 @@ up:
 	docker compose up -d --build
 	docker compose run -d --rm node npm run watch --prefix /usr/src/app/frontend
 
+setup/mysql:
+	docker exec -it mysql mysql -uroot -ppassword -e "CREATE DATABASE IF NOT EXISTS dnpk_dnpk_oes;"
+	docker exec -i mysql mysql -uroot -ppassword dnpk_dnpk_oes < ./init.sql/dnpk_dnpk_oes.sql
+
 # TypeScript の手動ビルド
 ts-build:
 	docker compose run --rm node npm run build --prefix /usr/src/app/frontend
@@ -10,6 +14,10 @@ ts-build:
 # TypeScript の監視モード開始（手動実行用）
 ts-watch:
 	docker compose run --rm node npm run watch --prefix /usr/src/app/frontend
+build/front:
+	cd frontend/my-react-app && pnpm run build
+build/front_watch:
+	cd frontend/my-react-app && pnpm run build:watch
 
 # サーバーと TypeScript ビルドの監視を停止
 down:
