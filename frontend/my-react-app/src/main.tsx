@@ -4,6 +4,7 @@ import "./index.css";
 import App from "./App.tsx";
 import { createHashRouter, RouterProvider } from "react-router-dom";
 import HomePage from "./pages/HomePage.tsx";
+import RegisterComing from "./pages/RegisterComing.tsx";
 
 const router = createHashRouter([
   {
@@ -16,6 +17,7 @@ const router = createHashRouter([
         index: true, // 👈 path: "/" の時にHomePageを表示する
         element: <HomePage />,
       },
+      { path: "register", element: <RegisterComing /> },
       // { path: "about", element: <AboutPage /> },
       // { path: "contact", element: <ContactPage /> },
     ],

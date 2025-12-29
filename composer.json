@@ -9,7 +9,10 @@
   },
   "autoload": {
     "psr-4": {
-      "Domain\\Models\\": "Domain/Models/"
+      "Domain\\Models\\": "Domain/Models/",
+      "Domain\\Repositories\\": "Domain/Repositories/",
+      "Domain\\Services\\": "Domain/Services/",
+      "Utils\\": "utils/"
     }
   },
   "autoload-dev": {

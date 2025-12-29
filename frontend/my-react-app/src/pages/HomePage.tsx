@@ -1,45 +1,81 @@
-import { Link } from "react-router-dom";
-import styles from "./HomePage.module.css"; // スタイルシートをインポート
+import { useCallback, type MouseEvent } from "react";
+import styles from "./HomePage.module.css";
+import LoginSection from "../components/common/LoginSection";
+import { useLoginSession } from "../hooks/useLoginSession";
 
 export default function HomePage() {
-  // ログアウトボタン用の仮の処理
-  const handleLogout = () => {
-    alert("ログアウトしました");
-  };
+  const { isLogin, logout } = useLoginSession();
+
+  const handleLogout = useCallback(async () => {
+    if (!isLogin) {
+      return false;
+    }
+    return logout();
+  }, [isLogin, logout]);
 
   return (
     <div className={styles.container}>
-      <h1 className={styles.title}>どんぶく オーダーエントリー</h1>
+      <header className={styles.header}>
+        <p className={styles.title}>どんぷく オーダーエントリー</p>
+      </header>
 
-      <div className={styles.menuGrid}>
-        {/* フルサイズのボタン */}
-        <Link
-          to="/register"
-          className={`${styles.menuButton} ${styles.fullWidth}`}
-        >
-          来店登録
-        </Link>
-        <Link
-          to="/waiting-list"
-          className={`${styles.menuButton} ${styles.fullWidth}`}
-        >
-          注文待ちリスト
-        </Link>
-
-        <Link to="/ordered-list" className={styles.menuButton}>
-          注文済みリスト
-        </Link>
-        <Link to="/served-list" className={styles.menuButton}>
-          提供済みリスト
-        </Link>
-        <Link to="/admin" className={styles.menuButton}>
-          管理者
-        </Link>
-
-        <button onClick={handleLogout} className={styles.menuButton}>
-          ログアウト
-        </button>
-      </div>
+      <main className={styles.main}>
+        {isLogin ? (
+          <div className={styles.widget}>
+            <div className={styles.widgetList}>
+              <a className={styles.link} href="registercoming.php?p=1">
+                来店登録
+              </a>
+            </div>
+            <div className={styles.widgetList}>
+              <a className={styles.link} href="order_con.php#tyumonmati">
+                注文待ちリスト
+              </a>
+            </div>
+            <div className={styles.under}>
+              <div className={styles.widgetList}>
+                <a className={styles.link} href="order_con.php#tyumonzumi">
+                  注文済みリスト
+                </a>
+              </div>
+              <div className={styles.widgetList}>
+                <a className={styles.link} href="order_con.php#teikyozumi">
+                  提供済みリスト
+                </a>
+              </div>
+              <div className={styles.widgetList}>
+                <a className={styles.link} href="administrator.php">
+                  管理者
+                </a>
+              </div>
+              <div className={styles.widgetList}>
+                <LogoutLink onLogout={handleLogout} />
+              </div>
+            </div>
+          </div>
+        ) : (
+          <LoginSection />
+        )}
+      </main>
     </div>
+  );
+}
+
+function LogoutLink({ onLogout }: { onLogout: () => Promise<boolean> }) {
+  const handleClick = useCallback(
+    async (event: MouseEvent<HTMLAnchorElement>) => {
+      event.preventDefault();
+      const ok = await onLogout();
+      if (!ok) {
+        alert("ログアウトに失敗しました。もう一度お試しください。");
+      }
+    },
+    [onLogout]
+  );
+
+  return (
+    <a href="#" className={styles.link} onClick={handleClick}>
+      ログアウト
+    </a>
   );
 }

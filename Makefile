@@ -1,7 +1,17 @@
 # サーバーと TypeScript を同時に起動
+REACT_WATCH_PID := .react_build_watch.pid
+REACT_WATCH_LOG := react_build_watch.log
+
 up:
 	docker compose up -d --build
 	docker compose run -d --rm node npm run watch --prefix /usr/src/app/frontend
+	@if [ -f $(REACT_WATCH_PID) ] && kill -0 `cat $(REACT_WATCH_PID)` 2>/dev/null; then \
+		echo "React build watcher already running (PID `cat $(REACT_WATCH_PID)`)"; \
+	else \
+		echo "Starting React build watcher..."; \
+		(pnpm --dir frontend/my-react-app run build:watch > $(REACT_WATCH_LOG) 2>&1 & echo $$! > $(REACT_WATCH_PID)); \
+		echo "React build watcher started (PID `cat $(REACT_WATCH_PID)`). Logs: $(REACT_WATCH_LOG)"; \
+	fi
 
 setup/mysql:
 	docker exec -it mysql mysql -uroot -ppassword -e "CREATE DATABASE IF NOT EXISTS dnpk_dnpk_oes;"
@@ -22,6 +32,11 @@ build/front_watch:
 # サーバーと TypeScript ビルドの監視を停止
 down:
 	docker compose down
+	@if [ -f $(REACT_WATCH_PID) ]; then \
+		echo "Stopping React build watcher..."; \
+		kill `cat $(REACT_WATCH_PID)` 2>/dev/null || true; \
+		rm -f $(REACT_WATCH_PID); \
+	fi
 
 # ログ確認
 logs:

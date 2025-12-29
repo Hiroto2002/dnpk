@@ -115,7 +115,7 @@ function ChangeOptionName($option_ID)
 
 function getAllStaff($day){
   $pdo = getDb();
-  $sql = $pdo->prepare('SELECT DISTINCT stf_Name,stf_ID FROM t_stf_login WHERE Edittime > ?');
+  $sql = $pdo->prepare('SELECT DISTINCT stf_Name_1,stf_ID FROM t_stf_mst');
   $sql->execute(array($day));
   $staffs = $sql->fetchAll();
 

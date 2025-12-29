@@ -2,3 +2,5 @@
 node_modules
 /vendor/
 .DS_Store
+.react_build_watch.pid
+react_build_watch.log
