@@ -2,6 +2,7 @@ import { useCallback, useEffect, useState, type ChangeEvent } from "react";
 import styles from "../../pages/HomePage.module.css";
 import { useLoginSession } from "../../hooks/useLoginSession";
 import { useStaff } from "../../hooks/useStaff";
+import { Flex } from "../ui/Flex";
 
 export default function LoginSection() {
   const { login } = useLoginSession();
@@ -29,10 +30,16 @@ export default function LoginSection() {
   };
 
   return (
-    <section aria-labelledby="login-heading" className={styles.loginWrap}>
-      <h2 id="login-heading" className={styles.loginTitle}>
+    <Flex
+      direction="column"
+      align="center"
+      justify="center"
+      gap={32}
+      style={{ height: "100%" }}
+    >
+      <div id="login-heading" className={styles.loginTitle}>
         ユーザーを選択してください
-      </h2>
+      </div>
       <form className={styles.user}>
         <label htmlFor="user" className={styles.visuallyHidden}>
           ユーザー
@@ -59,6 +66,6 @@ export default function LoginSection() {
           送信
         </button>
       </form>
-    </section>
+    </Flex>
   );
 }

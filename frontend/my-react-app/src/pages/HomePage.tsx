@@ -2,6 +2,7 @@ import { useCallback, type MouseEvent } from "react";
 import styles from "./HomePage.module.css";
 import LoginSection from "../components/common/LoginSection";
 import { useLoginSession } from "../hooks/useLoginSession";
+import { Flex } from "../components/ui/Flex";
 
 export default function HomePage() {
   const { isLogin, logout } = useLoginSession();
@@ -15,51 +16,64 @@ export default function HomePage() {
 
   return (
     <div className={styles.container}>
-      <header className={styles.header}>
+      <div className={styles.header}>
         <p className={styles.title}>どんぷく オーダーエントリー</p>
-      </header>
+      </div>
 
-      <main className={styles.main}>
+      <div className={styles.main}>
         {isLogin ? (
-          <div className={styles.widget}>
-            <div className={styles.widgetList}>
-              <a className={styles.link} href="registercoming.php?p=1">
-                来店登録
-              </a>
+          <Flex
+            style={{ width: "100%", height: "100%", marginTop: "40px" }}
+            wrap="wrap"
+            align="center"
+            gap={16}
+          >
+            <WigetBox href="registercoming.php?p=1">来店登録</WigetBox>
+            <WigetBox href="order_con.php#tyumonmati">注文待ちリスト</WigetBox>
+            <WigetBox href="order_con.php#tyumonzumi" sub>
+              注文済みリスト
+            </WigetBox>
+            <WigetBox href="order_con.php#teikyozumi" sub>
+              提供済みリスト
+            </WigetBox>
+            <WigetBox href="administrator.php" sub>
+              管理者
+            </WigetBox>
+            <div
+              className={styles.widgetItem}
+              style={{ width: "calc(45% - 30px)" }}
+            >
+              <LogoutLink onLogout={handleLogout} />
             </div>
-            <div className={styles.widgetList}>
-              <a className={styles.link} href="order_con.php#tyumonmati">
-                注文待ちリスト
-              </a>
-            </div>
-            <div className={styles.under}>
-              <div className={styles.widgetList}>
-                <a className={styles.link} href="order_con.php#tyumonzumi">
-                  注文済みリスト
-                </a>
-              </div>
-              <div className={styles.widgetList}>
-                <a className={styles.link} href="order_con.php#teikyozumi">
-                  提供済みリスト
-                </a>
-              </div>
-              <div className={styles.widgetList}>
-                <a className={styles.link} href="administrator.php">
-                  管理者
-                </a>
-              </div>
-              <div className={styles.widgetList}>
-                <LogoutLink onLogout={handleLogout} />
-              </div>
-            </div>
-          </div>
+          </Flex>
         ) : (
           <LoginSection />
         )}
-      </main>
+      </div>
     </div>
   );
 }
+
+const WigetBox = ({
+  href,
+  children,
+  sub,
+}: {
+  href: string;
+  children: React.ReactNode;
+  sub?: boolean;
+}) => {
+  return (
+    <div
+      className={styles.widgetItem}
+      style={sub ? { width: "calc(45% - 30px)" } : {}}
+    >
+      <a className={styles.link} href={href}>
+        {children}
+      </a>
+    </div>
+  );
+};
 
 function LogoutLink({ onLogout }: { onLogout: () => Promise<boolean> }) {
   const handleClick = useCallback(

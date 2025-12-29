@@ -10,6 +10,10 @@ require_once dirname(__DIR__) . '/cors.php';
 
 http_apply_cors();
 
+// Align session lifetime with legacy index.php settings.
+ini_set('session.gc_maxlifetime', '14400000');
+ini_set('session.cookie_lifetime', '8640');
+
 if (session_status() !== PHP_SESSION_ACTIVE) {
     session_start();
 }
