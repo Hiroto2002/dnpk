@@ -1,11 +1,12 @@
 import { useCallback, type MouseEvent } from "react";
 import styles from "./HomePage.module.css";
-import LoginSection from "../components/common/LoginSection";
+import LoginSection from "../features/HomePage/LoginSection";
 import { useLoginSession } from "../hooks/useLoginSession";
 import { Flex } from "../components/ui/Flex";
+import { Link } from "react-router-dom";
 
 export default function HomePage() {
-  const { isLogin, logout } = useLoginSession();
+  const { isLogin, login, logout } = useLoginSession();
 
   const handleLogout = useCallback(async () => {
     if (!isLogin) {
@@ -28,26 +29,29 @@ export default function HomePage() {
             align="center"
             gap={16}
           >
-            <WigetBox href="registercoming.php?p=1">来店登録</WigetBox>
-            <WigetBox href="order_con.php#tyumonmati">注文待ちリスト</WigetBox>
-            <WigetBox href="order_con.php#tyumonzumi" sub>
+            <WigetBox href="client/register">来店登録</WigetBox>
+            {/* order_con */}
+            <WigetBox href="client/order/wait">注文待ちリスト</WigetBox>
+            <WigetBox href="client/order/completed" sub>
               注文済みリスト
             </WigetBox>
-            <WigetBox href="order_con.php#teikyozumi" sub>
+            <WigetBox href="client/order/served" sub>
               提供済みリスト
             </WigetBox>
-            <WigetBox href="administrator.php" sub>
+            <WigetBox href="administrator" sub>
               管理者
             </WigetBox>
-            <div
+            <Flex
+              justify="center"
+              align="center"
               className={styles.widgetItem}
               style={{ width: "calc(45% - 30px)" }}
             >
               <LogoutLink onLogout={handleLogout} />
-            </div>
+            </Flex>
           </Flex>
         ) : (
-          <LoginSection />
+          <LoginSection onSubmit={login} />
         )}
       </div>
     </div>
@@ -64,14 +68,16 @@ const WigetBox = ({
   sub?: boolean;
 }) => {
   return (
-    <div
+    <Flex
+      justify="center"
+      align="center"
       className={styles.widgetItem}
       style={sub ? { width: "calc(45% - 30px)" } : {}}
     >
-      <a className={styles.link} href={href}>
+      <Link to={href} className={styles.link}>
         {children}
-      </a>
-    </div>
+      </Link>
+    </Flex>
   );
 };
 

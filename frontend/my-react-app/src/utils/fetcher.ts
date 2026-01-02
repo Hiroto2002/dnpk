@@ -1,7 +1,7 @@
 import { API } from "./contract";
 
 type StaffDto = {
-  id: string | number;
+  id: string;
   name: string;
 };
 
@@ -15,13 +15,17 @@ type ControllerResponses = {
   UserController: {
     me: {
       ok: true;
-      userId: string | null;
-      userName: string | null;
+      user: {
+        id: string;
+        name: string;
+      } | null;
     };
     login: {
       ok: true;
-      userId: string;
-      userName: string | null;
+      user: {
+        id: string;
+        name: string;
+      };
     };
     logout: {
       ok: true;
@@ -51,8 +55,10 @@ const ACTIONS: ControllerActionMap = {
 };
 
 type ActionName<C extends Controller> = keyof ControllerResponses[C];
-type ControllerResponse<C extends Controller, A extends ActionName<C>> =
-  ControllerResponses[C][A];
+type ControllerResponse<
+  C extends Controller,
+  A extends ActionName<C>
+> = ControllerResponses[C][A];
 
 type FetcherOptions = {
   method?: "GET" | "POST";
@@ -63,7 +69,9 @@ type FetcherOptions = {
 };
 
 const isPlainObject = (value: unknown): value is Record<string, unknown> => {
-  return typeof value === "object" && value !== null && value.constructor === Object;
+  return (
+    typeof value === "object" && value !== null && value.constructor === Object
+  );
 };
 
 type ErrorResponse = {
@@ -85,11 +93,18 @@ export async function fetcher<C extends Controller, A extends ActionName<C>>(
   action: A,
   options: FetcherOptions = {}
 ): Promise<ControllerResponse<C, A>> {
-  const { method = "GET", body, headers = {}, signal, credentials = "include" } = options;
+  const {
+    method = "GET",
+    body,
+    headers = {},
+    signal,
+    credentials = "include",
+  } = options;
   const controllerPath = Controllers[controller];
   const actionValue = ACTIONS[controller][action];
   const searchParams = new URLSearchParams({ action: String(actionValue) });
   const baseUrl = `${API}/${controllerPath}`;
+
   let url = baseUrl;
 
   const init: RequestInit = {
@@ -129,7 +144,10 @@ export async function fetcher<C extends Controller, A extends ActionName<C>>(
     | null;
 
   if (!response.ok || !data || isErrorResponse(data)) {
-    const message = (isErrorResponse(data) && data.error) || response.statusText || "Request failed";
+    const message =
+      (isErrorResponse(data) && data.error) ||
+      response.statusText ||
+      "Request failed";
     throw new Error(message);
   }
 

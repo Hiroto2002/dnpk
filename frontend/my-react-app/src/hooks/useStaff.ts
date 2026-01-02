@@ -2,7 +2,7 @@ import { useCallback, useEffect, useState } from "react";
 import { fetcher } from "../utils/fetcher";
 
 export type Staff = {
-  id: string | number;
+  id: string;
   name: string;
 };
 
@@ -12,7 +12,7 @@ export function useStaff() {
   const fetchStaffs = useCallback(async () => {
     try {
       const result = await fetcher("StaffController", "getAll");
-      setStaffs(result.staff ?? []);
+      setStaffs(result.staff.map((s) => ({ id: s.id, name: s.name })) ?? []);
     } catch (error) {
       console.error("Failed to fetch staffs", error);
     }

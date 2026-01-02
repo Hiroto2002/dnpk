@@ -54,10 +54,15 @@ $action = $_GET['action'] ?? ($_POST['action'] ?? null);
 switch ($action) {
     case 'me':
         $user = $service->current();
+        if ($user === null) {
+            json_response(['ok' => true, 'user' => null]);
+        }
         json_response([
             'ok' => true,
-            'userId' => $user ? $user->id() : null,
-            'userName' => $user ? $user->name() : null,
+            'user' => [
+                'id' => $user->id(),
+                'name' => $user->name(),
+            ], 
         ]);
         break;
 
@@ -68,18 +73,21 @@ switch ($action) {
 
         $payload = read_request_payload();
         $user = $payload['user'] ?? null;
-        $userName = $payload['userName'] ?? null;
+        $userName = $payload['user']['name'] ?? null;
+        $userId = $payload['user']['id'] ?? null;
 
-        if ($user === null || $user === '') {
+        if ($userId === null || $userId === '') {
             json_response(['ok' => false, 'error' => 'user is required'], 400);
         }
 
-        $loggedIn = $service->login((string)$user, $userName !== null ? (string)$userName : null);
+        $loggedIn = $service->login((string)$userId, (string)$userName);
 
         json_response([
             'ok' => true,
-            'userId' => $loggedIn->id(),
-            'userName' => $loggedIn->name(),
+            'user' => [
+                'id' => $loggedIn->id(),
+                'name' => $loggedIn->name(),
+            ],
         ]);
         break;
 

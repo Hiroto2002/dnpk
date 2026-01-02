@@ -49,6 +49,9 @@ php:
 test/php:
 	docker exec -it php-apache bash -c "composer dump-autoload && ./vendor/bin/phpunit"
 
+test/api:
+	cd frontend/test_api && NODE_TLS_REJECT_UNAUTHORIZED=0 pnpm test
+
 # MySQL コンテナに接続
 mysql:
 	docker exec -it mysql mysql -u root -p

@@ -13,10 +13,10 @@ class User implements JsonSerializable
     /** @var string|null */
     private $name;
 
-    public function __construct(string $id, ?string $name = null)
+    public function __construct(string $id, string $name)
     {
         $this->id = trim($id);
-        $this->name = $name !== null ? trim($name) : null;
+        $this->name = trim($name);
     }
 
     public function id(): string
@@ -24,14 +24,14 @@ class User implements JsonSerializable
         return $this->id;
     }
 
-    public function name(): ?string
+    public function name(): string
     {
-        return $this->name !== '' ? $this->name : null;
+        return $this->name;
     }
 
-    public function rename(?string $name): void
+    public function rename(string $name): void
     {
-        $this->name = $name !== null ? trim($name) : null;
+        $this->name = trim($name);
     }
 
     public function jsonSerialize(): array
